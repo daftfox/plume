@@ -1,0 +1,22 @@
+{
+  "name": "@slodder/forms",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/animations": "~16.0.0",
+    "@angular/common": "^16.0.0",
+    "@angular/cdk": "^16.0.0",
+    "@angular/core": "^16.0.0",
+    "@angular/flex-layout": "^15.0.0-beta.42",
+    "@angular/material": "^16.1.0",
+    "date-fns": "^2.30.0",
+    "moment": "^2.29.4",
+    "ngx-mat-select-search": "^7.0.2",
+    "ngx-trim-directive": "^2.0.0",
+    "@slodder/utils": "^0.0.1",
+    "rxjs": "~7.8.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

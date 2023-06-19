@@ -1,0 +1,39 @@
+<ng-container *ngIf="mode === 'month-year'">
+  <mat-form-field tpsYearMonthFormat>
+    <mat-label>{{ label || placeholder }}</mat-label>
+    <input
+      matInput
+      [formControl]="control"
+      [matDatepicker]="datePicker" />
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="datePicker"></mat-datepicker-toggle>
+    <mat-datepicker
+      #datePicker
+      [startView]="startView"
+      (monthSelected)="setMonthAndYear($event)"></mat-datepicker>
+    <mat-error>
+      <slf-form-errors [control]="control"></slf-form-errors>
+    </mat-error>
+  </mat-form-field>
+</ng-container>
+
+<ng-container *ngIf="mode !== 'month-year'">
+  <mat-form-field>
+    <mat-label>{{ label || placeholder }}</mat-label>
+    <input
+      matInput
+      [formControl]="control"
+      [matDatepicker]="datePicker" />
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="datePicker"></mat-datepicker-toggle>
+    <mat-datepicker
+      #datePicker
+      [startView]="startView"
+      (monthSelected)="setMonthAndYear($event)"></mat-datepicker>
+    <mat-error>
+      <slf-form-errors [control]="control"></slf-form-errors>
+    </mat-error>
+  </mat-form-field>
+</ng-container>

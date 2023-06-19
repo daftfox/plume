@@ -1,0 +1,29 @@
+form {
+  padding: 16px;
+
+  h2 {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  form {
+    padding: 0;
+  }
+
+  div[fxLayout='row'] > div {
+    padding-top: 1rem;
+    text-align: center;
+  }
+
+  .combination-question-heading {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+
+  mat-action-row {
+    button:not(:first-child) {
+      margin-left: 0.5rem;
+    }
+  }
+}

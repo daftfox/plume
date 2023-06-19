@@ -1,0 +1,12 @@
+<label [for]="key">{{ label }}</label>
+<mat-radio-group
+  [id]="key"
+  [formControl]="control"
+  fxLayout="column"
+  fxLayoutGap="1rem">
+  <mat-radio-button
+    *ngFor="let option of options"
+    [value]="option.value">
+    {{ option.label }}
+  </mat-radio-button>
+</mat-radio-group>

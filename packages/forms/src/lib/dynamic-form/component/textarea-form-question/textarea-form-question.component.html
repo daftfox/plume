@@ -1,0 +1,14 @@
+<mat-form-field>
+  <mat-label>{{ label }}</mat-label>
+  <textarea
+    matInput
+    [rows]="rows"
+    [formControl]="control"
+    [placeholder]="placeholder"
+    [id]="key"
+    trim="blur"></textarea>
+  <mat-hint>{{ control.value ? control.value.length : 0 }}/{{ maxLength }}</mat-hint>
+  <mat-error>
+    <slf-form-errors [control]="control"></slf-form-errors>
+  </mat-error>
+</mat-form-field>

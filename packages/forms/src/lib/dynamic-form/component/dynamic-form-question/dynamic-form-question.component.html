@@ -1,0 +1,137 @@
+<div [formGroup]="form">
+  <div
+    *ngIf="question.spacer === SPACER.PREFIX"
+    class="spacer"></div>
+
+  <ng-container [ngSwitch]="getControlType(question)">
+    <ng-container *ngSwitchCase="CONTROL_TYPE.FORM_HINT">
+      <slf-form-hint
+        [hint]="asFormHint(question).hint"
+        [heading]="asFormHint(question).heading"></slf-form-hint>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="CONTROL_TYPE.TEXTBOX">
+      <slf-textbox-form-question
+        #questionComponent
+        [form]="form"
+        [key]="question.key"
+        [label]="question.label"
+        [placeholder]="question.placeholder"
+        [validators]="question.validators"
+        [asyncValidators]="question.asyncValidators"
+        [value]="asTextboxFormQuestion(question).value"
+        [disabled]="asTextboxFormQuestion(question).disabled"
+        [maxLength]="asTextboxFormQuestion(question).maxLength"
+        [linkedQuestions]="question.linkedQuestions"
+        [mutators]="asTextboxFormQuestion(question).mutators"
+        [type]="asTextboxFormQuestion(question).type"
+        [icon]="asTextboxFormQuestion(question).icon"></slf-textbox-form-question>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="CONTROL_TYPE.TEXTAREA">
+      <slf-textarea-form-question
+        #questionComponent
+        [form]="form"
+        [key]="question.key"
+        [label]="question.label"
+        [placeholder]="question.placeholder"
+        [validators]="question.validators"
+        [asyncValidators]="question.asyncValidators"
+        [value]="asTextareaFormQuestion(question).value"
+        [disabled]="asTextareaFormQuestion(question).disabled"
+        [maxLength]="asTextareaFormQuestion(question).maxLength"
+        [linkedQuestions]="question.linkedQuestions"
+        [mutators]="asTextareaFormQuestion(question).mutators"
+        [rows]="asTextareaFormQuestion(question).rows"></slf-textarea-form-question>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="CONTROL_TYPE.CHECKBOX">
+      <slf-checkbox-form-question
+        #questionComponent
+        [form]="form"
+        [key]="question.key"
+        [label]="question.label"
+        [placeholder]="question.placeholder"
+        [validators]="question.validators"
+        [asyncValidators]="question.asyncValidators"
+        [value]="asCheckboxFormQuestion(question).value"
+        [disabled]="asCheckboxFormQuestion(question).disabled"
+        [linkedQuestions]="question.linkedQuestions"
+        [mutators]="asCheckboxFormQuestion(question).mutators"></slf-checkbox-form-question>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="CONTROL_TYPE.TOGGLE">
+      <slf-toggle-form-question
+        #questionComponent
+        [form]="form"
+        [key]="question.key"
+        [label]="question.label"
+        [placeholder]="question.placeholder"
+        [validators]="question.validators"
+        [asyncValidators]="question.asyncValidators"
+        [value]="asToggleFormQuestion(question).value"
+        [disabled]="asToggleFormQuestion(question).disabled"
+        [linkedQuestions]="question.linkedQuestions"
+        [mutators]="asToggleFormQuestion(question).mutators"></slf-toggle-form-question>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="CONTROL_TYPE.RADIO">
+      <slf-radio-button-form-question
+        #questionComponent
+        [form]="form"
+        [key]="question.key"
+        [label]="question.label"
+        [placeholder]="question.placeholder"
+        [validators]="question.validators"
+        [asyncValidators]="question.asyncValidators"
+        [value]="asRadioButtonFormQuestion(question).value"
+        [disabled]="asRadioButtonFormQuestion(question).disabled"
+        [linkedQuestions]="question.linkedQuestions"
+        [mutators]="asRadioButtonFormQuestion(question).mutators"
+        [options]="asRadioButtonFormQuestion(question).options"></slf-radio-button-form-question>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="CONTROL_TYPE.DATEPICKER">
+      <slf-datepicker-form-question
+        #questionComponent
+        [form]="form"
+        [key]="question.key"
+        [label]="question.label"
+        [placeholder]="question.placeholder"
+        [validators]="question.validators"
+        [asyncValidators]="question.asyncValidators"
+        [value]="asDatepickerFormQuestion(question).value"
+        [disabled]="asDatepickerFormQuestion(question).disabled"
+        [linkedQuestions]="question.linkedQuestions"
+        [startView]="asDatepickerFormQuestion(question).startView"
+        [mode]="asDatepickerFormQuestion(question).mode"
+        [mutators]="asDatepickerFormQuestion(question).mutators"></slf-datepicker-form-question>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="CONTROL_TYPE.DROPDOWN">
+      <slf-dropdown-form-question
+        #questionComponent
+        [form]="form"
+        [key]="question.key"
+        [label]="question.label"
+        [placeholder]="question.placeholder"
+        [validators]="question.validators"
+        [asyncValidators]="question.asyncValidators"
+        [value]="asDropdownFormQuestion(question).value"
+        [disabled]="asDropdownFormQuestion(question).disabled"
+        [linkedQuestions]="question.linkedQuestions"
+        [mutators]="asDropdownFormQuestion(question).mutators"
+        [noEntriesFoundLabel]="asDropdownFormQuestion(question).noEntriesFoundLabel"
+        [allowMultiple]="asDropdownFormQuestion(question).allowMultiple"
+        [allowNull]="asDropdownFormQuestion(question).allowNull"
+        [withFilter]="asDropdownFormQuestion(question).withFilter"
+        [withAll]="asDropdownFormQuestion(question).withAll"
+        [dataSource]="asDropdownFormQuestion(question).dataSource"
+        [options]="asDropdownFormQuestion(question).options"></slf-dropdown-form-question>
+    </ng-container>
+  </ng-container>
+
+  <div
+    *ngIf="question.spacer === SPACER.SUFFIX"
+    class="spacer"></div>
+</div>

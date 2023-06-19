@@ -1,0 +1,74 @@
+<ng-container>
+  <form
+    *ngIf="form"
+    (ngSubmit)="submit()"
+    [formGroup]="form">
+    <h2 *ngIf="label">{{ label }}</h2>
+    <ng-container *ngFor="let question of questions">
+      <ng-container [ngSwitch]="getControlType(question)">
+        <ng-container *ngSwitchCase="CONTROL_TYPE.FORM_GROUP">
+          <slf-dynamic-form-group
+            [label]="asFormGroupQuestion(question).label"
+            [form]="groupByKey(question.key)"
+            [questions]="asFormGroupQuestion(question).questions"></slf-dynamic-form-group>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="CONTROL_TYPE.COMBINATION">
+          <slf-combination-form-question
+            [form]="form"
+            [key]="question.key"
+            [label]="asCombinationFormQuestion(question).label"
+            [questions]="asCombinationFormQuestion(question).questions"
+            [separators]="asCombinationFormQuestion(question).separators"></slf-combination-form-question>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+          <slf-dynamic-form-question
+            [form]="form"
+            [question]="asFormQuestion(question)"></slf-dynamic-form-question>
+        </ng-container>
+      </ng-container>
+      <button
+        type="submit"
+        style="display: none"></button>
+    </ng-container>
+
+    <ng-container *ngIf="showControls">
+      <div class="spacer"></div>
+      <div
+        fxLayout
+        fxLayoutGap="1rem">
+        <button
+          *ngIf="submitButtonBadgeLabel !== undefined"
+          mat-raised-button
+          [matBadge]="submitButtonBadgeLabel"
+          matBadgePosition="below before"
+          matBadgeColor="accent"
+          color="primary"
+          [disabled]="!isValid || disabled"
+          type="submit">
+          <mat-icon *ngIf="submitButtonIcon">{{ submitButtonIcon }}</mat-icon>
+          {{ submitButtonLabel }}
+        </button>
+
+        <button
+          *ngIf="submitButtonBadgeLabel === undefined"
+          mat-raised-button
+          color="primary"
+          [disabled]="!isValid || disabled"
+          type="submit">
+          <mat-icon *ngIf="submitButtonIcon">{{ submitButtonIcon }}</mat-icon>
+          {{ submitButtonLabel }}
+        </button>
+
+        <button
+          type="button"
+          mat-raised-button
+          [disabled]="form.pristine"
+          (click)="cancel()">
+          {{ cancelButtonLabel }}
+        </button>
+      </div>
+    </ng-container>
+  </form>
+</ng-container>

@@ -1,0 +1,8 @@
+<span *ngIf="!showOneErrorPerLine">
+  {{ formattedErrors }}
+</span>
+<span *ngIf="showOneErrorPerLine">
+  <ul>
+    <li *ngFor="let error of errorMessages">{{ error }}</li>
+  </ul>
+</span>

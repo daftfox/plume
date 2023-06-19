@@ -1,0 +1,53 @@
+<mat-form-field>
+  <mat-select
+    [placeholder]="placeholder"
+    [formControl]="control"
+    [multiple]="allowMultiple">
+    <mat-option *ngIf="withFilter">
+      <ngx-mat-select-search
+        ngDefaultControl
+        [formControl]="filterControl"
+        placeholderLabel=""
+        [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+    </mat-option>
+
+    <mat-option
+      #allSelected
+      *ngIf="withAll && displayedOptions && displayedOptions.length > 0"
+      (click)="toggleAll()"
+      [value]="0"
+      [style.display]="!filterControl.value ? 'flex' : 'none'"
+      >All</mat-option
+    >
+
+    <mat-option
+      *ngIf="allowNull"
+      [value]="null"
+      >--</mat-option
+    >
+
+    <ng-container *ngIf="isGrouped(displayedOptions)">
+      <mat-optgroup
+        [label]="group.label"
+        *ngFor="let group of asSelectOptionGroupArray(displayedOptions)">
+        <mat-option
+          *ngFor="let option of group.options"
+          (click)="toggleOne()"
+          [value]="option.value">
+          {{ option.label }}
+        </mat-option>
+      </mat-optgroup>
+    </ng-container>
+
+    <ng-container *ngIf="!isGrouped(displayedOptions)">
+      <mat-option
+        *ngFor="let option of asSelectOptionArray(displayedOptions)"
+        [value]="option.value">
+        {{ option.label }}
+      </mat-option>
+    </ng-container>
+  </mat-select>
+  <mat-error>
+    <slf-form-errors [control]="control"></slf-form-errors>
+  </mat-error>
+</mat-form-field>
