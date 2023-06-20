@@ -1,15 +1,14 @@
 import { AbstractFormQuestion, FormQuestionOptions } from './abstract-form-question';
 import { MatCalendarView } from '@angular/material/datepicker';
-import * as moment from 'moment';
 
 export type DatepickerMode = 'month-year' | 'date';
 
-export interface DatepickerFormQuestionOptions extends FormQuestionOptions<Date | moment.Moment> {
+export interface DatepickerFormQuestionOptions extends FormQuestionOptions<Date> {
   startView?: MatCalendarView;
   mode?: DatepickerMode;
 }
 
-export class DatepickerFormQuestion extends AbstractFormQuestion<Date | moment.Moment> {
+export class DatepickerFormQuestion extends AbstractFormQuestion<Date> {
   startView: MatCalendarView;
   mode: DatepickerMode;
 

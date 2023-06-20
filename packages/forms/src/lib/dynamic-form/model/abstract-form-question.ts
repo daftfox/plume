@@ -59,7 +59,7 @@ export abstract class AbstractFormQuestion<T = FormQuestionValueType> {
   spacer?: SPACER;
 
   constructor(options: FormQuestionOptions<T>) {
-    this.value = options.value || undefined;
+    this.value = options.value !== undefined ? options.value : undefined;
     this.key = options.key || '';
     this.label = options.label || '';
     this.placeholder = options.placeholder || '';

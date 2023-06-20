@@ -1,6 +1,5 @@
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import * as moment from 'moment';
+import { Component, Input, ViewChild } from '@angular/core';
 import { MatCalendarView, MatDatepicker } from '@angular/material/datepicker';
 import { DatepickerMode } from '../../model';
 
@@ -9,24 +8,18 @@ import { DatepickerMode } from '../../model';
   templateUrl: './datepicker-form-question.component.html',
   styleUrls: ['../abstract-form-question/abstract-form-question.component.scss'],
 })
-export class DatepickerFormQuestionComponent extends AbstractFormQuestionComponent<Date | moment.Moment> implements OnInit {
-  @ViewChild('datePicker') datePicker: MatDatepicker<Date | moment.Moment>;
+export class DatepickerFormQuestionComponent extends AbstractFormQuestionComponent<Date> {
+  @ViewChild('datePicker') datePicker: MatDatepicker<Date>;
 
-  @Input() startView: MatCalendarView = 'year';
-  @Input() mode: DatepickerMode = 'date';
+  @Input() startView: MatCalendarView;
+  @Input() mode: DatepickerMode;
 
-  setMonthAndYear(date: moment.Moment | Date) {
+  setMonthAndYear(date: Date) {
     if (this.mode === 'month-year') {
-      let controlValue: Date | moment.Moment;
-      if (moment.isMoment(date)) {
-        controlValue = (this.control.value as moment.Moment) || moment();
-        controlValue.month(date.month());
-        controlValue.year(date.year());
-      } else {
-        controlValue = (this.control.value as Date) || new Date();
-        controlValue.setMonth(date.getMonth());
-        controlValue.setFullYear(date.getFullYear());
-      }
+      const controlValue = this.control.value || new Date();
+      controlValue.setMonth(date.getMonth());
+      controlValue.setFullYear(date.getFullYear());
+      controlValue.setHours(0, 0, 0, 0);
       this.control.setValue(controlValue);
       this.datePicker.close();
     }

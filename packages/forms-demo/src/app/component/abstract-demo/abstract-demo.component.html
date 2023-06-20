@@ -1,0 +1,8 @@
+<h1>{{ title }}</h1>
+<slf-dynamic-form-group
+  [rootNode]="true"
+  (formValuesChanged)="formValuesChanged($event)"
+  [questions]="questions" ></slf-dynamic-form-group>
+<code>
+  {{ formValues | json }}
+</code>

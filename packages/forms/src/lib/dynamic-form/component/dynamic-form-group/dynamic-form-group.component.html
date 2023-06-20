@@ -9,14 +9,13 @@
         <ng-container *ngSwitchCase="CONTROL_TYPE.FORM_GROUP">
           <slf-dynamic-form-group
             [label]="asFormGroupQuestion(question).label"
-            [form]="groupByKey(question.key)"
+            [form]="groupByKey(asFormGroupQuestion(question).key)"
             [questions]="asFormGroupQuestion(question).questions"></slf-dynamic-form-group>
         </ng-container>
 
         <ng-container *ngSwitchCase="CONTROL_TYPE.COMBINATION">
           <slf-combination-form-question
             [form]="form"
-            [key]="question.key"
             [label]="asCombinationFormQuestion(question).label"
             [questions]="asCombinationFormQuestion(question).questions"
             [separators]="asCombinationFormQuestion(question).separators"></slf-combination-form-question>

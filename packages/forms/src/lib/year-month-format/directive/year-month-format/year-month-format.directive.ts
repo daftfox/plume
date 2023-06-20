@@ -8,7 +8,10 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
       provide: MAT_DATE_FORMATS,
       useValue: {
         parse: {
-          dateInput: ['MMM YYYY', 'dd/MM/yyyy', 'yyyy-MM-dd'],
+          dateInput: {
+            month: 'short',
+            year: 'numeric',
+          },
         },
         display: {
           dateInput: 'MMM YYYY',

@@ -12,7 +12,6 @@ import {
   FormHint, RadioButtonFormQuestion,
   SelectOptionValueType, TextareaFormQuestion, TextboxFormQuestion, ToggleFormQuestion
 } from '../model';
-import * as moment from 'moment';
 
 export type FormQuestion =
   TextboxFormQuestion
@@ -139,7 +138,7 @@ export class DynamicFormService {
         asyncValidators,
       );
     } else {
-      return new FormControl<Date | moment.Moment | undefined>(
+      return new FormControl<Date | undefined>(
         { value: formQuestion.value, disabled },
         validators,
         asyncValidators,

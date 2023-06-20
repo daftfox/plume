@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { DynamicFormModule, DynamicFormQuestion, TextboxFormQuestion } from '@slodder/forms';
+import { DynamicFormModule, TextboxFormQuestion } from '@slodder/forms';
+import { AbstractDemoComponent } from '../abstract-demo/abstract-demo.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'demo-textbox',
-  imports: [DynamicFormModule],
-  template: `
-    <h1>Textbox</h1>
-    <slf-dynamic-form-group
-      [rootNode]="true"
-      [questions]="questions" ></slf-dynamic-form-group>`,
+  imports: [CommonModule, DynamicFormModule],
+  templateUrl: '../abstract-demo/abstract-demo.component.html'
 })
-export class TextboxComponent {
-  questions: DynamicFormQuestion[] = [
+export class TextboxDemoComponent extends AbstractDemoComponent {
+  public override title = 'Textbox';
+  public override questions = [
     new TextboxFormQuestion<string>({
       key: 'defaultTextbox',
       label: 'Default textbox',
@@ -23,24 +22,24 @@ export class TextboxComponent {
       key: 'numberTextbox',
       label: 'Number textbox',
       placeholder: 'Enter a number',
-      type: 'number'
+      type: 'number',
     }),
     new TextboxFormQuestion<string>({
       key: 'passwordTextBox',
       label: 'Password textbox',
       placeholder: 'Enter password',
-      type: 'password'
+      type: 'password',
     }),
     new TextboxFormQuestion<string>({
       key: 'disabledTextBox',
       label: 'Disabled textbox',
-      disabled: true
+      disabled: true,
     }),
     new TextboxFormQuestion<string>({
       key: 'iconTextbox',
       label: 'Icon textbox',
       placeholder: 'I have an icon :)',
-      icon: 'search'
+      icon: 'search',
     }),
     new TextboxFormQuestion<string>({
       key: 'requiredTextbox',
@@ -53,7 +52,6 @@ export class TextboxComponent {
       label: 'Max length textbox',
       placeholder: 'Enter text',
       maxLength: 25,
-      // validators: [Validators.required]
     }),
   ];
 }

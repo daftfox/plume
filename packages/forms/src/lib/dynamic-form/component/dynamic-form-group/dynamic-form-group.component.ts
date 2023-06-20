@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChildren } from '@angular/core';
 import { DynamicFormQuestionComponent } from '../dynamic-form-question/dynamic-form-question.component';
-import { Subject } from 'rxjs';
+import { startWith, Subject } from 'rxjs';
 import { CONTROL_TYPE, FormGroupQuestion, FormHint } from '../../model';
 import { DynamicFormService, FormQuestion, FormQuestionGroup } from '../../service/dynamic-form.service';
 import { distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
@@ -94,7 +94,7 @@ export class DynamicFormGroupComponent extends AbstractFormGroupComponent implem
         return;
       }
 
-      const getValuesFromQuestions = (formGroupQuestions: FormQuestion[], newValues: any = {}): any => {
+      const getValuesFromQuestions = (formGroupQuestions: (FormHint | FormQuestion | FormQuestionGroup)[], newValues: any = {}): any => {
         for (const formQuestion of formGroupQuestions) {
           if ( formQuestion instanceof FormGroupQuestion ) {
             newValues[formQuestion.key] = getValuesFromQuestions(formQuestion.questions, newValues);
@@ -108,8 +108,10 @@ export class DynamicFormGroupComponent extends AbstractFormGroupComponent implem
 
       this.form.patchValue(getValuesFromQuestions(changes['questions'].currentValue));
 
-      const updateQuestionEnabled = (formGroupQuestions: (FormQuestion | FormQuestionGroup)[], formGroup: FormGroup) => {
+      const updateQuestionEnabled = (formGroupQuestions: (FormHint | FormQuestion | FormQuestionGroup)[], formGroup: FormGroup) => {
         for (const formGroupQuestion of formGroupQuestions) {
+          if ( formGroupQuestion instanceof FormHint ) continue;
+
           const question = formGroup.get(formGroupQuestion.key);
 
           if (!question) return;
@@ -139,6 +141,7 @@ export class DynamicFormGroupComponent extends AbstractFormGroupComponent implem
     this.form = DynamicFormService.createFormGroup(this.questions);
     this.form.valueChanges
       .pipe(
+        startWith(this.form.value),
         distinctUntilChanged((previous, current) => JSON.stringify(previous) === JSON.stringify(current)),
         takeUntil(this.unsubscribe),
         tap((valueChanges) => this.formValuesChanged.next(valueChanges)),
