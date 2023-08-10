@@ -1,15 +1,16 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DynamicFormService, FormQuestion } from '../../service/dynamic-form.service';
+import { DynamicFormElement, DynamicFormService, DynamicQuestion } from '../../service/dynamic-form.service';
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
 import {
-  CheckboxFormQuestion,
+  DynamicCheckbox,
   CONTROL_TYPE,
-  DatepickerFormQuestion, DropdownFormQuestion,
-  FormHint, RadioButtonFormQuestion,
-  SPACER, TextareaFormQuestion,
-  TextboxFormQuestion, ToggleFormQuestion
+  DynamicDatepicker, DynamicSelect, DynamicFormButton,
+  DynamicFormHint, DynamicFormGist, DynamicRadioButton,
+  SPACER, DynamicTextArea,
+  DynamicTextInput, DynamicToggle, DynamicFormElementValueType
 } from '../../model';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'slf-dynamic-form-question',
@@ -17,8 +18,10 @@ import {
   styleUrls: ['./dynamic-form-question.component.scss'],
 })
 export class DynamicFormQuestionComponent {
-  @Input() question: FormQuestion;
+  @Input() question: DynamicQuestion;
   @Input() form: FormGroup;
+  @Output() clearArguments = new Subject<string>();
+  @Output() refreshLinkedQuestion = new Subject<{key: string, args: Map<string, any>}>();
 
   SPACER = SPACER;
 
@@ -29,11 +32,22 @@ export class DynamicFormQuestionComponent {
   getControlType = DynamicFormService.getControlType;
 
   get isValid(): boolean {
-    return this.question instanceof FormHint || this.questionComponent.isValid;
+    return this.question instanceof DynamicFormHint
+      || this.question instanceof DynamicFormGist
+      || this.question instanceof DynamicFormButton
+      || this.questionComponent.isValid;
   }
 
   get control(): FormControl {
     return this.questionComponent.control;
+  }
+
+  get value(): DynamicFormElementValueType {
+    return this.control.getRawValue();
+  }
+
+  get key(): string {
+    return this.question.key;
   }
 
   /*
@@ -41,35 +55,31 @@ export class DynamicFormQuestionComponent {
    * for the questions in the ngSwitchCase. It is up to the developer to make sure the methods below are not abused.
    */
 
-  asFormHint( formHint: FormQuestion ): FormHint {
-    return formHint as FormHint;
+  asCheckbox( checkboxFormQuestion: DynamicFormElement ): DynamicCheckbox {
+    return checkboxFormQuestion as DynamicCheckbox;
   }
 
-  asCheckboxFormQuestion( checkboxFormQuestion: FormQuestion ): CheckboxFormQuestion {
-    return checkboxFormQuestion as CheckboxFormQuestion;
+  asDatepicker( datepickerFormQuestion: DynamicFormElement ): DynamicDatepicker {
+    return datepickerFormQuestion as DynamicDatepicker;
   }
 
-  asDatepickerFormQuestion( datepickerFormQuestion: FormQuestion ): DatepickerFormQuestion {
-    return datepickerFormQuestion as DatepickerFormQuestion;
+  asSelect( dropdownFormQuestion: DynamicFormElement ): DynamicSelect {
+    return dropdownFormQuestion as DynamicSelect;
   }
 
-  asDropdownFormQuestion( dropdownFormQuestion: FormQuestion ): DropdownFormQuestion {
-    return dropdownFormQuestion as DropdownFormQuestion;
+  asRadioButton( radioButtonFormQuestion: DynamicFormElement ): DynamicRadioButton {
+    return radioButtonFormQuestion as DynamicRadioButton;
   }
 
-  asRadioButtonFormQuestion( radioButtonFormQuestion: FormQuestion ): RadioButtonFormQuestion {
-    return radioButtonFormQuestion as RadioButtonFormQuestion;
+  asTextarea( textareaFormQuestion: DynamicFormElement ): DynamicTextArea {
+    return textareaFormQuestion as DynamicTextArea;
   }
 
-  asTextareaFormQuestion( textareaFormQuestion: FormQuestion ): TextareaFormQuestion {
-    return textareaFormQuestion as TextareaFormQuestion;
+  asTextbox( textboxFormQuestion: DynamicFormElement ): DynamicTextInput {
+    return textboxFormQuestion as DynamicTextInput;
   }
 
-  asTextboxFormQuestion( textboxFormQuestion: FormQuestion ): TextboxFormQuestion {
-    return textboxFormQuestion as TextboxFormQuestion;
-  }
-
-  asToggleFormQuestion( toggleFormQuestion: FormQuestion ): ToggleFormQuestion {
-    return toggleFormQuestion as ToggleFormQuestion;
+  asToggle( toggleFormQuestion: DynamicFormElement ): DynamicToggle {
+    return toggleFormQuestion as DynamicToggle;
   }
 }

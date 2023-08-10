@@ -2,11 +2,48 @@ mat-drawer-container {
   height: calc(100vh - 64px);
 
   mat-drawer {
-    width: 15vw;
+    display: none;
   }
 
   mat-drawer-content {
-    padding-top: 1rem;
-    overflow-y: auto;
+    position: absolute;
+    right: 0;
+    width: 100vw;
+
+    main {
+      padding: 1rem;
+    }
+  }
+
+}
+
+aside {
+  display: none;
+}
+
+@media only screen and (min-width: 769px) {
+  mat-drawer-container {
+    mat-drawer-content {
+      width: 83vw;
+
+      main {
+        padding: 0 15vw 0 2rem;
+      }
+    }
+
+    mat-drawer {
+      display: block;
+      width: 17vw;
+    }
+  }
+
+  aside {
+    display: block;
+    position: absolute;
+    top: 5rem;
+    right: 10px;
+    height: auto;
+    width: 13vw;
+    z-index: 2;
   }
 }

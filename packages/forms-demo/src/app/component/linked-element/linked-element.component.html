@@ -1,0 +1,26 @@
+<h1>{{ title }}</h1>
+<p>
+  In order for <a routerLink="reactive-data">reactive data refreshing</a>, <a routerLink="mutation">mutators</a> and many
+  <a routerLink="validation">validators</a> to work, you will have to 'link' form elements together.
+  In essence this simply means declaring which questions rely on each other.
+</p>
+
+<slf-gist [fileGists]="linkedElementInterfaceGist"></slf-gist>
+
+
+<slf-dynamic-form-group
+  label="Example"
+  direction="row"
+  [rootNode]="true"
+  [formElements]="linkedElementExampleQuestions"></slf-dynamic-form-group>
+<slf-gist [fileGists]="linkedElementExampleGist.fileGists"></slf-gist>
+
+<p>
+  In the above example we identify the <code>birdOfTheYear</code> element as a linked element to the dynamic toggle.
+  This means that upon value or status changes of the toggle, it will execute each validator and mutator function in
+  sequence and pass the linked elements as argument. If the <code>refreshOnValueChange</code> property is set to true,
+  it will also execute the <code>refresh</code> method of the linked element's data source (only available for
+  <code>DynamicSelect</code> elements that have an <code>AbstractObservableDataSource</code> set as data source.)
+</p>
+
+

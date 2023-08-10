@@ -1,4 +1,4 @@
-export type SelectOptionValueType = string | number | string[] | number[] | undefined;
+export type SelectOptionValueType = string | number;
 
 export interface SelectOption<T = SelectOptionValueType> {
   label: string;

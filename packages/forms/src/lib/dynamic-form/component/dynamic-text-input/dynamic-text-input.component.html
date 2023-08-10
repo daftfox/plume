@@ -1,0 +1,25 @@
+<mat-form-field>
+  <mat-label>{{ label }}</mat-label>
+  <mat-icon matPrefix
+            *ngIf="icon">{{ icon }}</mat-icon>
+  <input
+    matInput
+    [formControl]="control"
+    [placeholder]="placeholder"
+    [value]="value"
+    [id]="key"
+    [type]="passwordVisible === true ? 'text' : type"
+    [maxlength]="maxLength"
+    [trim]="'blur'" />
+  <mat-icon *ngIf="type === 'password'"
+            class="show-password-icon"
+            matSuffix
+            (click)="toggleDisplayPassword()">
+    remove_red_eye</mat-icon>
+  <mat-hint align="end" *ngIf="maxLength">
+    {{ control.value ? control.value.length : 0 }}/{{ maxLength }}
+  </mat-hint>
+  <mat-error>
+    <slf-form-errors [control]="control"></slf-form-errors>
+  </mat-error>
+</mat-form-field>

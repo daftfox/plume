@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgForOf } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   standalone: true,
@@ -10,35 +11,87 @@ import { NgForOf } from '@angular/common';
     MatListModule,
     RouterLink,
     RouterLinkActive,
-    NgForOf
+    NgForOf,
+    MatIconModule
   ],
   template: `
     <mat-nav-list>
+      <mat-list-item>
+        <mat-icon matListItemIcon>play_circle_outline</mat-icon>
+        Getting started
+      </mat-list-item>
+
+      <mat-list-item class="indent">
+        <mat-icon matListItemIcon>question_mark</mat-icon>
+        What is slodder forms?
+      </mat-list-item>
+
+      <mat-list-item class="indent">
+        <mat-icon matListItemIcon>install_desktop</mat-icon>
+        Setup
+      </mat-list-item>
+      <mat-divider></mat-divider>
+
+      <mat-list-item>
+        <mat-icon matListItemIcon>playlist_add_check</mat-icon>
+        Validation
+      </mat-list-item>
+
+      <mat-list-item>
+        <mat-icon matListItemIcon>change_circle</mat-icon>
+        Mutation
+      </mat-list-item>
+
+      <mat-list-item routerLink="linked-element">
+        <mat-icon matListItemIcon>link</mat-icon>
+        Linked elements
+      </mat-list-item>
+
+      <mat-list-item>
+        <mat-icon matListItemIcon>dynamic_form</mat-icon>
+        Form components
+      </mat-list-item>
       <mat-list-item *ngFor="let navigationItem of navigationItems"
-                     [routerLink]="navigationItem.path"
-                     routerLinkActive="active">{{ navigationItem.label }}</mat-list-item>
+                     class="indent"
+                     [routerLink]="[{outlets: {primary: ['form-components', navigationItem.path]}}]"
+                     routerLinkActive="active">
+        <mat-icon matListItemIcon>{{ navigationItem.icon }}</mat-icon>
+        {{ navigationItem.label }}
+      </mat-list-item>
+      <mat-divider></mat-divider>
+
+      <mat-list-item>
+        <mat-icon matListItemIcon>api</mat-icon>
+        API reference
+      </mat-list-item>
     </mat-nav-list>
   `,
-  styles: [
-    `
-      mat-list-item.active {
-        font-weight: bold;
-        background-color: rgba(63, 81, 181, 0.38);
-      }
-    `
+  styleUrls: [
+    './sidebar-navigation.component.scss'
   ]
 })
 export class SidebarNavigationComponent {
   navigationItems = [
     {
-      path: 'textbox-demo',
-      label: 'Textbox'
+      path: 'text-input-demo',
+      icon: 'text_fields',
+      label: 'Text input',
+      aside: 'select'
     }, {
       path: 'checkbox-demo',
-      label: 'Checkbox'
+      icon: 'check_box',
+      label: 'Checkbox',
+      aside: 'select'
     }, {
       path: 'datepicker-demo',
-      label: 'Datepicker'
+      icon: 'calendar_month',
+      label: 'Datepicker',
+      aside: 'select'
+    }, {
+      path: 'select-demo',
+      icon: 'list_alt',
+      label: 'Select',
+      aside: 'select'
     }
   ];
 }

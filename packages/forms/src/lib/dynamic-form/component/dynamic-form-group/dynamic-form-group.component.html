@@ -4,33 +4,51 @@
     (ngSubmit)="submit()"
     [formGroup]="form">
     <h2 *ngIf="label">{{ label }}</h2>
-    <ng-container *ngFor="let question of questions">
-      <ng-container [ngSwitch]="getControlType(question)">
-        <ng-container *ngSwitchCase="CONTROL_TYPE.FORM_GROUP">
-          <slf-dynamic-form-group
-            [label]="asFormGroupQuestion(question).label"
-            [form]="groupByKey(asFormGroupQuestion(question).key)"
-            [questions]="asFormGroupQuestion(question).questions"></slf-dynamic-form-group>
-        </ng-container>
+    <div [fxLayout]="direction" fxLayoutGap="1rem">
+      <ng-container *ngFor="let question of formElements">
+        <ng-container [ngSwitch]="getControlType(question)">
+          <ng-container *ngSwitchCase="CONTROL_TYPE.FORM_GROUP">
+            <slf-dynamic-form-group
+              [rootNode]="false"
+              [key]="asFormGroupQuestion(question).key"
+              [direction]="asFormGroupQuestion(question).direction"
+              [label]="asFormGroupQuestion(question).label"
+              [form]="groupByKey(asFormGroupQuestion(question).key)"
+              [formElements]="asFormGroupQuestion(question).formElements"></slf-dynamic-form-group>
+          </ng-container>
 
-        <ng-container *ngSwitchCase="CONTROL_TYPE.COMBINATION">
-          <slf-combination-form-question
-            [form]="form"
-            [label]="asCombinationFormQuestion(question).label"
-            [questions]="asCombinationFormQuestion(question).questions"
-            [separators]="asCombinationFormQuestion(question).separators"></slf-combination-form-question>
-        </ng-container>
+          <!-- These are NOT questions! -->
+          <ng-container *ngSwitchCase="CONTROL_TYPE.FORM_HINT">
+            <slf-form-hint
+              [hint]="asFormHint(question).hint"
+              [heading]="asFormHint(question).heading"></slf-form-hint>
+          </ng-container>
 
-        <ng-container *ngSwitchDefault>
-          <slf-dynamic-form-question
-            [form]="form"
-            [question]="asFormQuestion(question)"></slf-dynamic-form-question>
+          <ng-container *ngSwitchCase="CONTROL_TYPE.GIST">
+            <slf-gist
+              [fileGists]="asGist(question).fileGists"></slf-gist>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="CONTROL_TYPE.BUTTON">
+            <slf-button
+              [action]="asButton(question).action"
+              [label]="asButton(question).label"
+              [icon]="asButton(question).icon"
+              [color]="asButton(question).color"
+              [raised]="asButton(question).raised"></slf-button>
+          </ng-container>
+
+          <!-- Anything not a form group, button, hint or gist, is a question -->
+          <ng-container *ngSwitchDefault>
+            <slf-dynamic-form-question
+              [form]="form"
+              (clearArguments)="clearArguments($event)"
+              (refreshLinkedQuestion)="refreshLinkedQuestion($event)"
+              [question]="asFormQuestion(question)"></slf-dynamic-form-question>
+          </ng-container>
         </ng-container>
       </ng-container>
-      <button
-        type="submit"
-        style="display: none"></button>
-    </ng-container>
+    </div>
 
     <ng-container *ngIf="showControls">
       <div class="spacer"></div>
@@ -69,5 +87,8 @@
         </button>
       </div>
     </ng-container>
+    <button
+      type="submit"
+      style="display: none"></button>
   </form>
 </ng-container>

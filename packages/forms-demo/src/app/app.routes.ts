@@ -1,17 +1,35 @@
 import { Route } from '@angular/router';
-import { TextboxDemoComponent } from './component/textbox-demo/textbox-demo.component';
+import { TextInputDemoComponent } from './component/text-input-demo/text-input-demo.component';
 import { CheckboxDemoComponent } from './component/checkbox-demo/checkbox-demo.component';
 import { DatepickerDemoComponent } from './component/datepicker-demo/datepicker-demo.component';
+import { SelectDemoComponent } from './component/select-demo/select-demo.component';
+import {LinkedElementComponent} from "./component/linked-element/linked-element.component";
+import { AsideComponent } from './component/aside/aside.component';
 
 export const appRoutes: Route[] = [
   {
-    path: 'textbox-demo',
-    component: TextboxDemoComponent
-  }, {
-    path: 'checkbox-demo',
-    component: CheckboxDemoComponent
-  }, {
-    path: 'datepicker-demo',
-    component: DatepickerDemoComponent
-  },
+    path: 'form-components',
+    children: [
+      {
+        path: 'text-input-demo',
+        component: TextInputDemoComponent
+      }, {
+        path: 'checkbox-demo',
+        component: CheckboxDemoComponent
+      }, {
+        path: 'datepicker-demo',
+        component: DatepickerDemoComponent
+      }, {
+        path: 'select-demo',
+        component: SelectDemoComponent
+      }, {
+        path: 'linked-element',
+        component: LinkedElementComponent
+      }, {
+        path: '',
+        outlet: 'aside',
+        component: AsideComponent,
+      }
+    ]
+  }
 ];

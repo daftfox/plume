@@ -1,15 +1,15 @@
 import { Directive, Input, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { FormQuestion, FormQuestionGroup } from '../../service/dynamic-form.service';
+import { DynamicFormElement, DynamicQuestion } from '../../service/dynamic-form.service';
 import { Subject } from 'rxjs';
-import { CombinationFormQuestion, FormGroupQuestion, FormHint } from '../../model';
+import { DynamicFormButton, DynamicFormGist, DynamicFormGroup, DynamicFormHint } from '../../model';
 
 @Directive()
 export abstract class AbstractFormGroupComponent implements OnDestroy {
   @Input() form: FormGroup;
   @Input() key: string;
   @Input() label: string;
-  @Input() questions: (FormHint | FormQuestion | FormQuestionGroup)[] = [];
+  @Input() formElements: DynamicFormElement[] = [];
 
   unsubscribe = new Subject<null>();
 
@@ -41,15 +41,23 @@ export abstract class AbstractFormGroupComponent implements OnDestroy {
    * The methods below are required to retain strict template checking while still being able to use a mixed type array
    * for the questions in the ngSwitchCase. It is up to the developer to make sure the methods below are not abused.
    */
-  asFormGroupQuestion( formQuestionGroup: FormHint | FormQuestion | FormQuestionGroup ): FormGroupQuestion {
-    return formQuestionGroup as FormGroupQuestion;
+  asFormGroupQuestion( formQuestionGroup: DynamicFormElement ): DynamicFormGroup {
+    return formQuestionGroup as DynamicFormGroup;
   }
 
-  asCombinationFormQuestion( combinationFormQuestion: FormHint | FormQuestion | FormQuestionGroup ): CombinationFormQuestion {
-    return combinationFormQuestion as CombinationFormQuestion;
+  asFormQuestion( formQuestion: DynamicFormElement ): DynamicQuestion {
+    return formQuestion as DynamicQuestion;
   }
 
-  asFormQuestion( formQuestion: FormHint | FormQuestion | FormQuestionGroup ): FormQuestion {
-    return formQuestion as FormQuestion;
+  asFormHint( formHint: DynamicFormElement ): DynamicFormHint {
+    return formHint as DynamicFormHint;
+  }
+
+  asGist( gist: DynamicFormElement ): DynamicFormGist {
+    return gist as DynamicFormGist;
+  }
+
+  asButton( button: DynamicFormElement ): DynamicFormButton {
+    return button as DynamicFormButton;
   }
 }

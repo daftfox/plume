@@ -5,52 +5,31 @@ import {
 } from '@angular/forms';
 import { Injectable } from '@angular/core';
 import {
-  CheckboxFormQuestion,
-  CombinationFormQuestion,
-  CONTROL_TYPE, DatepickerFormQuestion,
-  DropdownFormQuestion, FormGroupQuestion,
-  FormHint, RadioButtonFormQuestion,
-  SelectOptionValueType, TextareaFormQuestion, TextboxFormQuestion, ToggleFormQuestion
+  DynamicCheckbox,
+  CONTROL_TYPE, DynamicDatepicker,
+  DynamicSelect, DynamicFormButton, DynamicFormGroup,
+  DynamicFormHint, DynamicFormGist, DynamicRadioButton,
+  SelectOptionValueType, DynamicTextArea, DynamicTextInput, DynamicToggle
 } from '../model';
 
-export type FormQuestion =
-  TextboxFormQuestion
-  | DropdownFormQuestion
-  | CheckboxFormQuestion
-  | RadioButtonFormQuestion
-  | DatepickerFormQuestion
-  | ToggleFormQuestion
-  | TextareaFormQuestion;
+export type DynamicQuestion =
+  DynamicTextInput
+  | DynamicSelect
+  | DynamicCheckbox
+  | DynamicRadioButton
+  | DynamicDatepicker
+  | DynamicToggle
+  | DynamicTextArea;
 
-export type FormQuestionGroup =
-  FormGroupQuestion
-  | CombinationFormQuestion;
+export type DynamicFormQuestionGroup =
+  DynamicFormGroup;
 
-export type DynamicFormQuestion = FormQuestion | FormQuestionGroup | FormHint;
+export type DynamicFormElement = DynamicQuestion | DynamicFormQuestionGroup | DynamicFormHint | DynamicFormGist | DynamicFormButton;
 
 @Injectable({
   providedIn: 'root',
 })
 export class DynamicFormService {
-  static findQuestionByKey(
-    formQuestions: (FormQuestion | FormQuestionGroup)[],
-    key: string
-  ): FormQuestion | FormQuestionGroup | null {
-    for (const formQuestion of formQuestions) {
-      if ( formQuestion instanceof FormGroupQuestion ) {
-        const r = DynamicFormService.findQuestionByKey(formQuestion.questions, key);
-        if (r) {
-          return r;
-        }
-      }
-
-      if (formQuestion.key === key) {
-        return formQuestion;
-      }
-    }
-    return null;
-  }
-
   static findControlByKey(formGroup: FormGroup, key: string): AbstractControl | null {
     for (const controlKey of Object.keys(formGroup.controls)) {
       if (formGroup.controls[controlKey] instanceof FormGroup) {
@@ -71,14 +50,14 @@ export class DynamicFormService {
    * Map an array of FormQuestion objects to a FormGroup
    * @param formQuestions
    */
-  static createFormGroup( formQuestions: (FormHint | FormQuestion | FormQuestionGroup)[]): FormGroup {
+  static createFormGroup( formQuestions: DynamicFormElement[]): FormGroup {
     const group: { [key: string]: AbstractControl } = {};
 
     for (const formQuestion of formQuestions) {
-      if (!(formQuestion instanceof FormHint)) {
+      if (!(formQuestion instanceof DynamicFormHint) && !(formQuestion instanceof DynamicFormGist) && !(formQuestion instanceof DynamicFormButton)) {
         group[formQuestion.key] =
-          formQuestion instanceof FormGroupQuestion
-            ? (group[formQuestion.key] = DynamicFormService.createFormGroup(formQuestion.questions))
+          formQuestion instanceof DynamicFormGroup
+            ? (group[formQuestion.key] = DynamicFormService.createFormGroup(formQuestion.formElements))
             : (group[formQuestion.key] = DynamicFormService.createTypedFormControl(formQuestion));
       }
     }
@@ -86,53 +65,57 @@ export class DynamicFormService {
     return new FormGroup(group);
   }
 
-  static getControlType(formQuestion: FormHint | FormQuestion | FormQuestionGroup): CONTROL_TYPE {
-    if (formQuestion instanceof TextboxFormQuestion) {
+  static getControlType(formQuestion: DynamicFormElement): CONTROL_TYPE {
+    if (formQuestion instanceof DynamicTextInput) {
       return CONTROL_TYPE.TEXTBOX;
-    } else if (formQuestion instanceof TextareaFormQuestion) {
+    } else if (formQuestion instanceof DynamicTextArea) {
       return CONTROL_TYPE.TEXTAREA;
-    } else if (formQuestion instanceof FormHint) {
+    } else if (formQuestion instanceof DynamicFormHint) {
       return CONTROL_TYPE.FORM_HINT;
-    } else if (formQuestion instanceof ToggleFormQuestion) {
+    } else if (formQuestion instanceof DynamicFormGist) {
+      return CONTROL_TYPE.GIST;
+    } else if (formQuestion instanceof DynamicFormButton) {
+      return CONTROL_TYPE.BUTTON;
+    } else if (formQuestion instanceof DynamicToggle) {
       return CONTROL_TYPE.TOGGLE;
-    } else if (formQuestion instanceof CheckboxFormQuestion) {
+    } else if (formQuestion instanceof DynamicCheckbox) {
       return CONTROL_TYPE.CHECKBOX;
-    } else if (formQuestion instanceof DropdownFormQuestion) {
+    } else if (formQuestion instanceof DynamicSelect) {
       return CONTROL_TYPE.DROPDOWN;
-    } else if (formQuestion instanceof DatepickerFormQuestion) {
+    } else if (formQuestion instanceof DynamicDatepicker) {
       return CONTROL_TYPE.DATEPICKER;
-    } else if (formQuestion instanceof RadioButtonFormQuestion) {
+    } else if (formQuestion instanceof DynamicRadioButton) {
       return CONTROL_TYPE.RADIO;
     } else {
-      return formQuestion instanceof CombinationFormQuestion ? CONTROL_TYPE.COMBINATION : CONTROL_TYPE.FORM_GROUP;
+      return CONTROL_TYPE.FORM_GROUP;
     }
   }
 
-  static createTypedFormControl( formQuestion: FormQuestion ): FormControl {
+  static createTypedFormControl( formQuestion: DynamicQuestion ): FormControl {
     const {disabled, validators, asyncValidators} = formQuestion;
     if (
-      formQuestion instanceof TextboxFormQuestion ||
-      formQuestion instanceof TextareaFormQuestion
+      formQuestion instanceof DynamicTextInput ||
+      formQuestion instanceof DynamicTextArea
     ) {
       return new FormControl<string | number | undefined>(
         { value: formQuestion.value, disabled },
         validators,
         asyncValidators,
       );
-    } else if ( formQuestion instanceof RadioButtonFormQuestion ) {
+    } else if ( formQuestion instanceof DynamicRadioButton ) {
       return new FormControl<string | undefined>(
         { value: formQuestion.value, disabled },
         validators,
         asyncValidators,
       );
-    } else if ( formQuestion instanceof CheckboxFormQuestion || formQuestion instanceof ToggleFormQuestion ) {
+    } else if ( formQuestion instanceof DynamicCheckbox || formQuestion instanceof DynamicToggle ) {
       return new FormControl<boolean | undefined>(
         { value: formQuestion.value, disabled },
         validators,
         asyncValidators,
       );
-    } else if ( formQuestion instanceof DropdownFormQuestion ) {
-      return new FormControl<SelectOptionValueType>(
+    } else if ( formQuestion instanceof DynamicSelect ) {
+      return new FormControl<SelectOptionValueType | SelectOptionValueType[]>(
         { value: formQuestion.value, disabled },
         validators,
         asyncValidators,

@@ -1,92 +1,62 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import {
-  CheckboxFormQuestion, CombinationFormQuestion,
-  DynamicFormModule,
-  DynamicFormQuestion,
-  FormGroupQuestion,
-  TextboxFormQuestion,
-  ToggleFormQuestion,
-  SPACER
-} from '@slodder/forms';
+import { Component, ViewChild } from '@angular/core';
+import {NavigationEnd, Router, RouterModule} from '@angular/router';
 import { FlexModule } from '@angular/flex-layout';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDrawerContent, MatSidenavModule } from '@angular/material/sidenav';
 import { HeaderComponent } from '../header/header.component';
 import { SidebarNavigationComponent } from '../sidebar-navigation.component/sidebar-navigation.component';
+import { AsideService } from '../../service/aside.service';
 
 @Component({
   standalone: true,
-  imports: [ RouterModule, DynamicFormModule, FlexModule, MatSidenavModule, HeaderComponent, SidebarNavigationComponent ],
+  imports: [ RouterModule, FlexModule, MatSidenavModule, HeaderComponent, SidebarNavigationComponent ],
+  providers: [ AsideService ],
   selector: 'demo-root',
   styleUrls: ['./app.component.scss'],
   template: `
-    <demo-header></demo-header>
+    <header>
+      <demo-header></demo-header>
+    </header>
+
     <mat-drawer-container [hasBackdrop]="false">
       <mat-drawer [disableClose]="true" [opened]="true">
         <demo-sidebar-navigation></demo-sidebar-navigation>
       </mat-drawer>
-      <mat-drawer-content>
-        <div fxLayout fxLayoutAlign="center">
-          <div fxFlex="60">
-            <router-outlet></router-outlet>
-          </div>
-        </div>
+      <mat-drawer-content #content>
+        <main>
+          <router-outlet></router-outlet>
+        </main>
       </mat-drawer-content>
     </mat-drawer-container>
 
+    <aside>
+      <router-outlet name="aside"></router-outlet>
+    </aside>
   `
 })
 export class AppComponent {
-  title = 'forms-demo';
 
-  questions: DynamicFormQuestion[] = [
-    new TextboxFormQuestion<string>({
-      key: 'name',
-      label: 'Please enter your name',
-      placeholder: 'Name',
-    }),
-    new TextboxFormQuestion<string>({
-      key: 'disabled',
-      label: 'Good luck entering something here',
-      disabled: true
-    }),
-    new FormGroupQuestion({
-      key: 'checkboxGroup1',
-      label: 'Vertically grouped checkboxes using FormGroupQuestion',
-      questions: [
-        new CheckboxFormQuestion({
-          key: 'checkbox1',
-          label: 'Check me in',
-          value: false
-        }),
-        new CheckboxFormQuestion({
-          key: 'checkbox2',
-          label: 'Check me out',
-          value: true,
-        })
-      ]
-    }),
-    new CombinationFormQuestion({
-      key: 'checkboxGroup2',
-      label: 'Horizontally grouped checkboxes using CombinationFormQuestion',
-      questions: [
-        new CheckboxFormQuestion({
-          key: 'checkbox3',
-          label: 'Check me in',
-          value: false
-        }),
-        new CheckboxFormQuestion({
-          key: 'checkbox4',
-          label: 'Check me out',
-          value: true,
-        })
-      ]
-    }),
-    new ToggleFormQuestion({
-      key: 'toggle',
-      label: 'Enable awesomeness',
-      value: false,
-      spacer: SPACER.PREFIX,
-    })
-  ];
+  @ViewChild('content') content: MatDrawerContent;
+
+  constructor( private router: Router, private asideService: AsideService ) {
+
+    router.events.subscribe(s => {
+      if (s instanceof NavigationEnd) {
+        const tree = router.parseUrl(router.url);
+        if (tree.fragment) {
+          const element = document.querySelector("#" + tree.fragment);
+          if (element) {
+            element.scrollIntoView({
+              block: 'start',
+              behavior: 'smooth'
+            });
+            this.asideService.setActiveFragment( tree.fragment );
+            console.log('boop');
+          }
+        } else {
+          this.content.scrollTo({start: 0, top: 0});
+        }
+      }
+    });
+
+  }
 }

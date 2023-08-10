@@ -1,29 +1,12 @@
-import { AsyncValidatorFn, ValidatorFn } from '@angular/forms';
-import { AbstractFormQuestionComponent } from '../component/abstract-form-question/abstract-form-question.component';
-import { LinkedQuestion } from './linked-question.interface';
+import {AsyncValidatorFn, FormGroup, ValidatorFn} from '@angular/forms';
 import { SPACER } from './spacer.enum';
-import { FormQuestionValueType } from './generic-form-values.interface';
+import { DynamicFormElementValueType } from './generic-form-values.interface';
+import { DynamicFormQuestionOptions } from './options';
+import { LinkedElement } from './linked-element.interface';
 
-export type MutatorFn = <T = FormQuestionValueType>(scope: AbstractFormQuestionComponent<T>, value?: FormQuestionValueType) => void;
+export type MutatorFn = <T = DynamicFormElementValueType>( linkedElements: LinkedElement[], form: FormGroup, value?: T) => void;
 
-export interface FormQuestionOptions<T = FormQuestionValueType> {
-  value?: T;
-  key?: string;
-  label?: string;
-  placeholder?: string;
-  validators?: ValidatorFn | ValidatorFn[];
-  asyncValidators?: AsyncValidatorFn | AsyncValidatorFn[];
-  linkedQuestions?: LinkedQuestion[];
-  /**
-   * @deprecated
-   */
-  index?: number;
-  disabled?: boolean;
-  spacer?: SPACER;
-  mutators?: MutatorFn[];
-}
-
-export abstract class AbstractFormQuestion<T = FormQuestionValueType> {
+export abstract class AbstractFormQuestion<T = DynamicFormElementValueType> {
   /**
    * The key corresponds to the property name on the formValues. It is advisable to ensure the key corresponds to the property name of the
    * final entity you wish to construct
@@ -38,7 +21,7 @@ export abstract class AbstractFormQuestion<T = FormQuestionValueType> {
    */
   validators: ValidatorFn | ValidatorFn[];
   asyncValidators: AsyncValidatorFn | AsyncValidatorFn[];
-  linkedQuestions: LinkedQuestion[];
+  linkedElements: LinkedElement[];
   mutators: MutatorFn[];
 
   /**
@@ -58,7 +41,7 @@ export abstract class AbstractFormQuestion<T = FormQuestionValueType> {
    */
   spacer?: SPACER;
 
-  constructor(options: FormQuestionOptions<T>) {
+  protected constructor( options: DynamicFormQuestionOptions<T> ) {
     this.value = options.value !== undefined ? options.value : undefined;
     this.key = options.key || '';
     this.label = options.label || '';
@@ -67,7 +50,7 @@ export abstract class AbstractFormQuestion<T = FormQuestionValueType> {
     this.asyncValidators = options.asyncValidators || [];
     this.spacer = typeof options.spacer === 'number' ? options.spacer : undefined;
     this.disabled = options.disabled === undefined ? false : options.disabled;
-    this.linkedQuestions = options.linkedQuestions || [];
+    this.linkedElements = options.linkedElements || [];
     this.mutators = options.mutators || [];
   }
 }

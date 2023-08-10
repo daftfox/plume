@@ -1,8 +1,8 @@
 import { AbstractFormQuestionComponent } from '../component/abstract-form-question/abstract-form-question.component';
-import { FormQuestionValueType } from '../model';
+import { DynamicFormElementValueType } from '../model';
 
-export const allowOneOfLinkedQuestions = (scope: AbstractFormQuestionComponent, value?: FormQuestionValueType) => {
-  scope.linkedQuestions
+export const allowOneOfLinkedQuestions = (scope: AbstractFormQuestionComponent, value?: DynamicFormElementValueType) => {
+  scope.linkedElements
     .filter(({ key }) => key !== scope.key)
     .forEach(({ key }) => {
       if (!scope.form) return;

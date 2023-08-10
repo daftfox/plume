@@ -1,0 +1,14 @@
+@use '@angular/material' as mat;
+
+mat-hint {
+  color: map-get(mat.$deep-orange-palette, 500);
+}
+
+mat-icon {
+  margin-top: -5px;
+  font-size: 22px;
+}
+
+.show-password-icon {
+  cursor: pointer;
+}

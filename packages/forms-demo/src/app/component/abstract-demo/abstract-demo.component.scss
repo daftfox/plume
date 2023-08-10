@@ -1,0 +1,12 @@
+@use '@angular/material' as mat;
+
+article {
+  h2 {
+    margin-top: 0;
+  }
+
+  margin-bottom: 4rem;
+  padding: 2rem;
+  border: 1px solid mat.get-color-from-palette( mat.$deep-orange-palette, 200, .2);
+  border-radius: 3px;
+}

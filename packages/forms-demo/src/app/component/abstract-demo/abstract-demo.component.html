@@ -1,8 +1,33 @@
-<h1>{{ title }}</h1>
-<slf-dynamic-form-group
-  [rootNode]="true"
-  (formValuesChanged)="formValuesChanged($event)"
-  [questions]="questions" ></slf-dynamic-form-group>
-<code>
-  {{ formValues | json }}
-</code>
+<h1 [id]="title"
+    demoObserveVisibility
+    (visible)="setActiveFragment(title)">{{ title }}</h1>
+<p [innerHTML]="description"></p>
+
+<article [id]="example.key"
+         *ngFor="let example of examples"
+         demoObserveVisibility
+         (visible)="setActiveFragment(example.key)">
+  <h2>{{example.heading}}</h2>
+  <div fxLayout>
+    <p fxFlex="60" [innerHTML]="example.description"></p>
+  </div>
+  <slf-dynamic-form-group
+    #form
+    [id]="example.key"
+    [formElements]="example.formElements"></slf-dynamic-form-group>
+
+  <div class="form-values">
+    <h3>Form values</h3>
+    <pre><code [highlight]="form.value | json" [languages]="['json']"></code></pre>
+  </div>
+
+  <mat-accordion *ngIf="example.fileGists.length">
+    <mat-expansion-panel (opened)="example.panelOpen = true" (closed)="example.panelOpen = false">
+      <mat-expansion-panel-header>
+        {{ example.panelOpen ? 'Hide code example' : 'Show code example' }}
+      </mat-expansion-panel-header>
+
+      <slf-gist [fileGists]="example.fileGists"></slf-gist>
+    </mat-expansion-panel>
+  </mat-accordion>
+</article>

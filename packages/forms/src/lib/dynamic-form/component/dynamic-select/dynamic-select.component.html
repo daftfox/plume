@@ -1,0 +1,72 @@
+<mat-form-field>
+  <mat-label fxLayout fxLayoutGap="1rem">
+    <mat-spinner *ngIf="(dataSource && dataSource.refreshing | async) === true" mode="indeterminate" diameter="24"></mat-spinner>
+    <span>
+      {{ (dataSource && dataSource.refreshing | async) === true ? 'Loading...' : placeholder || label}}
+    </span>
+  </mat-label>
+  <mat-select
+    [id]="key"
+    [formControl]="control"
+    [multiple]="allowMultiple">
+    <mat-option *ngIf="useFilter">
+      <ngx-mat-select-search
+        ngDefaultControl
+        [formControl]="filterControl"
+        placeholderLabel=""
+        [noEntriesFoundLabel]="noEntriesFoundLabel"></ngx-mat-select-search>
+    </mat-option>
+
+    <ng-container *ngIf="dataSource && (dataSource.refreshing | async) === true">
+      <mat-option>
+        <div fxLayout fxLayoutAlign="flex-start center" fxLayoutGap="1rem">
+          <mat-spinner fxFlex diameter="24" mode="indeterminate"></mat-spinner>
+          <span>Refreshing...</span>
+        </div>
+      </mat-option>
+    </ng-container>
+    <ng-container *ngIf="!dataSource || (dataSource && (dataSource.refreshing | async) === false)">
+
+      <div *ngIf="useSelectAll && displayedOptions && displayedOptions.length > 0"
+           class="select-all">
+        <mat-checkbox [(ngModel)]="allSelected"
+                      [ngModelOptions]="{standalone: true}"
+                      (change)="toggleAll()">Select All</mat-checkbox>
+      </div>
+
+      <mat-option
+        *ngIf="nullable"
+        [value]="null"
+      >--</mat-option
+      >
+
+      <ng-container *ngIf="isGrouped(displayedOptions)">
+        <mat-optgroup
+          [label]="group.label"
+          *ngFor="let group of asSelectOptionGroupArray(displayedOptions)">
+          <mat-option
+            *ngFor="let option of group.options"
+            (click)="toggleOne()"
+            [disabled]="option.disabled"
+            [value]="option.value">
+            {{ option.label }}
+          </mat-option>
+        </mat-optgroup>
+      </ng-container>
+
+      <ng-container *ngIf="!isGrouped(displayedOptions)">
+        <mat-option
+          *ngFor="let option of asSelectOptionArray(displayedOptions)"
+          [disabled]="option.disabled"
+          [value]="option.value">
+          {{ option.label }}
+        </mat-option>
+      </ng-container>
+
+    </ng-container>
+  </mat-select>
+
+  <mat-error>
+    <slf-form-errors [control]="control"></slf-form-errors>
+  </mat-error>
+</mat-form-field>

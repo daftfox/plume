@@ -1,54 +1,58 @@
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { DropdownFormQuestionComponent } from './component/dropdown-form-question/dropdown-form-question.component';
+import { DynamicSelectComponent } from './component/dynamic-select/dynamic-select.component';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { NgModule } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { CheckboxFormQuestionComponent } from './component/checkbox-form-question/checkbox-form-question.component';
+import { DynamicCheckboxComponent } from './component/dynamic-checkbox/dynamic-checkbox.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
-import { DatepickerFormQuestionComponent } from './component/datepicker-form-question/datepicker-form-question.component';
-import { TextboxFormQuestionComponent } from './component/textbox-form-question/textbox-form-question.component';
-import { CombinationFormQuestionComponent } from './component/combination-form-question/combination-form-question.component';
+import { DynamicTextInputComponent } from './component/dynamic-text-input/dynamic-text-input.component';
 import { DynamicFormGroupComponent } from './component/dynamic-form-group/dynamic-form-group.component';
 import { DynamicFormQuestionComponent } from './component/dynamic-form-question/dynamic-form-question.component';
 import { FormErrorsComponent } from './component/form-errors/form-errors.component';
 import { MatRadioModule } from '@angular/material/radio';
-import { RadioButtonFormQuestionComponent } from './component/radio-button-form-question/radio-button-form-question.component';
-import { TextareaFormQuestionComponent } from './component/textarea-form-question/textarea-form-question.component';
+import { DynamicRadioButtonComponent } from './component/dynamic-radio-button/dynamic-radio-button.component';
+import { DynamicTextAreaComponent } from './component/dynamic-text-area/dynamic-text-area.component';
 import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
-import { ToggleFormQuestionComponent } from './component/toggle-form-question/toggle-form-question.component';
+import { DynamicToggleComponent } from './component/dynamic-toggle/dynamic-toggle.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { FormHintComponent } from './component/form-hint/form-hint.component';
+import { DynamicFormHintComponent } from './component/dynamic-form-hint/dynamic-form-hint.component';
 import { YearMonthFormatModule } from '../year-month-format';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HighlightModule } from 'ngx-highlightjs';
+import { GistComponent } from './component/gist/gist.component';
+import { DynamicButtonComponent } from './component/dynamic-button/dynamic-button.component';
+import {DynamicDatepickerComponent} from "./component/dynamic-datepicker/dynamic-datepicker.component";
 
 @NgModule({
   declarations: [
-    CheckboxFormQuestionComponent,
-    CombinationFormQuestionComponent,
-    DatepickerFormQuestionComponent,
-    DropdownFormQuestionComponent,
+    DynamicCheckboxComponent,
+    DynamicDatepickerComponent,
+    DynamicSelectComponent,
     DynamicFormGroupComponent,
     DynamicFormQuestionComponent,
     FormErrorsComponent,
-    FormHintComponent,
-    RadioButtonFormQuestionComponent,
-    TextareaFormQuestionComponent,
-    TextboxFormQuestionComponent,
-    ToggleFormQuestionComponent,
+    DynamicFormHintComponent,
+    DynamicRadioButtonComponent,
+    DynamicTextAreaComponent,
+    DynamicTextInputComponent,
+    DynamicToggleComponent,
   ],
   imports: [
     CommonModule,
+    DynamicButtonComponent,
     FlexLayoutModule,
     FormsModule,
+    GistComponent,
     MatBadgeModule,
     MatButtonModule,
     MatCardModule,
@@ -64,21 +68,24 @@ import { YearMonthFormatModule } from '../year-month-format';
     ReactiveFormsModule,
     NgxMatSelectSearchModule,
     NgxTrimDirectiveModule,
-    YearMonthFormatModule
+    YearMonthFormatModule,
+    MatProgressSpinnerModule,
+    HighlightModule
   ],
   exports: [
-    CheckboxFormQuestionComponent,
-    CombinationFormQuestionComponent,
-    DatepickerFormQuestionComponent,
+    DynamicCheckboxComponent,
+    DynamicDatepickerComponent,
+    DynamicButtonComponent,
     DynamicFormGroupComponent,
     DynamicFormQuestionComponent,
-    DropdownFormQuestionComponent,
+    DynamicSelectComponent,
     FormErrorsComponent,
-    FormHintComponent,
-    RadioButtonFormQuestionComponent,
-    TextareaFormQuestionComponent,
-    TextboxFormQuestionComponent,
-    ToggleFormQuestionComponent,
+    DynamicFormHintComponent,
+    GistComponent,
+    DynamicRadioButtonComponent,
+    DynamicTextAreaComponent,
+    DynamicTextInputComponent,
+    DynamicToggleComponent,
   ],
 })
 export class DynamicFormModule {}

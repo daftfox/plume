@@ -1,8 +1,8 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { LinkedQuestion } from '../model/abstract-form-question';
+import { LinkedElement } from '../model';
 
 export const validateIsAtLeastOneSet =
-  (controls: LinkedQuestion[]): ValidatorFn =>
+  (controls: LinkedElement[]): ValidatorFn =>
   (control: AbstractControl) => {
     if (
       !control.parent // parent doesn't exist

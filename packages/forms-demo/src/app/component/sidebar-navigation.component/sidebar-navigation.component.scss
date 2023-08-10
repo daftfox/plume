@@ -1,0 +1,22 @@
+@use '@angular/material' as mat;
+
+mat-nav-list {
+  font-size: .9rem;
+}
+
+mat-list-item {
+  height: 42px !important;
+
+  &.indent {
+    padding-left: 12px;
+  }
+
+  &.active {
+    font-weight: bold;
+    background-color: mat.get-color-from-palette(mat.$deep-orange-palette, 900);
+  }
+
+  > mat-icon {
+    margin-right: 16px;
+  }
+}

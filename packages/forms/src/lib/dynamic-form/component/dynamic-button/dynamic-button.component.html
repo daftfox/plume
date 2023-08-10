@@ -1,0 +1,18 @@
+<ng-container *ngIf="!raised; else raisedButton">
+  <button mat-button (click)="action()" [color]="color">
+    <ng-container *ngTemplateOutlet="buttonContent"></ng-container>
+  </button>
+</ng-container>
+
+<ng-template #raisedButton>
+  <button mat-raised-button (click)="action()" [color]="color">
+    <ng-container *ngTemplateOutlet="buttonContent"></ng-container>
+  </button>
+</ng-template>
+
+<ng-template #buttonContent>
+  <div fxLayout fxLayoutAlign="space-between center" fxLayoutGap="1rem">
+    <mat-icon *ngIf="icon">{{ icon }}</mat-icon>
+    <span *ngIf="label">{{ label }}</span>
+  </div>
+</ng-template>

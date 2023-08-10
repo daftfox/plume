@@ -1,0 +1,190 @@
+@import "highlight.js/scss/base16/material-darker";
+
+slf-gist {
+  display: block;
+  margin-top: .5rem;
+}
+
+$header-font-color: #1c1c1c !default;
+$header-background-color: #b0b0b0 !default;
+$line-number-color: #5b5b5b !default;
+
+.window {
+  margin-bottom: 1rem;
+  position: relative;
+
+  .header {
+    position: absolute;
+    top: calc(-.9rem - 2px);
+    left: 0;
+    right: 0;
+    height: 1rem;
+    background-color: $header-background-color;
+    opacity: 0.9;
+    margin: 10px auto 0;
+    padding: 10px;
+    border-radius: 7px 7px 0px 0px;
+    color: $header-font-color;
+    border-bottom: 1px solid grey;
+
+    &.dark {
+      background: #273138;
+
+      .dot {
+        background: #4a5c66;
+      }
+    }
+
+    &.yosemite {
+      background: #f6f6f6; /* Old browsers */
+      background: -moz-linear-gradient(top,  #f6f6f6 0%, #dadada 100%); /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f6f6f6), color-stop(100%,#dadada)); /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top,  #f6f6f6 0%,#dadada 100%); /* Chrome10+,Safari5.1+ */
+      background: -o-linear-gradient(top,  #f6f6f6 0%,#dadada 100%); /* Opera 11.10+ */
+      background: -ms-linear-gradient(top,  #f6f6f6 0%,#dadada 100%); /* IE10+ */
+      background: linear-gradient(to bottom,  #f6f6f6 0%,#dadada 100%); /* W3C */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f6f6', endColorstr='#dadada',GradientType=0 ); /* IE6-9 */
+      border: 1px solid #d8d8d8;
+      border-bottom: 1px solid #b4b4b4;
+    }
+
+    .dots {
+      position: absolute;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: #f9f9f9;
+      border-radius: 50%;
+      margin: 0 4px 0 0;
+
+      &.red {
+        background: #FF6057;
+        border: 1px solid #E14640;
+      }
+
+      &.amber {
+        background: #FFBD2E;
+        border: 1px solid #DFA123;
+      }
+
+      &.green {
+        background: #27C93F;
+        border: 1px solid #1DAD2B;
+      }
+    }
+  }
+
+  > mat-tab-group {
+    font-family: Helvetica, 'sans-serif';
+
+    mat-tab-header {
+      width: calc(100% - 75px);
+      position: relative;
+      left: 75px;
+    }
+
+    .mat-mdc-tab-body-wrapper {
+      border-left: 1px solid $header-background-color;
+      border-bottom: 1px solid $header-background-color;
+      border-right: 1px solid $header-background-color;
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+
+    .mat-mdc-tab-labels {
+      gap: .1rem;
+
+      .mdc-tab__ripple, .mat-ripple {
+        display: none;
+      }
+
+      .mdc-tab-indicator {
+        display: none;
+      }
+    }
+
+    div[role="tab"] {
+      box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+      0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+      0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+
+
+      height: 1.8rem;
+      flex-grow: 0 !important;
+      font-size: 14px;
+      border-top-left-radius: 7px;
+      border-top-right-radius: 7px;
+      border-left: 1px solid grey;
+      border-top: 1px solid grey;
+      border-right: 1px solid grey;
+      background-color: #ababab;
+
+      &.mdc-tab--active {
+        background-color: #c1c1c1;
+
+        .mdc-tab__text-label {
+          color: $header-font-color !important;
+        }
+      }
+    }
+
+    .mdc-tab__text-label {
+      color: $header-font-color;
+    }
+  }
+
+  mat-tab {
+    border-left: 1px solid $header-background-color;
+    border-right: 1px solid $header-background-color;
+    border-bottom: 1px solid $header-background-color;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+  }
+
+  mat-tab-body {
+    pre {
+      padding: 0;
+      margin: 0;
+
+      code {
+        padding: 0;
+
+        &.hljs {
+
+          .hljs-ln {
+            padding: 8px 0;
+
+            tr {
+              &:first-child td {
+                padding-top: 8px !important;
+              }
+
+              &:last-child td {
+                padding-bottom: 8px !important;
+              }
+            }
+          }
+
+          /* for block of numbers */
+          td.hljs-ln-numbers {
+            user-select: none;
+            text-align: center;
+            border-right: 1px solid $line-number-color;
+            color: $line-number-color;
+            vertical-align: top;
+            padding-right: 8px !important;
+            padding-left: 8px !important;
+          }
+
+          /* for block of code */
+          td.hljs-ln-code {
+            padding-left: 8px !important;
+          }
+        }
+      }
+    }
+  }
+}

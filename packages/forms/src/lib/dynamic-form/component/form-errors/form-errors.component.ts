@@ -57,13 +57,13 @@ export class FormErrorsComponent {
 
     for (const propertyName in this.control.errors) {
       if (Object.prototype.hasOwnProperty.call(this.control.errors, propertyName)) {
-        // let errors: string | string[] = this.control.errors[propertyName];
-        // if (!(errors instanceof Array)) {
-        //   errors = [errors];
-        // }
-        // for (let i = 0, ii = errors.length; i < ii; i++) {
-        //   messages.push(this.validationService.getValidatorErrorMessage(propertyName, errors[i], this.messages));
-        // }
+        let errors: string | string[] = this.control.errors[propertyName];
+        if (!(errors instanceof Array)) {
+          errors = [errors];
+        }
+        for (let i = 0, ii = errors.length; i < ii; i++) {
+          // messages.push(this.validationService.getValidatorErrorMessage(propertyName, errors[i], this.messages));
+        }
       }
     }
     return messages;

@@ -1,8 +1,9 @@
 import { AbstractFormQuestionComponent } from '../component/abstract-form-question/abstract-form-question.component';
-import { FormQuestionValueType } from '../model';
+import { DynamicFormElementValueType } from '../model';
+import {isNullish} from "@slodder/utils";
 
-export const toggleOtherControlEnabled = (scope: AbstractFormQuestionComponent, value?: FormQuestionValueType) => {
-  scope.linkedQuestions
+export const toggleOtherControlEnabled = (scope: AbstractFormQuestionComponent, value?: DynamicFormElementValueType) => {
+  scope.linkedElements
     .filter(({ key }) => key !== scope.key)
     .forEach(({ key }) => {
       if (!scope.form) return;
@@ -11,7 +12,7 @@ export const toggleOtherControlEnabled = (scope: AbstractFormQuestionComponent, 
 
       if (!otherControl) return;
 
-      if (value) {
+      if (!isNullish(value)) {
         otherControl.disable();
       } else {
         otherControl.enable();

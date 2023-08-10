@@ -1,0 +1,37 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+a {
+  color: mat.get-color-from-palette(mat.$deep-orange-palette, 300);
+}
+
+p {
+  code {
+    color: mat.get-color-from-palette(mat.$deep-orange-palette, 300);
+  }
+}
+//
+///* ===== Scrollbar CSS ===== */
+///* Firefox */
+//* {
+//  scrollbar-width: auto;
+//  scrollbar-color: mat.get-color-from-palette(mat.$deep-orange-palette, 500, .5) #212121;
+//}
+//
+///* Chrome, Edge, and Safari */
+//*::-webkit-scrollbar {
+//  width: 8px;
+//}
+//
+//*::-webkit-scrollbar-track {
+//  background: #212121;
+//}
+//
+//*::-webkit-scrollbar-thumb {
+//  background-color: mat.get-color-from-palette(mat.$deep-orange-palette, 500, .5);
+//  border-radius: 10px;
+//  border: 1px solid #212121;
+//}

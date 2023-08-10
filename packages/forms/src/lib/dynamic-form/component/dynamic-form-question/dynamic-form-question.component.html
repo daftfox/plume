@@ -4,11 +4,6 @@
     class="spacer"></div>
 
   <ng-container [ngSwitch]="getControlType(question)">
-    <ng-container *ngSwitchCase="CONTROL_TYPE.FORM_HINT">
-      <slf-form-hint
-        [hint]="asFormHint(question).hint"
-        [heading]="asFormHint(question).heading"></slf-form-hint>
-    </ng-container>
 
     <ng-container *ngSwitchCase="CONTROL_TYPE.TEXTBOX">
       <slf-textbox-form-question
@@ -19,13 +14,13 @@
         [placeholder]="question.placeholder"
         [validators]="question.validators"
         [asyncValidators]="question.asyncValidators"
-        [value]="asTextboxFormQuestion(question).value"
-        [disabled]="asTextboxFormQuestion(question).disabled"
-        [maxLength]="asTextboxFormQuestion(question).maxLength"
-        [linkedQuestions]="question.linkedQuestions"
-        [mutators]="asTextboxFormQuestion(question).mutators"
-        [type]="asTextboxFormQuestion(question).type"
-        [icon]="asTextboxFormQuestion(question).icon"></slf-textbox-form-question>
+        [value]="asTextbox(question).value"
+        [disabled]="asTextbox(question).disabled"
+        [maxLength]="asTextbox(question).maxLength"
+        [linkedElements]="question.linkedElements"
+        [mutators]="asTextbox(question).mutators"
+        [type]="asTextbox(question).type"
+        [icon]="asTextbox(question).icon"></slf-textbox-form-question>
     </ng-container>
 
     <ng-container *ngSwitchCase="CONTROL_TYPE.TEXTAREA">
@@ -37,12 +32,12 @@
         [placeholder]="question.placeholder"
         [validators]="question.validators"
         [asyncValidators]="question.asyncValidators"
-        [value]="asTextareaFormQuestion(question).value"
-        [disabled]="asTextareaFormQuestion(question).disabled"
-        [maxLength]="asTextareaFormQuestion(question).maxLength"
-        [linkedQuestions]="question.linkedQuestions"
-        [mutators]="asTextareaFormQuestion(question).mutators"
-        [rows]="asTextareaFormQuestion(question).rows"></slf-textarea-form-question>
+        [value]="asTextarea(question).value"
+        [disabled]="asTextarea(question).disabled"
+        [maxLength]="asTextarea(question).maxLength"
+        [linkedElements]="question.linkedElements"
+        [mutators]="asTextarea(question).mutators"
+        [rows]="asTextarea(question).rows"></slf-textarea-form-question>
     </ng-container>
 
     <ng-container *ngSwitchCase="CONTROL_TYPE.CHECKBOX">
@@ -54,10 +49,10 @@
         [placeholder]="question.placeholder"
         [validators]="question.validators"
         [asyncValidators]="question.asyncValidators"
-        [value]="asCheckboxFormQuestion(question).value"
-        [disabled]="asCheckboxFormQuestion(question).disabled"
-        [linkedQuestions]="question.linkedQuestions"
-        [mutators]="asCheckboxFormQuestion(question).mutators"></slf-checkbox-form-question>
+        [value]="asCheckbox(question).value"
+        [disabled]="asCheckbox(question).disabled"
+        [linkedElements]="question.linkedElements"
+        [mutators]="asCheckbox(question).mutators"></slf-checkbox-form-question>
     </ng-container>
 
     <ng-container *ngSwitchCase="CONTROL_TYPE.TOGGLE">
@@ -69,10 +64,10 @@
         [placeholder]="question.placeholder"
         [validators]="question.validators"
         [asyncValidators]="question.asyncValidators"
-        [value]="asToggleFormQuestion(question).value"
-        [disabled]="asToggleFormQuestion(question).disabled"
-        [linkedQuestions]="question.linkedQuestions"
-        [mutators]="asToggleFormQuestion(question).mutators"></slf-toggle-form-question>
+        [value]="asToggle(question).value"
+        [disabled]="asToggle(question).disabled"
+        [linkedElements]="question.linkedElements"
+        [mutators]="asToggle(question).mutators"></slf-toggle-form-question>
     </ng-container>
 
     <ng-container *ngSwitchCase="CONTROL_TYPE.RADIO">
@@ -84,11 +79,11 @@
         [placeholder]="question.placeholder"
         [validators]="question.validators"
         [asyncValidators]="question.asyncValidators"
-        [value]="asRadioButtonFormQuestion(question).value"
-        [disabled]="asRadioButtonFormQuestion(question).disabled"
-        [linkedQuestions]="question.linkedQuestions"
-        [mutators]="asRadioButtonFormQuestion(question).mutators"
-        [options]="asRadioButtonFormQuestion(question).options"></slf-radio-button-form-question>
+        [value]="asRadioButton(question).value"
+        [disabled]="asRadioButton(question).disabled"
+        [linkedElements]="question.linkedElements"
+        [mutators]="asRadioButton(question).mutators"
+        [options]="asRadioButton(question).options"></slf-radio-button-form-question>
     </ng-container>
 
     <ng-container *ngSwitchCase="CONTROL_TYPE.DATEPICKER">
@@ -100,16 +95,16 @@
         [placeholder]="question.placeholder"
         [validators]="question.validators"
         [asyncValidators]="question.asyncValidators"
-        [value]="asDatepickerFormQuestion(question).value"
-        [disabled]="asDatepickerFormQuestion(question).disabled"
-        [linkedQuestions]="question.linkedQuestions"
-        [startView]="asDatepickerFormQuestion(question).startView"
-        [mode]="asDatepickerFormQuestion(question).mode"
-        [mutators]="asDatepickerFormQuestion(question).mutators"></slf-datepicker-form-question>
+        [value]="asDatepicker(question).value"
+        [disabled]="asDatepicker(question).disabled"
+        [linkedElements]="question.linkedElements"
+        [startView]="asDatepicker(question).startView"
+        [mode]="asDatepicker(question).mode"
+        [mutators]="asDatepicker(question).mutators"></slf-datepicker-form-question>
     </ng-container>
 
     <ng-container *ngSwitchCase="CONTROL_TYPE.DROPDOWN">
-      <slf-dropdown-form-question
+      <slf-select-form-question
         #questionComponent
         [form]="form"
         [key]="question.key"
@@ -117,17 +112,20 @@
         [placeholder]="question.placeholder"
         [validators]="question.validators"
         [asyncValidators]="question.asyncValidators"
-        [value]="asDropdownFormQuestion(question).value"
-        [disabled]="asDropdownFormQuestion(question).disabled"
-        [linkedQuestions]="question.linkedQuestions"
-        [mutators]="asDropdownFormQuestion(question).mutators"
-        [noEntriesFoundLabel]="asDropdownFormQuestion(question).noEntriesFoundLabel"
-        [allowMultiple]="asDropdownFormQuestion(question).allowMultiple"
-        [allowNull]="asDropdownFormQuestion(question).allowNull"
-        [withFilter]="asDropdownFormQuestion(question).withFilter"
-        [withAll]="asDropdownFormQuestion(question).withAll"
-        [dataSource]="asDropdownFormQuestion(question).dataSource"
-        [options]="asDropdownFormQuestion(question).options"></slf-dropdown-form-question>
+        [value]="asSelect(question).value"
+        [disabled]="asSelect(question).disabled"
+        [linkedElements]="question.linkedElements"
+        [mutators]="asSelect(question).mutators"
+        [noEntriesFoundLabel]="asSelect(question).noEntriesFoundLabel"
+        [allowMultiple]="asSelect(question).allowMultiple"
+        [nullable]="asSelect(question).nullable"
+        [useFilter]="asSelect(question).useFilter"
+        [useSelectAll]="asSelect(question).useSelectAll"
+        [dataSource]="asSelect(question).dataSource"
+        [options]="asSelect(question).options"
+        [accumulateArguments]="asSelect(question).accumulateArguments"
+        (clearArguments)="clearArguments.next($event)"
+        (refreshLinkedQuestion)="refreshLinkedQuestion.next($event)"></slf-select-form-question>
     </ng-container>
   </ng-container>
 

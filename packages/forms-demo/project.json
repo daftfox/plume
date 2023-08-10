@@ -24,9 +24,14 @@
           "packages/forms-demo/src/assets"
         ],
         "styles": [
-          "@angular/material/prebuilt-themes/indigo-pink.css",
-          "packages/forms-demo/src/styles.scss"
+          "packages/forms-demo/src/styles/theme.scss",
+          "packages/forms-demo/src/styles/styles.scss"
         ],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "packages/forms-demo/src/styles"
+          ]
+        },
         "scripts": []
       },
       "configurations": {

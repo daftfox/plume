@@ -1,15 +1,15 @@
-import { Directive, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Directive, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Subject, merge } from 'rxjs';
 import { AsyncValidatorFn, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { filter, takeUntil, tap } from 'rxjs/operators';
 import {
-  FormQuestionValueType,
-  LinkedQuestion,
+  DynamicFormElementValueType,
+  LinkedElement,
   MutatorFn
 } from '../../model';
 
 @Directive()
-export abstract class AbstractFormQuestionComponent<T = FormQuestionValueType> implements OnInit, OnDestroy, OnChanges {
+export abstract class AbstractFormQuestionComponent<T = DynamicFormElementValueType> implements OnInit, OnDestroy, OnChanges {
   @Input() form: FormGroup;
   @Input() key: string;
   @Input() label: string;
@@ -18,8 +18,11 @@ export abstract class AbstractFormQuestionComponent<T = FormQuestionValueType> i
   @Input() asyncValidators: AsyncValidatorFn | AsyncValidatorFn[] = [];
   @Input() value: T;
   @Input() disabled = false;
-  @Input() linkedQuestions: LinkedQuestion[] = [];
+  @Input() linkedElements: LinkedElement[] = [];
   @Input() mutators: MutatorFn[] = [];
+
+  @Output() clearArguments = new Subject<string>();
+  @Output() refreshLinkedQuestion = new Subject<{key: string, args: Map<string, any>}>();
 
   unsubscribe = new Subject<null>();
 
@@ -37,8 +40,8 @@ export abstract class AbstractFormQuestionComponent<T = FormQuestionValueType> i
         tap(() => this.updateLinkedQuestionsValueAndValidity() ),
         // run mutators for value changes
         filter((event) => !['VALID', 'INVALID', 'PENDING', 'DISABLED'].includes(event)),
-        tap((value: FormQuestionValueType) => {
-          this.mutators.forEach((mutator) => mutator(this, value));
+        tap((value: DynamicFormElementValueType) => {
+          this.mutators.forEach((mutator) => mutator(this.linkedElements.filter( ({key}) => key !== this.key ), this.form, value as T));
         }),
         tap( this.refreshLinkedQuestionsData.bind(this) ),
       )
@@ -65,17 +68,21 @@ export abstract class AbstractFormQuestionComponent<T = FormQuestionValueType> i
 
   private updateLinkedQuestionsValueAndValidity() {
     if ( !this.form ) return;
-    this.linkedQuestions
+    this.linkedElements
       .filter(({ key }) => key !== this.key)
       .forEach(({ key }) => this.form.get(key).updateValueAndValidity({ emitEvent: false }));
   }
 
-  private refreshLinkedQuestionsData( value: FormQuestionValueType ) {
-    this.linkedQuestions
-      .filter(({ key, refreshOnValueChange }) => key !== this.key && refreshOnValueChange)
-      .forEach(({ key }) => {
-        if (Array.isArray(value) ? value.length !== 0 : value !== null && value !== undefined) {
-          // this.dynamicFormService.refreshQuestionData(key, [value]);
+  private refreshLinkedQuestionsData( value: DynamicFormElementValueType ) {
+    this.linkedElements
+      .forEach(({ key, refreshOnValueChange, clearAccumulatedArgumentsOnValueChange }) => {
+        if ( key === this.key ) return;
+        if ( clearAccumulatedArgumentsOnValueChange ) {
+          this.clearArguments.next(key);
+        }
+
+        if ( refreshOnValueChange) {
+          this.refreshLinkedQuestion.next({key, args: new Map([[this.key, value]])});
         }
       });
   }

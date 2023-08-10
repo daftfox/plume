@@ -1,0 +1,18 @@
+@use '@angular/material' as mat;
+
+.select-all {
+  //margin-top: 5px;
+  //margin-left: 5px;
+  margin: 5px;
+
+  mat-checkbox.mat-mdc-checkbox-checked {
+    label {
+      color: map-get(mat.$deep-orange-palette, 500);
+    }
+
+    .mdc-checkbox__background {
+      border-color: map-get(mat.$deep-orange-palette, 500)!important;
+      background-color: map-get(mat.$deep-orange-palette, 500)!important;
+    }
+  }
+}
