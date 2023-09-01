@@ -22,7 +22,7 @@ export abstract class AbstractFormQuestionComponent<T = DynamicFormElementValueT
   @Input() mutators: MutatorFn[] = [];
 
   @Output() clearArguments = new Subject<string>();
-  @Output() refreshLinkedQuestion = new Subject<{key: string, args: Map<string, any>}>();
+  @Output() refreshLinkedQuestion = new Subject<{key: string, args: Map<string, unknown>}>();
 
   unsubscribe = new Subject<null>();
 

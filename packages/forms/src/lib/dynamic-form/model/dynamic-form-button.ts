@@ -1,14 +1,17 @@
 import { DynamicFormButtonOptions } from './options';
 import { ThemePalette } from '@angular/material/core';
+import { IFormAction } from './form-action.interface';
 
-export class DynamicFormButton {
-  icon?: string;
+export class DynamicFormButton implements IFormAction {
+  key: string;
+  action: ( args?: unknown ) => void;
   label?: string;
+  icon?: string;
   color?: ThemePalette;
   raised: boolean;
-  action: ( args?: any ) => void;
 
   constructor( options: DynamicFormButtonOptions ) {
+    this.key = options.key;
     this.action = options.action;
     this.label = options.label;
     this.icon = options.icon;

@@ -17,3 +17,11 @@ export * from './spacer.enum';
 export * from './dynamic-text-area';
 export * from './dynamic-text-input';
 export * from './dynamic-toggle';
+
+export * from './dynamic-form-component.interface';
+
+export * from './form-action.interface';
+export * from './form-group.interface';
+export * from './form-question.interface';
+export * from './form-static.interface';
+export * from './reactive-form-question.interface';

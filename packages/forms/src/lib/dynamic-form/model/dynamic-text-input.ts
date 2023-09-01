@@ -1,6 +1,7 @@
 import { AbstractFormQuestion } from './abstract-form-question';
 import { Validators } from '@angular/forms';
 import { DynamicTextInputOptions, TextBoxType, DynamicTextOptions } from './options';
+import { DynamicTextInputComponent } from '../component/dynamic-text-input/dynamic-text-input.component';
 
 export abstract class DynamicText<T = string | number> extends AbstractFormQuestion<T> {
   maxLength?: number;
@@ -21,6 +22,7 @@ export abstract class DynamicText<T = string | number> extends AbstractFormQuest
 }
 
 export class DynamicTextInput extends DynamicText<string> {
+  component = DynamicTextInputComponent;
   type: TextBoxType;
   icon?: string;
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {
-  DynamicSelect, DynamicFormButton,
+  DynamicSelect,
   DynamicFormModule, DynamicFormElement, DynamicFormGroup,
 } from '@slodder/forms';
 import { AbstractDemoComponent } from '../abstract-demo/abstract-demo.component';
@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Subject, tap } from 'rxjs';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterLink } from '@angular/router';
-import {AsideService} from "../../service/aside.service";
+import { AsideService } from "../../service/aside.service";
 import { HighlightModule } from 'ngx-highlightjs';
 import { ObserveVisibilityDirective } from '../../directive/observe-visibility.directive';
 import { FlexModule } from '@angular/flex-layout';
@@ -518,7 +518,7 @@ export class FormComponent {
 
     this.examples.push({
       heading: 'Reactive data source',
-      description: `Being able to provide a select element with a reactive data source is, in my opinion, one of the most powerful features of this library. It allows you to easily modify the list of displayed options, regardless of where the data comes from. Below is a simple implementation that shows how such a thing could be achieved through a <code>DynamicFormButton</code> element. Head over to <a href="linked-elements">linked elements</a> to find out how the same can be achieved without a dedicated button.`,
+      description: `Being able to provide a select element with a reactive data source is, in my opinion, one of the most powerful features of this library. It allows you to easily modify the list of displayed options, regardless of where the data comes from. Below is a simple implementation that shows how such a thing could be achieved. Whenever the value of the first select element changes, the data of the second one is refreshed accordingly through an HTTP request incorporating the new value.`,
       key: 'reactive-data-source',
       panelOpen: false,
       formElements: [

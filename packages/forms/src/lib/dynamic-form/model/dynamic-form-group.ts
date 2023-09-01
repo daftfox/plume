@@ -1,10 +1,13 @@
-import { DynamicFormElement } from '../service/dynamic-form.service';
 import { SPACER } from './spacer.enum';
 import { DynamicFormGroupOptions } from './options';
+import { IFormGroup } from './form-group.interface';
+import { IDynamicFormComponent } from './dynamic-form-component.interface';
+import { DynamicFormGroupComponent } from '../component/dynamic-form-group/dynamic-form-group.component';
 
-export class DynamicFormGroup {
+export class DynamicFormGroup implements IFormGroup {
+  component = DynamicFormGroupComponent;
   key: string;
-  formElements: DynamicFormElement[];
+  formElements: IDynamicFormComponent[];
   disabled = false;
   label?: string;
   spacer?: SPACER;

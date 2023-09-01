@@ -1,7 +1,9 @@
 import { DynamicText } from './dynamic-text-input';
 import { DynamicTextAreaOptions } from './options';
+import { DynamicTextAreaComponent } from '../component/dynamic-text-area/dynamic-text-area.component';
 
 export class DynamicTextArea extends DynamicText<string> {
+  component = DynamicTextAreaComponent;
   rows: number;
 
   constructor(options: DynamicTextAreaOptions) {

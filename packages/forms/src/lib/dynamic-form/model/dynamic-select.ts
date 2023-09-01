@@ -2,10 +2,12 @@ import { SelectOption, SelectOptionValueType } from './select-option.interface';
 import { SelectOptionGroup } from './select-option-group.interface';
 import { DynamicSelectOptions } from './options';
 import { AbstractReactiveFormQuestion } from './abstract-reactive-form-question';
+import { DynamicSelectComponent } from '../component/dynamic-select/dynamic-select.component';
 
 export type SelectValueType = string | number;
 
-export class DynamicSelect<T = SelectOptionValueType> extends AbstractReactiveFormQuestion<(SelectOption<T> | SelectOptionGroup<T>), SelectValueType> {
+export class DynamicSelect<T = SelectOptionValueType> extends AbstractReactiveFormQuestion<(SelectOption<T> | SelectOptionGroup<T>), SelectOptionValueType> {
+  component = DynamicSelectComponent;
   options: (SelectOption<T> | SelectOptionGroup<T>)[];
   allowMultiple: boolean;
   nullable: boolean;

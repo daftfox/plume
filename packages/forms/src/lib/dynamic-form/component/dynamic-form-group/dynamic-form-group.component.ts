@@ -1,29 +1,31 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChildren } from '@angular/core';
-import { DynamicFormQuestionComponent } from '../dynamic-form-question/dynamic-form-question.component';
-import { Subject } from 'rxjs';
 import {
-  CONTROL_TYPE,
-  DynamicFormButton,
-  DynamicFormGist,
+  AfterViewInit, ChangeDetectorRef, Component, ComponentRef, Inject, Input, OnChanges, OnInit, Output, SimpleChanges,
+  ViewChild, ViewContainerRef
+} from '@angular/core';
+import { iif, Observable, ReplaySubject, Subject, switchMap } from 'rxjs';
+import {
+  AbstractFormQuestion,
   DynamicFormGroup,
-  DynamicFormHint
+  DynamicFormValues, IDynamicFormComponent,
+  IFormAction, isFormAction, isFormGroup, isFormQuestion,
 } from '../../model';
-import { DynamicFormService, DynamicFormElement } from '../../service/dynamic-form.service';
-import { distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
-import { AbstractFormGroupComponent } from '../abstract-form-group/abstract-form-group.component';
-import { FormGroup } from '@angular/forms';
-import { AbstractReactiveFormQuestion } from '../../model/abstract-reactive-form-question';
+import { tap } from 'rxjs/operators';
+import {
+  AbstractFormQuestionComponent,
+  DynamicFormElement,
+} from '@slodder/forms';
 import {
   AbstractReactiveFormQuestionComponent
 } from '../abstract-reactive-form-question/abstract-reactive-form-question.component';
+import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractFormGroupComponent } from '../abstract-form-group/abstract-form-group.component';
 
 @Component({
   selector: 'slf-dynamic-form-group',
   templateUrl: './dynamic-form-group.component.html',
   styleUrls: ['./dynamic-form-group.component.scss'],
 })
-export class DynamicFormGroupComponent extends AbstractFormGroupComponent implements OnInit, OnChanges, AfterViewInit {
-  @Input() id: string;
+export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractFormGroupComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() rootNode = true;
 
   @Input() showControls = false;
@@ -34,176 +36,148 @@ export class DynamicFormGroupComponent extends AbstractFormGroupComponent implem
   @Input() cancelButtonLabel = 'Cancel';
   @Input() direction: 'column' | 'row' = 'column';
 
-  // @Input() formErrors: ApiErrorMessages;
-
-  @Output() formSubmit = new Subject<any>();
+  @Output() formSubmit = new Subject<FV>();
   @Output() formCancel = new Subject<null>();
+  @Output() valueChanges: Observable<FV>;
 
-  @Output() formValuesChanged = new Subject<any>();
+  @ViewChild('formOutlet', { read: ViewContainerRef }) formOutlet: ViewContainerRef;
 
-  @ViewChildren(DynamicFormQuestionComponent) dynamicFormQuestionComponents: DynamicFormQuestionComponent[] = [];
-  @ViewChildren(DynamicFormGroupComponent) dynamicFormGroupComponents: DynamicFormGroupComponent[] = [];
+  private componentRef: Map<
+    string,
+    ComponentRef<
+      AbstractFormGroupComponent |
+      AbstractFormQuestionComponent |
+      AbstractReactiveFormQuestionComponent<unknown>
+    >> = new Map();
+  private viewInitialised = new ReplaySubject<boolean>();
 
-  // Public redeclaration of enums for use in the template
-  CONTROL_TYPE = CONTROL_TYPE;
-
-  getControlType = DynamicFormService.getControlType;
-
-  constructor(
-    // private notificationService: NotificationService,
-    protected dynamicFormService: DynamicFormService,
-  ) {
+  constructor( @Inject(ChangeDetectorRef) private cdRef: ChangeDetectorRef ) {
     super();
   }
 
-  ngAfterViewInit() {
-    this.form.valueChanges
-      .pipe(
-        distinctUntilChanged((previous, current) => JSON.stringify(previous) === JSON.stringify(current)),
-        takeUntil(this.unsubscribe),
-        tap(() => this.formValuesChanged.next(this.value)),
-      )
-      .subscribe();
+  ngOnInit() {
+    this.initialiseFormElements();
   }
 
-  ngOnInit() {
-    if (this.formElements && !this.form) {
-      this.unsubscribe.next( null );
-      this.initForm();
-    }
+  ngAfterViewInit() {
+    // Notify subscribers that the formOutlet has been rendered and made available
+    this.viewInitialised.next( true );
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['formErrors']) {
-      const unmatchedErrors: string[] = [];
-      // this.formErrors.properties.forEach((property: ApiErrorProperty) => {
-      //   // Transform the server errors into an array of strings
-      //   const errorMessages: string[] = property.errors.map((errorMessage: ApiErrorMessage) => errorMessage.message);
-      //   const control = DynamicFormService.findControlByKey(this.form, property.propertyName);
-      //   if (!control || control.disabled) {
-      //     unmatchedErrors.push(`${property.propertyName} - ${errorMessages.join(', ')}`);
-      //     return;
-      //   }
-      //
-      //   // Add errors to the form control
-      //   control.markAsDirty({ onlySelf: false });
-      //   control.markAsTouched({ onlySelf: false });
-      //   control.setErrors({ apiErrors: errorMessages });
-      //   return;
-      // });
-
-      // Any unmatched errors are notified
-      // if (unmatchedErrors.length > 0 && this.notificationService) {
-      //   this.notificationService.showNotification(unmatchedErrors.join('\n'));
-      // }
-    } else if (changes['questions']) {
-      // update form controls
-      if (!this.form) {
-        return;
-      }
-
-      const getValuesFromQuestions = ( formGroupQuestions: DynamicFormElement[], newValues: any = {}): any => {
-        for (const formQuestion of formGroupQuestions) {
-          if ( formQuestion instanceof DynamicFormGroup ) {
-            newValues[formQuestion.key] = getValuesFromQuestions(formQuestion.formElements, newValues);
-          } else if (
-            !(formQuestion instanceof DynamicFormHint)
-            && !(formQuestion instanceof DynamicFormButton)
-            && !(formQuestion instanceof DynamicFormGist)
-          ) {
-            newValues[formQuestion.key] = formQuestion.value;
-          }
-        }
-
-        return newValues;
-      };
-
-      this.form.patchValue(getValuesFromQuestions(changes['questions'].currentValue));
-
-      const updateQuestionEnabled = ( formGroupQuestions: DynamicFormElement[], formGroup: FormGroup) => {
-        for (const formGroupQuestion of formGroupQuestions) {
-          if (
-            formGroupQuestion instanceof DynamicFormHint
-            || formGroupQuestion instanceof DynamicFormGist
-            || formGroupQuestion instanceof DynamicFormButton
-          ) continue;
-
-          const question = formGroup.get(formGroupQuestion.key);
-
-          if (!question) return;
-
-          if (question instanceof FormGroup) {
-            updateQuestionEnabled((formGroupQuestion as DynamicFormGroup).formElements, question);
-          } else {
-            question.disabled ? question.disable() : question.enable();
-          }
-        }
-      };
-
-      updateQuestionEnabled(changes['questions'].currentValue, this.form);
-
-      this.form.reset();
+    if (changes['formElements']) {
+      return;
     }
   }
 
   /**
-   * Map an observable array of FormQuestion objects to a FormGroup and assign it to the local form property.
-   * Takes into account that questions may be nested and appends these in nested FormGroups accordingly.
+   * Initialises the form and its elements by using either an observable stream of element declarations or an array,
+   * but we have to ensure the template (and thus the ViewContainerRef) has been initialised before we attempt to
+   * dynamically add components to it.
+   *
+   * New emits from the observable stream of element declarations will be parsed subsequently and their respective
+   * form elements updated accordingly. When the declarations are passed in as an array, it will be handled through the
+   * ngOnChanges life cycle hook.
+   * @private
    */
-  initForm(): void {
-    if (!this.formElements) {
+  private initialiseFormElements() {
+    iif(
+      () => this.formElements instanceof Observable,
+      this.viewInitialised.pipe(
+        switchMap( () => this.formElements ),
+        tap(( formElements ) => this.initialiseForm( formElements as IDynamicFormComponent[] )),
+        tap( ( formElements ) => this.parseFormElements( formElements as IDynamicFormComponent[] )),
+      ),
+      this.viewInitialised.pipe(
+        tap( () => this.initialiseForm( this.formElements as IDynamicFormComponent[] )),
+        tap( () => this.parseFormElements( this.formElements as IDynamicFormComponent[] )),
+      )
+    ).subscribe();
+  }
+
+  /**
+   * Parses form element declarations and either adds them to the form or updates their respective components when they
+   * have already been added.
+   * @param {DynamicFormElement[]} formElements
+   * @private
+   */
+  private parseFormElements( formElements: IDynamicFormComponent[] ) {
+    if (!formElements) {
       return;
     }
-    this.form = DynamicFormService.createFormGroup(this.formElements);
-  }
 
-  get value(): any {
-    const values: any = {};
-    if ( this.form ) {
-      for (const formElement of [...this.dynamicFormQuestionComponents, ...this.dynamicFormGroupComponents]) {
-        values[formElement.key] = formElement.value;
+    // We should keep track of keys to see if a formerly present component should be removed now
+    const keys: string[] = [];
+
+    for ( const element of this.formElements as IDynamicFormComponent[] ) {
+      // Retrieve the component's reference
+      let componentRef = this.componentRef.get( element.key );
+
+      keys.push( element.key );
+
+      // If we don't have a reference to the component, it means we haven't instantiated one yet
+      if ( !componentRef ) {
+        componentRef = this.addComponent( element );
+        this.subscribeToComponentOutputs( componentRef );
       }
+
+      this.setComponentInputs( componentRef, element );
     }
 
-    return values;
-  }
-
-  override get isValid(): boolean {
-    const children = [...this.dynamicFormQuestionComponents, ...this.dynamicFormGroupComponents];
-    // a form without questions is obviously not valid and can't be submitted.
-    // throws an ExpressionChangedAfterItHasBeenCheckedError on init otherwise and while this doesn't cause any issues, it looks dirty as
-    if (children.length === 0) return false;
-
-    return children.map((fq) => fq.isValid).filter((isValid) => !isValid).length === 0;
-  }
-
-  refreshLinkedQuestion( {key, args}: {key: string, args: Map<string, any>} ) {
-    const linkedQuestion = this.dynamicFormQuestionComponents.find( formElement =>
-      formElement.questionComponent instanceof AbstractReactiveFormQuestionComponent && formElement.key === key
-    );
-
-    if ( linkedQuestion ) {
-      (linkedQuestion.questionComponent as AbstractReactiveFormQuestionComponent<any>).refresh( args );
+    // Verify that no form elements have been removed since the last time we parsed them
+    const missingKeys = Array.from( this.componentRef.keys() ).filter( key => !keys.includes( key ));
+    if ( missingKeys.length ) {
+      // Keys were present in the componentRef map, but not in the latest set of form elements provided
+      missingKeys.forEach( key => {
+        // Remove component
+        this.componentRef.get( key ).destroy();
+      });
     }
   }
 
-  clearArguments( key: string ) {
-    const linkedQuestion = this.dynamicFormQuestionComponents.find( formElement =>
-      formElement.questionComponent instanceof AbstractReactiveFormQuestionComponent && formElement.key === key
-    );
+  /**
+   * Initialises the local form instance and subscribes to value changes so these can be passed upwards.
+   * @param {DynamicFormElement[]} formElements
+   */
+  private initialiseForm( formElements: IDynamicFormComponent[] ): void {
+    if ( !this.form ) {
+      this.form = DynamicFormGroupComponent.createFormGroup( formElements );
 
-    if ( linkedQuestion ) {
-      (linkedQuestion.questionComponent as AbstractReactiveFormQuestionComponent<any>).clearArgs();
+      // Detect changes so our formOutlet ViewContainerRef is rendered, and we can add components to it
+      this.cdRef.detectChanges();
     }
   }
 
-  get isPristine(): boolean {
+  get value(): FV {
+    if ( !this.form ) return {} as FV;
+    return this.form.value;
+  }
+
+  get valid(): boolean {
+    if ( !this.form ) return true;
+    return this.form.valid;
+  }
+
+  get pristine(): boolean {
+    if ( !this.form ) return true;
     return this.form.pristine;
   }
 
-  markAsPristine() {
-    this.form.markAsPristine();
+  get dirty(): boolean {
+    if ( !this.form ) return false;
+    return this.form.dirty;
   }
+
+  private refreshLinkedQuestion<T = unknown>( {key, args}: {key: string, args: Map<string, T>} ) {
+    const linkedQuestion = this.componentRef.get( key );
+    (linkedQuestion.instance as AbstractReactiveFormQuestionComponent<T>).refresh( args );
+  }
+
+  private clearArguments<T = unknown>( key: string ) {
+    const linkedQuestion = this.componentRef.get( key );
+    (linkedQuestion.instance as AbstractReactiveFormQuestionComponent<T>).clearArgs();
+  }
+
   /**
    * Wrapper method to emit new form values on submit
    */
@@ -213,5 +187,145 @@ export class DynamicFormGroupComponent extends AbstractFormGroupComponent implem
 
   cancel(): void {
     this.formCancel.next(null);
+  }
+
+  private addComponent( formElement: IDynamicFormComponent ): ComponentRef<
+    AbstractReactiveFormQuestionComponent<unknown> |
+    AbstractFormQuestionComponent |
+    AbstractFormGroupComponent>
+  {
+    const ref = this.formOutlet.createComponent( formElement.component );
+    this.componentRef.set(formElement.key, ref);
+    return ref;
+  }
+
+  private setComponentInputs(
+    ref: ComponentRef<
+      AbstractReactiveFormQuestionComponent<unknown> |
+      AbstractFormQuestionComponent |
+      AbstractFormGroupComponent
+    >,
+    formElement: IDynamicFormComponent
+  ) {
+    ref.setInput( 'key', formElement.key );
+
+    // this is an element implementing the IFormQuestion interface
+    if ( isFormQuestion( formElement ) ) {
+      ref.setInput( 'validators', formElement.validators );
+      ref.setInput( 'asyncValidators', formElement.asyncValidators );
+      ref.setInput( 'label', formElement.label );
+      ref.setInput( 'value', formElement.value );
+      ref.setInput( 'disabled', formElement.disabled );
+      ref.setInput( 'linkedElements', formElement.linkedElements );
+      ref.setInput( 'mutators', formElement.mutators );
+
+      // provide the form component's parent form group instance
+      ref.setInput( 'form', this.form );
+
+      if ( 'maxLength' in formElement ) {
+        ref.setInput( 'maxLength', formElement['maxLength'] );
+      }
+      if ( 'type' in formElement ) {
+        ref.setInput( 'type', formElement['type'] );
+      }
+      if ( 'icon' in formElement ) {
+        ref.setInput( 'icon', formElement['icon'] );
+      }
+      if ( 'rows' in formElement ) {
+        ref.setInput( 'rows', formElement['rows'] );
+      }
+
+      // this is an element implementing the IReactiveFormQuestion interface
+      if ( 'dataSource' in formElement ) {
+        ref.setInput( 'dataSource', formElement['dataSource'] );
+      }
+      if ( 'allowMultiple' in formElement ) {
+        ref.setInput( 'allowMultiple', formElement['allowMultiple'] );
+      }
+      if ( 'nullable' in formElement ) {
+        ref.setInput( 'nullable', formElement['nullable'] );
+      }
+      if ( 'useSelectAll' in formElement ) {
+        ref.setInput( 'useSelectAll', formElement['useSelectAll'] );
+      }
+      if ( 'noEntriesFoundLabel' in formElement ) {
+        ref.setInput( 'noEntriesFoundLabel', formElement['noEntriesFoundLabel'] );
+      }
+      if ( 'useFilter' in formElement ) {
+        ref.setInput( 'useFilter', formElement['useFilter'] );
+      }
+      if ( 'options' in formElement ) {
+        ref.setInput( 'options', formElement['options'] );
+      }
+
+      if ( 'startView' in formElement ) {
+        ref.setInput( 'startView', formElement['startView'] );
+      }
+      if ( 'mode' in formElement ) {
+        ref.setInput( 'mode', formElement['mode'] );
+      }
+    }
+
+    // this is an element implementing the IFormAction interface
+    if ( isFormAction( formElement ) ) {
+      ref.setInput( 'action', formElement.action );
+
+      if ( 'color' in formElement ) {
+        ref.setInput( 'color', formElement['color'] );
+      }
+      if ( 'icon' in formElement ) {
+        ref.setInput( 'icon', formElement['icon'] );
+      }
+      if ( 'raised' in formElement ) {
+        ref.setInput( 'raised', formElement['raised'] );
+      }
+    }
+
+    // form group
+    if ( isFormGroup( formElement ) ) {
+      ref.setInput( 'formElements', (formElement as DynamicFormGroup).formElements );
+      ref.setInput( 'direction', (formElement as DynamicFormGroup).direction );
+
+      // provide form group
+      ref.setInput( 'form', this.form.get(formElement.key) );
+    }
+
+    this.cdRef.detectChanges();
+  }
+
+  private subscribeToComponentOutputs(
+    ref: ComponentRef<
+      AbstractReactiveFormQuestionComponent<unknown> |
+      AbstractFormQuestionComponent |
+      AbstractFormGroupComponent
+    >
+  ) {
+    if ( ref.instance instanceof AbstractFormQuestionComponent ) {
+      ref.instance.refreshLinkedQuestion.pipe(
+        tap( this.refreshLinkedQuestion.bind( this ) )
+      ).subscribe();
+
+      ref.instance.clearArguments.pipe(
+        tap( this.clearArguments.bind( this ) )
+      ).subscribe();
+    }
+  }
+
+  /**
+   * Map an array of FormQuestion objects to a FormGroup
+   * @param formElements
+   */
+  static createFormGroup( formElements: IDynamicFormComponent[]): FormGroup {
+    const group: { [key: string]: AbstractControl } = {};
+
+    for (const formElement of formElements) {
+      if (formElement instanceof AbstractFormQuestion) {
+        group[formElement.key] = formElement.getFormControl();
+      } else if (formElement instanceof DynamicFormGroup) {
+        group[formElement.key] = DynamicFormGroupComponent.createFormGroup(formElement.formElements);
+      }
+    }
+
+    return new FormGroup(group);
   }
 }

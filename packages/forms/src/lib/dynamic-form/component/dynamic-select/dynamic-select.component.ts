@@ -17,7 +17,7 @@ import {
 export class DynamicSelectComponent<T = SelectOptionValueType>
 extends AbstractReactiveFormQuestionComponent<
   SelectOption<T> | SelectOptionGroup<T>,
-  SelectValueType
+  SelectOptionValueType
 > implements OnInit {
   @Input() noEntriesFoundLabel = 'No entries found';
   @Input() allowMultiple = false;

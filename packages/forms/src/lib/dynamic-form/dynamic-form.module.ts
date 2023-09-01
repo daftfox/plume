@@ -17,7 +17,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { DynamicTextInputComponent } from './component/dynamic-text-input/dynamic-text-input.component';
 import { DynamicFormGroupComponent } from './component/dynamic-form-group/dynamic-form-group.component';
-import { DynamicFormQuestionComponent } from './component/dynamic-form-question/dynamic-form-question.component';
 import { FormErrorsComponent } from './component/form-errors/form-errors.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { DynamicRadioButtonComponent } from './component/dynamic-radio-button/dynamic-radio-button.component';
@@ -39,10 +38,10 @@ import {DynamicDatepickerComponent} from "./component/dynamic-datepicker/dynamic
     DynamicDatepickerComponent,
     DynamicSelectComponent,
     DynamicFormGroupComponent,
-    DynamicFormQuestionComponent,
     FormErrorsComponent,
     DynamicFormHintComponent,
     DynamicRadioButtonComponent,
+    DynamicFormGroupComponent,
     DynamicTextAreaComponent,
     DynamicTextInputComponent,
     DynamicToggleComponent,
@@ -77,7 +76,6 @@ import {DynamicDatepickerComponent} from "./component/dynamic-datepicker/dynamic
     DynamicDatepickerComponent,
     DynamicButtonComponent,
     DynamicFormGroupComponent,
-    DynamicFormQuestionComponent,
     DynamicSelectComponent,
     FormErrorsComponent,
     DynamicFormHintComponent,
@@ -86,6 +84,7 @@ import {DynamicDatepickerComponent} from "./component/dynamic-datepicker/dynamic
     DynamicTextAreaComponent,
     DynamicTextInputComponent,
     DynamicToggleComponent,
+    DynamicFormGroupComponent,
   ],
 })
 export class DynamicFormModule {}

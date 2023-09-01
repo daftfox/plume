@@ -1,9 +1,9 @@
-import { DynamicFormElement } from '../../service/dynamic-form.service';
 import { SPACER } from '../spacer.enum';
+import { IDynamicFormComponent } from '../dynamic-form-component.interface';
 
 export interface DynamicFormGroupOptions {
   key: string;
-  formElements: DynamicFormElement[];
+  formElements: IDynamicFormComponent[];
   label?: string;
   disabled?: boolean;
   spacer?: SPACER;

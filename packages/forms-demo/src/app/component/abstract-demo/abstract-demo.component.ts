@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DynamicFormModule, DynamicFormElement } from '@slodder/forms';
+import { DynamicFormElement, DynamicFormModule } from '@slodder/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
-import {AsideService} from "../../service/aside.service";
+import { AsideService } from "../../service/aside.service";
 import { HighlightModule } from 'ngx-highlightjs';
 import { ObserveVisibilityDirective } from '../../directive/observe-visibility.directive';
 import { FlexLayoutModule } from '@angular/flex-layout';
