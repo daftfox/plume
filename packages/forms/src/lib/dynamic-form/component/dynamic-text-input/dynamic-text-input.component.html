@@ -9,7 +9,6 @@
     [value]="value"
     [id]="key"
     [type]="passwordVisible === true ? 'text' : type"
-    [maxlength]="maxLength"
     [trim]="'blur'" />
   <mat-icon *ngIf="type === 'password'"
             class="show-password-icon"
@@ -20,6 +19,6 @@
     {{ control.value ? control.value.length : 0 }}/{{ maxLength }}
   </mat-hint>
   <mat-error>
-    <slf-form-errors [control]="control"></slf-form-errors>
+    <slf-form-errors [control]="control" [validationMessages]="validationMessages"></slf-form-errors>
   </mat-error>
 </mat-form-field>

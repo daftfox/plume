@@ -7,11 +7,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { HighlightModule } from 'ngx-highlightjs';
 import { ObserveVisibilityDirective } from '../../directive/observe-visibility.directive';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { GistComponent } from '../../../shared/component/gist/gist.component';
 
 @Component({
   standalone: true,
   selector: 'demo-checkbox',
-  imports: [ CommonModule, DynamicFormModule, MatButtonModule, MatExpansionModule, HighlightModule, ObserveVisibilityDirective, FlexLayoutModule ],
+  imports: [ CommonModule, DynamicFormModule, MatButtonModule, MatExpansionModule, HighlightModule, ObserveVisibilityDirective, FlexLayoutModule, GistComponent ],
   templateUrl: '../abstract-demo/abstract-demo.component.html',
   styleUrls: [ '../abstract-demo/abstract-demo.component.scss' ]
 })

@@ -9,11 +9,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { HighlightModule } from 'ngx-highlightjs';
 import { ObserveVisibilityDirective } from '../../directive/observe-visibility.directive';
+import { GistComponent } from '../../../shared/component/gist/gist.component';
 
 @Component({
   standalone: true,
   selector: 'demo-datepicker',
-  imports: [ CommonModule, DynamicFormModule, MatButtonModule, MatExpansionModule, HighlightModule, ObserveVisibilityDirective ],
+  imports: [ CommonModule, DynamicFormModule, MatButtonModule, MatExpansionModule, HighlightModule, ObserveVisibilityDirective, GistComponent ],
   providers: [
     {
       provide: MAT_DATE_LOCALE,

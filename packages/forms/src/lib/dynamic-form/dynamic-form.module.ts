@@ -28,7 +28,6 @@ import { DynamicFormHintComponent } from './component/dynamic-form-hint/dynamic-
 import { YearMonthFormatModule } from '../year-month-format';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HighlightModule } from 'ngx-highlightjs';
-import { GistComponent } from './component/gist/gist.component';
 import { DynamicButtonComponent } from './component/dynamic-button/dynamic-button.component';
 import {DynamicDatepickerComponent} from "./component/dynamic-datepicker/dynamic-datepicker.component";
 
@@ -38,7 +37,6 @@ import {DynamicDatepickerComponent} from "./component/dynamic-datepicker/dynamic
     DynamicDatepickerComponent,
     DynamicSelectComponent,
     DynamicFormGroupComponent,
-    FormErrorsComponent,
     DynamicFormHintComponent,
     DynamicRadioButtonComponent,
     DynamicFormGroupComponent,
@@ -51,7 +49,7 @@ import {DynamicDatepickerComponent} from "./component/dynamic-datepicker/dynamic
     DynamicButtonComponent,
     FlexLayoutModule,
     FormsModule,
-    GistComponent,
+    FormErrorsComponent,
     MatBadgeModule,
     MatButtonModule,
     MatCardModule,
@@ -77,9 +75,7 @@ import {DynamicDatepickerComponent} from "./component/dynamic-datepicker/dynamic
     DynamicButtonComponent,
     DynamicFormGroupComponent,
     DynamicSelectComponent,
-    FormErrorsComponent,
     DynamicFormHintComponent,
-    GistComponent,
     DynamicRadioButtonComponent,
     DynamicTextAreaComponent,
     DynamicTextInputComponent,

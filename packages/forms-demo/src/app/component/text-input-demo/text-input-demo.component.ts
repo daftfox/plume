@@ -7,11 +7,12 @@ import { Validators } from '@angular/forms';
 import { HighlightModule } from 'ngx-highlightjs';
 import { ObserveVisibilityDirective } from '../../directive/observe-visibility.directive';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { GistComponent } from '../../../shared/component/gist/gist.component';
 
 @Component({
   standalone: true,
   selector: 'demo-textbox',
-  imports: [ CommonModule, DynamicFormModule, MatExpansionModule, HighlightModule, ObserveVisibilityDirective, FlexLayoutModule ],
+  imports: [ CommonModule, DynamicFormModule, MatExpansionModule, HighlightModule, ObserveVisibilityDirective, FlexLayoutModule, GistComponent ],
   templateUrl: '../abstract-demo/abstract-demo.component.html',
   styleUrls: [ '../abstract-demo/abstract-demo.component.scss' ],
 })
@@ -73,7 +74,7 @@ export class TextInputDemoComponent extends AbstractDemoComponent {
   public override examples: Example[] = [
     {
       heading: 'Basic text input',
-      description: 'A standard text input without frills, like validation, mutation, or other frills.',
+      description: 'A standard text input without bells and whistles, like validation, mutation, or other frills.',
       key: 'basicTextInput',
       panelOpen: false,
       formElements: this.basicTextInput,

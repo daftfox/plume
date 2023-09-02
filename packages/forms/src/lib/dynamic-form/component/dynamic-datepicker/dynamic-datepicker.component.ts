@@ -1,5 +1,5 @@
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatCalendarView, MatDatepicker } from '@angular/material/datepicker';
 import { DatepickerMode } from '../../model/options';
 
@@ -7,6 +7,7 @@ import { DatepickerMode } from '../../model/options';
   selector: 'slf-datepicker-form-question',
   templateUrl: './dynamic-datepicker.component.html',
   styleUrls: ['../abstract-form-question/abstract-form-question.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DynamicDatepickerComponent extends AbstractFormQuestionComponent<Date> {
   @ViewChild('datePicker') datePicker: MatDatepicker<Date>;

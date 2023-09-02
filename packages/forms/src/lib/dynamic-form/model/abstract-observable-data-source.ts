@@ -1,7 +1,7 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 
-export abstract class AbstractObservableDataSource<T> {
+export abstract class AbstractObservableDataSource<DT> {
   refreshing: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  abstract connect(): Observable<T[]>;
-  abstract refresh( args?: Map<string, any> ): void;
+  abstract connect(): Observable<DT[]>;
+  abstract refresh( args?: Map<string, unknown> ): void;
 }

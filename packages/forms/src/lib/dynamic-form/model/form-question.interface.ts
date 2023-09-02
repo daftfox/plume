@@ -2,10 +2,13 @@ import { AsyncValidatorFn, ValidatorFn } from '@angular/forms';
 import { SPACER } from './spacer.enum';
 import { DynamicFormElementValueType } from './generic-form-values.interface';
 import { LinkedElement } from './linked-element.interface';
-import { AbstractFormQuestionComponent, DynamicFormElement, IDynamicFormComponent, MutatorFn } from '@slodder/forms';
 import {
   AbstractReactiveFormQuestionComponent
 } from '../component/abstract-reactive-form-question/abstract-reactive-form-question.component';
+import { DynamicFormElement } from '../component/abstract-form-group/abstract-form-group.component';
+import { AbstractFormQuestionComponent } from '../component/abstract-form-question/abstract-form-question.component';
+import { IDynamicFormComponent } from './dynamic-form-component.interface';
+import { MutatorFn } from './abstract-form-question';
 
 export const isFormQuestion = ( element: DynamicFormElement ): element is IFormQuestion => {
   return 'validators' in element;

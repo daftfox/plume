@@ -1,27 +1,24 @@
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-
-// import { ValidationErrorMessages, ValidationService } from '../../../../service/validation/validation.service';
+import { NgFor, NgIf } from '@angular/common';
 
 /**
  * Component to easily display errors for a given form control.
  *
- * Validation messages are stored centrally in ValidationService.
- *
- * See https://coryrylan.com/blog/angular-form-builder-and-validation-management for the inspiration.
  */
-
 @Component({
-  // tslint:disable-next-line: component-selector
   selector: 'slf-form-errors',
   templateUrl: './form-errors.component.html',
   styleUrls: ['./form-errors.component.scss'],
+  standalone: true,
+  imports: [ NgFor, NgIf ],
 })
 export class FormErrorsComponent {
   /**
    * The FormControl to display errors for.
    */
   @Input() control?: FormControl = undefined;
+  @Input() validationMessages?: Map<string, string>;
 
   /**
    * If set false (default), will concatenate errors into a single line joined by commas. Useful for
@@ -38,14 +35,13 @@ export class FormErrorsComponent {
    * Keys in this object match keys in the attached FormControl's ValidationErrors object. Values
    * are the displayed message to use.  Messages will fall back to the defaults if not specified.
    *
-   * Wild card character '%' will be replaced with the ValidationErrors value for the given key.
+   * Wild card character '{n}' will be replaced with the ValidationErrors value for the given key.
    */
   @Input() messages: any = {};
-  // @Input() messages: ValidationErrorMessages = {};
 
   errorMessage?: string = undefined;
 
-  // constructor(private validationService: ValidationService) {}
+  // constructor(private formErrorService: FormErrorService) {}
 
   /**
    * Array of error messages for the given control
@@ -56,17 +52,26 @@ export class FormErrorsComponent {
     if ( !this.control ) return [];
 
     for (const propertyName in this.control.errors) {
-      if (Object.prototype.hasOwnProperty.call(this.control.errors, propertyName)) {
-        let errors: string | string[] = this.control.errors[propertyName];
-        if (!(errors instanceof Array)) {
-          errors = [errors];
-        }
-        for (let i = 0, ii = errors.length; i < ii; i++) {
-          // messages.push(this.validationService.getValidatorErrorMessage(propertyName, errors[i], this.messages));
-        }
-      }
+      messages.push(
+        this.formatValidationMessage( this.validationMessages.get(propertyName), this.control.errors[propertyName])
+      );
     }
     return messages;
+  }
+
+  formatValidationMessage( message: string, values: any ): string {
+    let params: string[];
+    if ( Array.isArray( values ) ) {
+      params = values;
+    } else if ( typeof values === 'object' ) {
+      params = Object.values(values);
+    } else {
+      params = [values];
+    }
+
+    return message.replace(/{(\d+)}/g, ( match, index ) => {
+      return params[index] !== undefined ? params[ index ] : match;
+    });
   }
 
   /**

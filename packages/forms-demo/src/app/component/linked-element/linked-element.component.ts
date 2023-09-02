@@ -5,10 +5,10 @@ import {
   DynamicFormModule,
   DynamicSelect,
   DynamicToggle,
-  GistComponent,
   toggleOtherControlDisabled
 } from "@slodder/forms";
 import {MatTableModule} from "@angular/material/table";
+import { GistComponent } from '../../../shared/component/gist/gist.component';
 
 @Component({
   standalone: true,

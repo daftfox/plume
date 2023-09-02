@@ -2,9 +2,17 @@ mat-form-field {
   width: 100%;
   display: block;
 
+  label {
+    display: flex;
+  }
+
   mat-icon {
     position: relative;
     top: 6px;
     margin-right: 6px;
+  }
+
+  .mat-mdc-form-field-error-wrapper {
+    padding: 0;
   }
 }

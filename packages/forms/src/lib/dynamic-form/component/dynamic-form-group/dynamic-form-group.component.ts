@@ -7,13 +7,10 @@ import {
   AbstractFormQuestion,
   DynamicFormGroup,
   DynamicFormValues, IDynamicFormComponent,
-  IFormAction, isFormAction, isFormGroup, isFormQuestion,
+  isFormAction, isFormGroup, isFormQuestion,
 } from '../../model';
 import { tap } from 'rxjs/operators';
-import {
-  AbstractFormQuestionComponent,
-  DynamicFormElement,
-} from '@slodder/forms';
+import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
 import {
   AbstractReactiveFormQuestionComponent
 } from '../abstract-reactive-form-question/abstract-reactive-form-question.component';
@@ -42,7 +39,7 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
 
   @ViewChild('formOutlet', { read: ViewContainerRef }) formOutlet: ViewContainerRef;
 
-  private componentRef: Map<
+  private formComponentRef: Map<
     string,
     ComponentRef<
       AbstractFormGroupComponent |
@@ -98,7 +95,7 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
   /**
    * Parses form element declarations and either adds them to the form or updates their respective components when they
    * have already been added.
-   * @param {DynamicFormElement[]} formElements
+   * @param {IDynamicFormComponent[]} formElements
    * @private
    */
   private parseFormElements( formElements: IDynamicFormComponent[] ) {
@@ -111,7 +108,7 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
 
     for ( const element of this.formElements as IDynamicFormComponent[] ) {
       // Retrieve the component's reference
-      let componentRef = this.componentRef.get( element.key );
+      let componentRef = this.formComponentRef.get( element.key );
 
       keys.push( element.key );
 
@@ -125,19 +122,19 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
     }
 
     // Verify that no form elements have been removed since the last time we parsed them
-    const missingKeys = Array.from( this.componentRef.keys() ).filter( key => !keys.includes( key ));
+    const missingKeys = Array.from( this.formComponentRef.keys() ).filter( key => !keys.includes( key ));
     if ( missingKeys.length ) {
-      // Keys were present in the componentRef map, but not in the latest set of form elements provided
+      // Keys were present in the formComponentRef map, but not in the latest set of form elements provided
       missingKeys.forEach( key => {
         // Remove component
-        this.componentRef.get( key ).destroy();
+        this.formComponentRef.get( key ).destroy();
       });
     }
   }
 
   /**
    * Initialises the local form instance and subscribes to value changes so these can be passed upwards.
-   * @param {DynamicFormElement[]} formElements
+   * @param {IDynamicFormComponent[]} formElements
    */
   private initialiseForm( formElements: IDynamicFormComponent[] ): void {
     if ( !this.form ) {
@@ -169,12 +166,12 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
   }
 
   private refreshLinkedQuestion<T = unknown>( {key, args}: {key: string, args: Map<string, T>} ) {
-    const linkedQuestion = this.componentRef.get( key );
+    const linkedQuestion = this.formComponentRef.get( key );
     (linkedQuestion.instance as AbstractReactiveFormQuestionComponent<T>).refresh( args );
   }
 
   private clearArguments<T = unknown>( key: string ) {
-    const linkedQuestion = this.componentRef.get( key );
+    const linkedQuestion = this.formComponentRef.get( key );
     (linkedQuestion.instance as AbstractReactiveFormQuestionComponent<T>).clearArgs();
   }
 
@@ -195,7 +192,7 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
     AbstractFormGroupComponent>
   {
     const ref = this.formOutlet.createComponent( formElement.component );
-    this.componentRef.set(formElement.key, ref);
+    this.formComponentRef.set(formElement.key, ref);
     return ref;
   }
 

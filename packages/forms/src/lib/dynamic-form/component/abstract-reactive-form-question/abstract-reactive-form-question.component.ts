@@ -1,11 +1,8 @@
-import {
-  AbstractFormQuestionComponent,
-  AbstractObservableDataSource,
-  DynamicFormElementValueType,
-} from '@slodder/forms';
 import { Directive, Input, OnInit } from '@angular/core';
 import { BehaviorSubject, iif, scan, Subject, switchMap } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
+import { AbstractObservableDataSource, DynamicFormElementValueType } from '../../model';
+import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
 
 @Directive()
 export abstract class AbstractReactiveFormQuestionComponent<DT, VT = DynamicFormElementValueType> extends AbstractFormQuestionComponent<VT | VT[]> implements OnInit {
@@ -20,7 +17,7 @@ export abstract class AbstractReactiveFormQuestionComponent<DT, VT = DynamicForm
    */
   @Input() accumulateArguments = false;
 
-  private arguments = new Subject<Map<string, any> | undefined>();
+  private arguments = new Subject<Map<string, unknown> | undefined>();
   private clear = new BehaviorSubject<null>(null);
 
   override ngOnInit() {
@@ -32,10 +29,10 @@ export abstract class AbstractReactiveFormQuestionComponent<DT, VT = DynamicForm
       this.clear.pipe(
         takeUntil( this.unsubscribe ),
         switchMap(() => this.arguments.pipe(
-          scan(( accumulator, args: Map<string, any> ) => {
+          scan(( accumulator, args: Map<string, unknown> ) => {
               args.forEach((value, key) => accumulator.set(key, value));
               return accumulator
-            }, new Map<string, any>()
+            }, new Map<string, unknown>()
           ),
           tap( args => this.dataSource.refresh( args ) )
         ))
@@ -54,7 +51,7 @@ export abstract class AbstractReactiveFormQuestionComponent<DT, VT = DynamicForm
    *
    * @param {Map<string, any>} args
    */
-  refresh( args?: Map<string, any> ) {
+  refresh( args?: Map<string, unknown> ) {
     this.arguments.next( args );
   }
 

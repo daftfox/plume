@@ -1,8 +1,10 @@
 @use '@angular/material' as mat;
 
+.contains-mat-select-search {
+  background-color: var(--mat-select-panel-background-color);
+}
+
 .select-all {
-  //margin-top: 5px;
-  //margin-left: 5px;
   margin: 5px;
 
   mat-checkbox.mat-mdc-checkbox-checked {

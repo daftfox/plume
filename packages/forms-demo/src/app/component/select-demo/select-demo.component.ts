@@ -16,11 +16,12 @@ import { ObserveVisibilityDirective } from '../../directive/observe-visibility.d
 import { FlexModule } from '@angular/flex-layout';
 import { MockBirdDataSource } from './data-source/mock-bird.data-source';
 import { MockBirdService } from './service/mock-bird.service';
+import { GistComponent } from '../../../shared/component/gist/gist.component';
 
 @Component({
   standalone: true,
   selector: 'demo-select',
-  imports: [ CommonModule, DynamicFormModule, HttpClientModule, MatButtonModule, MatExpansionModule, RouterLink, HighlightModule, ObserveVisibilityDirective, FlexModule ],
+  imports: [ CommonModule, DynamicFormModule, HttpClientModule, MatButtonModule, MatExpansionModule, RouterLink, HighlightModule, ObserveVisibilityDirective, FlexModule, GistComponent ],
   providers: [ MockBirdService ],
   templateUrl: '../abstract-demo/abstract-demo.component.html',
   styleUrls: [ '../abstract-demo/abstract-demo.component.scss' ],

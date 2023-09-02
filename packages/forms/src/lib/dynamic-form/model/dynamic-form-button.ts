@@ -4,11 +4,11 @@ import { IFormAction } from './form-action.interface';
 
 export class DynamicFormButton implements IFormAction {
   key: string;
-  action: ( args?: unknown ) => void;
   label?: string;
   icon?: string;
   color?: ThemePalette;
   raised: boolean;
+  action: ( args?: unknown ) => void;
 
   constructor( options: DynamicFormButtonOptions ) {
     this.key = options.key;

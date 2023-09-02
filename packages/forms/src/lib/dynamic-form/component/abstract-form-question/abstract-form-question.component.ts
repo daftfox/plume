@@ -24,6 +24,10 @@ export abstract class AbstractFormQuestionComponent<T = DynamicFormElementValueT
   @Output() clearArguments = new Subject<string>();
   @Output() refreshLinkedQuestion = new Subject<{key: string, args: Map<string, unknown>}>();
 
+  validationMessages = new Map<string, string>([
+    [ 'required', 'Required' ]
+  ]);
+
   unsubscribe = new Subject<null>();
 
   ngOnChanges(changes: SimpleChanges) {

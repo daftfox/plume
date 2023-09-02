@@ -1,12 +1,16 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { HighlightModule } from 'ngx-highlightjs';
 import { MatTabsModule } from '@angular/material/tabs';
-import { FileGist } from '../../model/options';
 import { NgForOf } from '@angular/common';
+
+export interface FileGist {
+  name: string;
+  code: string;
+}
 
 @Component( {
   standalone: true,
-  selector: 'slf-gist',
+  selector: 'demo-gist',
   templateUrl: './gist.component.html',
   styleUrls: [
     './gist.component.scss'

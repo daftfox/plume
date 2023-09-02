@@ -9,6 +9,6 @@
     trim="blur"></textarea>
   <mat-hint>{{ control.value ? control.value.length : 0 }}/{{ maxLength }}</mat-hint>
   <mat-error>
-    <slf-form-errors [control]="control"></slf-form-errors>
+    <slf-form-errors [control]="control" [validationMessages]="validationMessages"></slf-form-errors>
   </mat-error>
 </mat-form-field>

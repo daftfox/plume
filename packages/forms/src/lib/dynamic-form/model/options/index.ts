@@ -1,6 +1,5 @@
 export * from './dynamic-datepicker-options.interface';
 export * from './dynamic-form-button-options.interface';
-export * from './dynamic-form-gist-options.interface';
 export * from './dynamic-form-group-options.interface';
 export * from './dynamic-form-hint-options.interface';
 export * from './dynamic-form-question-options.interface';

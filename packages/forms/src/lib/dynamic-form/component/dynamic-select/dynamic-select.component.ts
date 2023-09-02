@@ -30,6 +30,12 @@ extends AbstractReactiveFormQuestionComponent<
   filterControl = new FormControl<T>(undefined);
   allSelected = false;
 
+  constructor() {
+    super();
+
+    this.validationMessages.set('required', 'Please select an option');
+  }
+
   override ngOnInit() {
     super.ngOnInit();
     this.initSelectOptions();
