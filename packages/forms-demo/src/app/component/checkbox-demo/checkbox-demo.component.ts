@@ -71,7 +71,7 @@ export class CheckboxDemoComponent extends AbstractDemoComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [formElements]="questions"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -95,7 +95,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [formElements]="questions"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -124,7 +124,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [formElements]="questions"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [

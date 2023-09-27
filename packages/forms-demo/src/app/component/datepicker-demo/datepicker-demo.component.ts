@@ -32,7 +32,7 @@ export class DatepickerDemoComponent extends AbstractDemoComponent {
     // }),
 
     // @fixme doesn't work anymore. why? Should format as 'FEB 2022' instead of '23/02/2023'
-    // Something to do with slfMonthYearDirective?
+    // Something to do with plumeMonthYearDirective?
     // new DatepickerFormQuestion({
     //   key: 'monthYearDatepicker',
     //   label: 'Month year datepicker',

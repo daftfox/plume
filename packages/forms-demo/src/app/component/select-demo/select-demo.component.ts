@@ -214,7 +214,7 @@ export class SelectDemoComponent extends AbstractDemoComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="formElements"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="formElements"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -254,7 +254,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="formElements"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="formElements"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -297,7 +297,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="formElements"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="formElements"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -337,7 +337,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="formElements"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="formElements"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -377,7 +377,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="formElements"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="formElements"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -435,7 +435,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="formElements"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="formElements"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -488,7 +488,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="formElements"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="formElements"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -576,10 +576,14 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="formElements"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="formElements"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
+  // Reactive data source for the select element displaying species observations
   birdDataSource = new BirdDataSource();
+
+  // Reactive data source for custom observation form element
+  observationDataSource = new ObservationDataSource();
 
   formElements = [
     new DynamicFormGroup({
@@ -613,12 +617,21 @@ export class FormComponent {
         }),
         new DynamicSelect<string>({
           key: 'recentObservations',
-          label: 'Recently observed birds',
+          label: 'Recently observed species',
 
           // Populate the options list through a reactive data source.
           // This data source should extend the AbstractObservableDataSource and implement
           // its members to allow the DynamicSelect element to function
           dataSource: this.birdDataSource
+        }),
+
+        // Custom component not shipped with Plume to demonstrate capabilities
+        new Observation({
+          key: 'observationDetails',
+          dataSource: this.observationDataSource,
+
+          // Accumulate the values from all linked elements
+          accumulateArguments: true
         })
       ]
     })
@@ -629,7 +642,7 @@ export class FormComponent {
   }
 
   refresh() {
-    this.userDataSource.refresh();
+    this.birdDataSource.refresh();
   }
 }`
         }, {
@@ -646,6 +659,45 @@ export class BirdDataSource extends AbstractObservableDataSource<SelectOption<st
     const region = args.get('region');
     // Is called to refresh data and cause the observable returned from connect() to re-emit
     ...
+  }
+}`
+        },
+        {
+          name: 'observation.data-source.ts',
+          code: `// You should extend the AbstractObservableDataSource class and pass an instance of your own data source
+// to the dataSource property in the options provided to the DynamicSelect constructor
+export class ObservationDataSource extends AbstractObservableDataSource<IObservation> {
+  connect(): Observable<IObservation> {
+    // Returns an observable that emits the observation to display
+    ...
+  }
+
+  refresh( args?: Map<string, any> ): void {
+    const region = args.get('region');
+    const obsId = args.get('obsId');
+    // Is called to refresh data and cause the observable returned from connect() to re-emit
+    ...
+  }
+}`
+        },
+        {
+          name: 'observation.component.ts',
+          code: `// Example of custom form element
+export class Observation extends AbstractReactiveFormOutput<IObservation> {
+  component = ObservationComponent;
+}
+
+@Component({
+  selector: 'my-observation',
+  templateUrl: '...',
+  styleUrls: [...],
+})
+export class ObservationComponent extends AbstractReactiveFormElementComponent<IObservation> implements OnInit {
+  observation: Observable<IObservation>;
+
+  override ngOnInit() {
+    super.ngOnInit();
+    this.observation = this.dataSource.connect();
   }
 }`
         }

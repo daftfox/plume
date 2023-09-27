@@ -64,10 +64,10 @@ export class LinkedElementComponent extends AbstractDemoComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group
+  template: \`<plume-dynamic-form-group
   [rootNode]="true"
   [formElements]="questions"
-  direction="row"></slf-dynamic-form-group>\`,
+  direction="row"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   questions = [

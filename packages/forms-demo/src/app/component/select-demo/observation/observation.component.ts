@@ -22,7 +22,7 @@ export class Observation extends AbstractReactiveFormOutput<MockObservation> {
     './observation.component.scss'
   ],
   standalone: true,
-  imports: [ AsyncPipe, NgIf, JsonPipe, DatePipe, FlexModule, MatProgressSpinnerModule, MatCardModule, MatProgressBarModule ],
+  imports: [ AsyncPipe, NgIf, DatePipe, FlexModule, MatCardModule, MatProgressBarModule ],
 })
 export class ObservationComponent extends AbstractReactiveFormElementComponent<MockObservation> implements OnInit {
   observation: Observable<MockObservation>;

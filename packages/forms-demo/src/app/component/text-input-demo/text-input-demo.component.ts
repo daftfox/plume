@@ -85,7 +85,7 @@ export class TextInputDemoComponent extends AbstractDemoComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="questions"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -111,7 +111,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="questions"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -140,7 +140,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="questions"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -169,7 +169,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="questions"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -198,7 +198,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="questions"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -227,7 +227,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="questions"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
