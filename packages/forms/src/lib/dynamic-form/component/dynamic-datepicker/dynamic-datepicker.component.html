@@ -1,5 +1,5 @@
 <ng-container *ngIf="mode === 'month-year'">
-  <mat-form-field slfYearMonthFormat>
+  <mat-form-field plumeYearMonthFormat>
     <mat-label>{{ label || placeholder }}</mat-label>
     <input
       matInput
@@ -13,7 +13,7 @@
       [startView]="startView"
       (monthSelected)="setMonthAndYear($event)"></mat-datepicker>
     <mat-error>
-      <slf-form-errors [control]="control"></slf-form-errors>
+      <plume-form-errors [control]="control"></plume-form-errors>
     </mat-error>
   </mat-form-field>
 </ng-container>
@@ -33,7 +33,7 @@
       [startView]="startView"
       (monthSelected)="setMonthAndYear($event)"></mat-datepicker>
     <mat-error>
-      <slf-form-errors [control]="control" [validationMessages]="validationMessages"></slf-form-errors>
+      <plume-form-errors [control]="control" [validationMessages]="validationMessages"></plume-form-errors>
     </mat-error>
   </mat-form-field>
 </ng-container>

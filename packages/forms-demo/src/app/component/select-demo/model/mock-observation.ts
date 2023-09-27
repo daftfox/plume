@@ -5,7 +5,7 @@ export interface MockObservation {
   sciName: string;
   locId: string;
   locName: string;
-  obsDt: string;
+  obsDt: Date;
   howMany: number;
   lat: number;
   lng: number;
@@ -13,5 +13,7 @@ export interface MockObservation {
   obsReviewed: boolean;
   locationPrivate: boolean;
   subId: string;
+  obsId: string;
   exoticCategory: string;
+  url?: string;
 }

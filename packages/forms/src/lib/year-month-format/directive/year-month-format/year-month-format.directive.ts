@@ -2,7 +2,7 @@ import { Directive } from '@angular/core';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 
 @Directive({
-  selector: '[slfYearMonthFormat]',
+  selector: '[plumeYearMonthFormat]',
   providers: [
     {
       provide: MAT_DATE_FORMATS,

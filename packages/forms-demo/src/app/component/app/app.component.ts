@@ -50,7 +50,7 @@ export class AppComponent {
               behavior: 'smooth'
             });
             this.asideService.setActiveFragment( tree.fragment );
-            console.log('boop');
+            console.log(tree.fragment);
           }
         } else {
           this.content.scrollTo({start: 0, top: 0});

@@ -13,7 +13,7 @@ export interface DynamicFormQuestionOptions<T = DynamicFormElementValueType> {
   asyncValidators?: AsyncValidatorFn | AsyncValidatorFn[];
   linkedElements?: LinkedElement[];
   /**
-   * @deprecated
+   * @TODO not implemented yet
    */
   index?: number;
   disabled?: boolean;

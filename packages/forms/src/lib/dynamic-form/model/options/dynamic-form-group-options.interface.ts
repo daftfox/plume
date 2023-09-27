@@ -1,11 +1,12 @@
 import { SPACER } from '../spacer.enum';
-import { IDynamicFormComponent } from '../dynamic-form-component.interface';
+import { IDynamicFormElement } from '../dynamic-form-element.interface';
+import { DIRECTION } from '../form-group.interface';
 
 export interface DynamicFormGroupOptions {
   key: string;
-  formElements: IDynamicFormComponent[];
+  formElements: IDynamicFormElement[];
   label?: string;
   disabled?: boolean;
   spacer?: SPACER;
-  direction?: 'row' | 'column';
+  direction?: DIRECTION;
 }

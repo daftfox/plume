@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DynamicFormModule, DynamicFormElement, DynamicTextInput } from '@slodder/forms';
+import { DynamicFormModule, DynamicFormElement, DynamicTextInput } from '@plume/forms';
 import { AbstractDemoComponent, Example } from '../abstract-demo/abstract-demo.component';
 import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -20,7 +20,7 @@ export class TextInputDemoComponent extends AbstractDemoComponent {
   public override title = 'Text input';
   public override description = `
   Use a <code>DynamicTextInput</code> whenever you need an input of type <code>string</code>.
-  In its essence, the input is not that much more complex than the default Angular Material variety, were it not for its integration with all the other goodies Slodder forms has to offer. This means maximum reusability and access to complex (asynchronous) validation and mutation.<br>
+  In its essence, the input is not that much more complex than the default Angular Material variety, were it not for its integration with all the other goodies Plume forms has to offer. This means maximum reusability and access to complex (asynchronous) validation and mutation.<br>
   Only two configuration properties are required; <code>key</code> and <code>label</code>, although I recommend you also enter a <code>placeholder</code> for increased usability.
 `;
   basicTextInput: DynamicFormElement[] = [

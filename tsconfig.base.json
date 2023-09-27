@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@slodder/forms": ["packages/forms/src/index.ts"],
-      "@slodder/utils": ["packages/utils/src/index.ts"]
+      "@plume/forms": ["packages/forms/src/index.ts"],
+      "@plume/utils": ["packages/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

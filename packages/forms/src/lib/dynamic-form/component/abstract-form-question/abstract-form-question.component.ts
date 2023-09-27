@@ -1,7 +1,7 @@
 import { Directive, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Subject, merge } from 'rxjs';
+import { Subject, merge, Observable } from 'rxjs';
 import { AsyncValidatorFn, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
-import { filter, takeUntil, tap } from 'rxjs/operators';
+import { filter, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import {
   DynamicFormElementValueType,
   LinkedElement,
@@ -21,6 +21,8 @@ export abstract class AbstractFormQuestionComponent<T = DynamicFormElementValueT
   @Input() linkedElements: LinkedElement[] = [];
   @Input() mutators: MutatorFn[] = [];
 
+  @Input() formInitialised: Observable<null>;
+
   @Output() clearArguments = new Subject<string>();
   @Output() refreshLinkedQuestion = new Subject<{key: string, args: Map<string, unknown>}>();
 
@@ -28,7 +30,7 @@ export abstract class AbstractFormQuestionComponent<T = DynamicFormElementValueT
     [ 'required', 'Required' ]
   ]);
 
-  unsubscribe = new Subject<null>();
+  protected unsubscribe = new Subject<null>();
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['value'] && changes['value'].currentValue !== this.control.value) {
@@ -37,19 +39,23 @@ export abstract class AbstractFormQuestionComponent<T = DynamicFormElementValueT
   }
 
   ngOnInit() {
-    merge(this.control.valueChanges, this.control.statusChanges)
-      .pipe(
-        takeUntil(this.unsubscribe),
-        // update value and validity of linked questions on status - and value changes
-        tap(() => this.updateLinkedQuestionsValueAndValidity() ),
-        // run mutators for value changes
-        filter((event) => !['VALID', 'INVALID', 'PENDING', 'DISABLED'].includes(event)),
-        tap((value: DynamicFormElementValueType) => {
-          this.mutators.forEach((mutator) => mutator(this.linkedElements.filter( ({key}) => key !== this.key ), this.form, value as T));
-        }),
-        tap( this.refreshLinkedQuestionsData.bind(this) ),
+    this.formInitialised.pipe(
+      switchMap(() =>
+        merge(this.control.valueChanges, this.control.statusChanges)
+          .pipe(
+            startWith(this.control.value),
+            takeUntil(this.unsubscribe),
+            // update value and validity of linked questions on status - and value changes
+            tap(() => this.updateLinkedElementsValueAndValidity() ),
+            // run mutators for value changes
+            filter((event) => !['VALID', 'INVALID', 'PENDING', 'DISABLED'].includes(event)),
+            tap((value: DynamicFormElementValueType) => {
+              this.mutators.forEach((mutator) => mutator(this.linkedElements.filter( ({key}) => key !== this.key ), this.form, value as T));
+            }),
+            tap( this.refreshLinkedElementsData.bind(this) ),
+          )
       )
-      .subscribe();
+    ).subscribe();
 
     this.unsubscribe.pipe(tap(() => this.unsubscribe.complete())).subscribe();
   }
@@ -70,14 +76,19 @@ export abstract class AbstractFormQuestionComponent<T = DynamicFormElementValueT
     return this.form.get(this.key) as FormControl;
   }
 
-  private updateLinkedQuestionsValueAndValidity() {
+  private updateLinkedElementsValueAndValidity() {
     if ( !this.form ) return;
     this.linkedElements
       .filter(({ key }) => key !== this.key)
-      .forEach(({ key }) => this.form.get(key).updateValueAndValidity({ emitEvent: false }));
+      .forEach(({ key }) => {
+        const control = this.form.get(key);
+        if ( control ) {
+          control.updateValueAndValidity({ emitEvent: false });
+        }
+      });
   }
 
-  private refreshLinkedQuestionsData( value: DynamicFormElementValueType ) {
+  private refreshLinkedElementsData( value: DynamicFormElementValueType ) {
     this.linkedElements
       .forEach(({ key, refreshOnValueChange, clearAccumulatedArgumentsOnValueChange }) => {
         if ( key === this.key ) return;

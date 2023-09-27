@@ -1,9 +1,11 @@
 import { Directive, Input, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
-import { DynamicFormGroup, IFormAction, IFormQuestion, IFormStatic, IReactiveFormQuestion } from '../../model';
+import {
+  IFormAction, IFormGroup, IFormQuestion, IFormOutput, IReactiveFormQuestion,
+} from '../../model';
 
-export type DynamicFormElement = IFormQuestion | IReactiveFormQuestion | DynamicFormGroup | IFormStatic | IFormAction;
+export type DynamicFormElement = IFormQuestion | IReactiveFormQuestion | IFormGroup | IFormOutput | IFormAction;
 
 @Directive()
 export abstract class AbstractFormGroupComponent implements OnDestroy {
@@ -12,14 +14,10 @@ export abstract class AbstractFormGroupComponent implements OnDestroy {
   @Input() label: string;
   @Input() formElements: Observable<DynamicFormElement[]> | DynamicFormElement[];
 
-  unsubscribe = new Subject<null>();
+  protected unsubscribe = new Subject<null>();
 
   get group(): FormGroup | undefined {
     return this.form.get(this.key) as FormGroup;
-  }
-
-  groupByKey(key: string): FormGroup | undefined {
-    return this.form.get(key) as FormGroup;
   }
 
   ngOnDestroy() {
@@ -27,14 +25,10 @@ export abstract class AbstractFormGroupComponent implements OnDestroy {
   }
 
   get isValid(): boolean {
-    return this.control.valid || this.control.disabled;
+    return this.group.valid || this.group.disabled;
   }
 
   get isDisabled(): boolean {
-    return this.control.disabled;
-  }
-
-  get control(): FormControl | undefined {
-    return this.form.get(this.key) as FormControl;
+    return this.group.disabled;
   }
 }

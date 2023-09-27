@@ -8,7 +8,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   template: `
     <mat-toolbar color="primary">
       <mat-toolbar-row>
-        <span>Slodder forms</span>
+        <span>Plume forms</span>
         <span class="example-spacer"></span>
       </mat-toolbar-row>
     </mat-toolbar>

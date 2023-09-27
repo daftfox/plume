@@ -1,8 +1,10 @@
 import { Directive, Input, OnInit } from '@angular/core';
-import { BehaviorSubject, iif, scan, Subject, switchMap } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { AbstractObservableDataSource, DynamicFormElementValueType } from '../../model';
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
+import {
+  initialiseReactiveFormElement
+} from '../abstract-reactive-form-element/abstract-reactive-form-element.component';
 
 @Directive()
 export abstract class AbstractReactiveFormQuestionComponent<DT, VT = DynamicFormElementValueType> extends AbstractFormQuestionComponent<VT | VT[]> implements OnInit {
@@ -17,32 +19,18 @@ export abstract class AbstractReactiveFormQuestionComponent<DT, VT = DynamicForm
    */
   @Input() accumulateArguments = false;
 
-  private arguments = new Subject<Map<string, unknown> | undefined>();
+  private dataSourceArguments = new Subject<Map<string, unknown> | undefined>();
   private clear = new BehaviorSubject<null>(null);
 
   override ngOnInit() {
     super.ngOnInit();
-
-    iif(
-      () => this.accumulateArguments,
-      // Accumulate arguments provided until cleared
-      this.clear.pipe(
-        takeUntil( this.unsubscribe ),
-        switchMap(() => this.arguments.pipe(
-          scan(( accumulator, args: Map<string, unknown> ) => {
-              args.forEach((value, key) => accumulator.set(key, value));
-              return accumulator
-            }, new Map<string, unknown>()
-          ),
-          tap( args => this.dataSource.refresh( args ) )
-        ))
-      ),
-      // Refresh with new arguments
-      this.arguments.pipe(
-        tap( args => this.dataSource.refresh( args ) )
-      )
-    ).subscribe();
-
+    initialiseReactiveFormElement(
+      this.accumulateArguments,
+      this.clear,
+      this.unsubscribe,
+      this.dataSourceArguments,
+      this.dataSource
+    );
   }
 
   /**
@@ -52,7 +40,7 @@ export abstract class AbstractReactiveFormQuestionComponent<DT, VT = DynamicForm
    * @param {Map<string, any>} args
    */
   refresh( args?: Map<string, unknown> ) {
-    this.arguments.next( args );
+    this.dataSourceArguments.next( args );
   }
 
   /**

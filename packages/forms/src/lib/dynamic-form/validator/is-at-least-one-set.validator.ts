@@ -14,9 +14,7 @@ export const validateIsAtLeastOneSet =
         key,
         valid: !(
           !control.parent.get(key) || // other control doesn't exist
-          control.parent.get(key).value === undefined || // other control value is undefined
           control.parent.get(key).value === null || // other control value is null
-          control.value === undefined || // current control value is undefined
           control.value === null || // current control value is null
           (Array.isArray(control.parent.get(key).value) && control.parent.get(key).value.length === 0)
         ),

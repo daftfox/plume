@@ -2,7 +2,7 @@ import { AbstractFormQuestionComponent } from '../abstract-form-question/abstrac
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'slf-checkbox-form-question',
+  selector: 'plume-checkbox-form-question',
   templateUrl: './dynamic-checkbox.component.html',
   styleUrls: ['../abstract-form-question/abstract-form-question.component.scss', './dynamic-checkbox.component.scss'],
 })

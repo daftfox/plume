@@ -4,7 +4,7 @@ import { TextBoxType } from '../../model/options';
 import { Validators } from '@angular/forms';
 
 @Component({
-  selector: 'slf-textbox-form-question',
+  selector: 'plume-textbox-form-question',
   templateUrl: './dynamic-text-input.component.html',
   styleUrls: [
     '../abstract-form-question/abstract-form-question.component.scss',

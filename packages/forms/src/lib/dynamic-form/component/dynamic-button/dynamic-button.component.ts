@@ -7,7 +7,7 @@ import { ThemePalette } from '@angular/material/core';
 
 @Component({
   standalone: true,
-  selector: 'slf-button',
+  selector: 'plume-button',
   imports: [ MatButtonModule, NgIf, MatIconModule, NgTemplateOutlet, FlexModule ],
   templateUrl: './dynamic-button.component.html'
 })

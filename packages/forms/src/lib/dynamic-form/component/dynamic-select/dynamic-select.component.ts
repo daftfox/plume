@@ -1,22 +1,22 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {distinctUntilChanged, map, takeUntil, tap} from 'rxjs/operators';
-import { SelectOption, SelectOptionGroup, SelectOptionValueType, SelectValueType } from '../../model';
+import { SelectOption, SelectOptionGroup, SelectOptionValueType } from '../../model';
 import { startWith, combineLatest, Observable, iif } from 'rxjs';
-import { filterItems } from '@slodder/utils';
+import { filterItems } from '@plume/utils';
 import {
   AbstractReactiveFormQuestionComponent
 } from '../abstract-reactive-form-question/abstract-reactive-form-question.component';
 
 @Component({
-  selector: 'slf-select-form-question',
+  selector: 'plume-select-form-question',
   templateUrl: './dynamic-select.component.html',
   styleUrls: ['../abstract-form-question/abstract-form-question.component.scss', './dynamic-select.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class DynamicSelectComponent<T = SelectOptionValueType>
 extends AbstractReactiveFormQuestionComponent<
-  SelectOption<T> | SelectOptionGroup<T>,
+  (SelectOption<T> | SelectOptionGroup<T>)[],
   SelectOptionValueType
 > implements OnInit {
   @Input() noEntriesFoundLabel = 'No entries found';
@@ -27,7 +27,7 @@ extends AbstractReactiveFormQuestionComponent<
   @Input() options: (SelectOption<T> | SelectOptionGroup<T>)[] = [];
 
   displayedOptions: (SelectOption<T> | SelectOptionGroup<T>)[] = [];
-  filterControl = new FormControl<T>(undefined);
+  filterControl = new FormControl<T>(null);
   allSelected = false;
 
   constructor() {
@@ -96,14 +96,9 @@ extends AbstractReactiveFormQuestionComponent<
         this.displayedOptions = this.options;
       }
     }
-
-    if ( this.allowMultiple && this.value === undefined ) {
-      this.value = [];
-      this.control.patchValue(this.value);
-    }
   }
 
-  filterOptions(options: (SelectOption<T> | SelectOptionGroup<T>)[], filterValue: T): SelectOption<T>[] | SelectOptionGroup<T>[] {
+  filterOptions(options: (SelectOption<T> | SelectOptionGroup<T>)[], filterValue: T): (SelectOption<T> | SelectOptionGroup<T>)[] {
     if (this.isGrouped(options)) {
       // We've asserted that the options are of type SelectOptionGroup[]
       return (options as SelectOptionGroup<T>[])
@@ -121,7 +116,7 @@ extends AbstractReactiveFormQuestionComponent<
   }
 
   valueIsEmpty(value: T): boolean {
-    return value === '' || value === null || value === undefined;
+    return value === '' || value === null;
   }
 
   isGrouped(options: (SelectOption<T> | SelectOptionGroup<T>)[]): boolean {
@@ -198,7 +193,7 @@ extends AbstractReactiveFormQuestionComponent<
 
           // Control value contains a single value
           if ( !this.flattenOptions( newOptions ).length ) {
-            this.control.setValue(undefined);
+            this.control.setValue(this.allowMultiple ? [] : null);
           }
         }
       }),

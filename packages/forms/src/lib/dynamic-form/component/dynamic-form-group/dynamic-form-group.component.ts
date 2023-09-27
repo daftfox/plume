@@ -2,23 +2,26 @@ import {
   AfterViewInit, ChangeDetectorRef, Component, ComponentRef, Inject, Input, OnChanges, OnInit, Output, SimpleChanges,
   ViewChild, ViewContainerRef
 } from '@angular/core';
-import { iif, Observable, ReplaySubject, Subject, switchMap } from 'rxjs';
+import { BehaviorSubject, iif, Observable, ReplaySubject, Subject } from 'rxjs';
 import {
   AbstractFormQuestion,
   DynamicFormGroup,
-  DynamicFormValues, IDynamicFormComponent,
+  DynamicFormValues, IDynamicFormElement,
   isFormAction, isFormGroup, isFormQuestion,
 } from '../../model';
-import { tap } from 'rxjs/operators';
+import { startWith, switchMap, tap } from 'rxjs/operators';
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
 import {
   AbstractReactiveFormQuestionComponent
 } from '../abstract-reactive-form-question/abstract-reactive-form-question.component';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { AbstractFormGroupComponent } from '../abstract-form-group/abstract-form-group.component';
+import {
+  AbstractReactiveFormElementComponent
+} from '../abstract-reactive-form-element/abstract-reactive-form-element.component';
 
 @Component({
-  selector: 'slf-dynamic-form-group',
+  selector: 'plume-dynamic-form-group',
   templateUrl: './dynamic-form-group.component.html',
   styleUrls: ['./dynamic-form-group.component.scss'],
 })
@@ -35,7 +38,7 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
 
   @Output() formSubmit = new Subject<FV>();
   @Output() formCancel = new Subject<null>();
-  @Output() valueChanges: Observable<FV>;
+  @Output() valueChanges: BehaviorSubject<FV> = new BehaviorSubject<FV>( {} as FV );
 
   @ViewChild('formOutlet', { read: ViewContainerRef }) formOutlet: ViewContainerRef;
 
@@ -44,9 +47,11 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
     ComponentRef<
       AbstractFormGroupComponent |
       AbstractFormQuestionComponent |
-      AbstractReactiveFormQuestionComponent<unknown>
+      AbstractReactiveFormQuestionComponent<unknown> |
+      AbstractReactiveFormElementComponent<unknown>
     >> = new Map();
   private viewInitialised = new ReplaySubject<boolean>();
+  private formInitialised = new Subject<null>();
 
   constructor( @Inject(ChangeDetectorRef) private cdRef: ChangeDetectorRef ) {
     super();
@@ -82,12 +87,12 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
       () => this.formElements instanceof Observable,
       this.viewInitialised.pipe(
         switchMap( () => this.formElements ),
-        tap(( formElements ) => this.initialiseForm( formElements as IDynamicFormComponent[] )),
-        tap( ( formElements ) => this.parseFormElements( formElements as IDynamicFormComponent[] )),
+        tap(( formElements ) => this.initialiseForm( formElements as IDynamicFormElement[] )),
+        tap( ( formElements ) => this.parseFormElements( formElements as IDynamicFormElement[] )),
       ),
       this.viewInitialised.pipe(
-        tap( () => this.initialiseForm( this.formElements as IDynamicFormComponent[] )),
-        tap( () => this.parseFormElements( this.formElements as IDynamicFormComponent[] )),
+        tap( () => this.initialiseForm( this.formElements as IDynamicFormElement[] )),
+        tap( () => this.parseFormElements( this.formElements as IDynamicFormElement[] )),
       )
     ).subscribe();
   }
@@ -95,10 +100,10 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
   /**
    * Parses form element declarations and either adds them to the form or updates their respective components when they
    * have already been added.
-   * @param {IDynamicFormComponent[]} formElements
+   * @param {IDynamicFormElement[]} formElements
    * @private
    */
-  private parseFormElements( formElements: IDynamicFormComponent[] ) {
+  private parseFormElements( formElements: IDynamicFormElement[] ) {
     if (!formElements) {
       return;
     }
@@ -106,7 +111,7 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
     // We should keep track of keys to see if a formerly present component should be removed now
     const keys: string[] = [];
 
-    for ( const element of this.formElements as IDynamicFormComponent[] ) {
+    for ( const element of this.formElements as IDynamicFormElement[] ) {
       // Retrieve the component's reference
       let componentRef = this.formComponentRef.get( element.key );
 
@@ -130,24 +135,41 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
         this.formComponentRef.get( key ).destroy();
       });
     }
+    this.formInitialised.next(null);
   }
 
   /**
    * Initialises the local form instance and subscribes to value changes so these can be passed upwards.
-   * @param {IDynamicFormComponent[]} formElements
+   * @param {IDynamicFormElement[]} formElements
    */
-  private initialiseForm( formElements: IDynamicFormComponent[] ): void {
+  private initialiseForm( formElements: IDynamicFormElement[] ): void {
     if ( !this.form ) {
       this.form = DynamicFormGroupComponent.createFormGroup( formElements );
+      this.form.valueChanges.pipe(
+        startWith( this.getFormValues( formElements ) ),
+        tap( formValues => this.valueChanges.next( formValues ) ),
+      ).subscribe();
 
       // Detect changes so our formOutlet ViewContainerRef is rendered, and we can add components to it
       this.cdRef.detectChanges();
     }
   }
 
-  get value(): FV {
-    if ( !this.form ) return {} as FV;
-    return this.form.value;
+  private getFormValues( formElements: IDynamicFormElement[], accumulator: {[key: string]: unknown} = {} ): FV {
+    return formElements.reduce( ( acc, formElement ) => {
+      if ( isFormQuestion( formElement ) ) {
+        acc[formElement.key] = formElement.value;
+      } else if ( isFormGroup( formElement )) {
+        acc[formElement.key] = {};
+        Object.assign( acc[formElement.key], this.getFormValues( formElement.formElements, acc[formElement.key] as {[key: string]: unknown} ));
+      }
+
+      return acc;
+    }, accumulator) as FV;
+  }
+
+  get value(): Observable<FV> {
+    return this.valueChanges.asObservable();
   }
 
   get valid(): boolean {
@@ -179,15 +201,16 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
    * Wrapper method to emit new form values on submit
    */
   submit(): void {
-    this.formSubmit.next(this.value);
+    this.formSubmit.next(this.form.getRawValue());
   }
 
   cancel(): void {
     this.formCancel.next(null);
   }
 
-  private addComponent( formElement: IDynamicFormComponent ): ComponentRef<
+  private addComponent( formElement: IDynamicFormElement ): ComponentRef<
     AbstractReactiveFormQuestionComponent<unknown> |
+    AbstractReactiveFormElementComponent<unknown> |
     AbstractFormQuestionComponent |
     AbstractFormGroupComponent>
   {
@@ -199,15 +222,17 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
   private setComponentInputs(
     ref: ComponentRef<
       AbstractReactiveFormQuestionComponent<unknown> |
+      AbstractReactiveFormElementComponent<unknown> |
       AbstractFormQuestionComponent |
       AbstractFormGroupComponent
     >,
-    formElement: IDynamicFormComponent
+    formElement: IDynamicFormElement
   ) {
     ref.setInput( 'key', formElement.key );
 
     // this is an element implementing the IFormQuestion interface
     if ( isFormQuestion( formElement ) ) {
+      ref.setInput( 'formInitialised', this.formInitialised.asObservable() );
       ref.setInput( 'validators', formElement.validators );
       ref.setInput( 'asyncValidators', formElement.asyncValidators );
       ref.setInput( 'label', formElement.label );
@@ -232,10 +257,6 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
         ref.setInput( 'rows', formElement['rows'] );
       }
 
-      // this is an element implementing the IReactiveFormQuestion interface
-      if ( 'dataSource' in formElement ) {
-        ref.setInput( 'dataSource', formElement['dataSource'] );
-      }
       if ( 'allowMultiple' in formElement ) {
         ref.setInput( 'allowMultiple', formElement['allowMultiple'] );
       }
@@ -261,6 +282,14 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
       if ( 'mode' in formElement ) {
         ref.setInput( 'mode', formElement['mode'] );
       }
+    }
+
+    // this is an element implementing the IReactiveFormElement interface
+    if ( 'dataSource' in formElement ) {
+      ref.setInput( 'dataSource', formElement['dataSource'] );
+    }
+    if ( 'accumulateArguments' in formElement ) {
+      ref.setInput( 'accumulateArguments', formElement['accumulateArguments'] );
     }
 
     // this is an element implementing the IFormAction interface
@@ -293,6 +322,7 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
   private subscribeToComponentOutputs(
     ref: ComponentRef<
       AbstractReactiveFormQuestionComponent<unknown> |
+      AbstractReactiveFormElementComponent<unknown> |
       AbstractFormQuestionComponent |
       AbstractFormGroupComponent
     >
@@ -312,7 +342,7 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
    * Map an array of FormQuestion objects to a FormGroup
    * @param formElements
    */
-  static createFormGroup( formElements: IDynamicFormComponent[]): FormGroup {
+  static createFormGroup( formElements: IDynamicFormElement[]): FormGroup {
     const group: { [key: string]: AbstractControl } = {};
 
     for (const formElement of formElements) {

@@ -7,7 +7,7 @@ import {
 } from '../component/abstract-reactive-form-question/abstract-reactive-form-question.component';
 import { DynamicFormElement } from '../component/abstract-form-group/abstract-form-group.component';
 import { AbstractFormQuestionComponent } from '../component/abstract-form-question/abstract-form-question.component';
-import { IDynamicFormComponent } from './dynamic-form-component.interface';
+import { IDynamicFormElement } from './dynamic-form-element.interface';
 import { MutatorFn } from './abstract-form-question';
 
 export const isFormQuestion = ( element: DynamicFormElement ): element is IFormQuestion => {
@@ -15,7 +15,7 @@ export const isFormQuestion = ( element: DynamicFormElement ): element is IFormQ
 }
 
 export interface IFormQuestion<T = DynamicFormElementValueType>
-  extends IDynamicFormComponent<AbstractFormQuestionComponent | AbstractReactiveFormQuestionComponent<unknown>> {
+  extends IDynamicFormElement<AbstractFormQuestionComponent | AbstractReactiveFormQuestionComponent<unknown>> {
   label: string;
   placeholder: string;
 

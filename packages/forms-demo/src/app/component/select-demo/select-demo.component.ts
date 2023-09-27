@@ -1,22 +1,28 @@
 import { Component } from '@angular/core';
 import {
+  DIRECTION,
+  DynamicFormElement,
+  DynamicFormGroup,
+  DynamicFormModule,
   DynamicSelect,
-  DynamicFormModule, DynamicFormElement, DynamicFormGroup,
-} from '@slodder/forms';
-import { AbstractDemoComponent } from '../abstract-demo/abstract-demo.component';
+} from '@plume/forms';
+import { AbstractDemoComponent, Example } from '../abstract-demo/abstract-demo.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { Subject, tap } from 'rxjs';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterLink } from '@angular/router';
-import { AsideService } from "../../service/aside.service";
+import { AsideService } from '../../service/aside.service';
 import { HighlightModule } from 'ngx-highlightjs';
 import { ObserveVisibilityDirective } from '../../directive/observe-visibility.directive';
 import { FlexModule } from '@angular/flex-layout';
-import { MockBirdDataSource } from './data-source/mock-bird.data-source';
+import { MockBirdObservationOptionsDataSource } from './data-source/mock-bird-observation-options.data-source';
 import { MockBirdService } from './service/mock-bird.service';
 import { GistComponent } from '../../../shared/component/gist/gist.component';
+import { Observation } from './observation/observation.component';
+import { MockBirdObservationDetailsDataSource } from './data-source/mock-bird-observation-details.data-source';
+import { PexelsService } from './service/pexels.service';
 
 @Component({
   standalone: true,
@@ -28,8 +34,9 @@ import { GistComponent } from '../../../shared/component/gist/gist.component';
 })
 export class SelectDemoComponent extends AbstractDemoComponent {
   public override title = 'Select';
-  public override description = `Select elements must have been the reason I started work on Slodder forms.<br>I can't remember how many I must have built and how often they were 90% the same, including validators. This, of course, lead to a lot of duplicated code for the sake of delivering on time. Features such as reactive select option lists and controls being able to refresh or mutate each other's data, were initially built for the <code>DynamicSelect</code> element and subsequently rolled out to other types of form elements.`;
-  private readonly mockBirdDataSource: MockBirdDataSource;
+  public override description = `Select elements must have been the reason I started work on Plume forms.<br>I can't remember how many I must have built and how often they were 90% the same, including validators. This, of course, lead to a lot of duplicated code for the sake of delivering on time. Features such as reactive select option lists and controls being able to refresh or mutate each other's data, were initially built for the <code>DynamicSelect</code> element and subsequently rolled out to other types of form elements.`;
+  private readonly mockBirdDataSource: MockBirdObservationOptionsDataSource;
+  private readonly mockObservationDataSource: MockBirdObservationDetailsDataSource;
   private refreshBirds = new Subject<null>();
 
   basic: DynamicFormElement[] = [
@@ -193,7 +200,7 @@ export class SelectDemoComponent extends AbstractDemoComponent {
     }),
   ];
 
-  public override examples = [
+  public override examples: Example[] = [
     {
       heading: 'Basic select',
       description: `A basic select element with a static list of options and nothing else. You should provide at least a <code>key</code>, <code>label</code> and <code>options</code> property to draw a basic select on the screen.`,
@@ -207,7 +214,7 @@ export class SelectDemoComponent extends AbstractDemoComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="formElements"></slf-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -233,9 +240,10 @@ export class FormComponent {
 }`
         }
       ]
-    }, {
+    },
+    {
       heading: 'Disabled select',
-      description: `In some cases you want to disable the select element. If this is the case, you set <code>disabled: true</code> and the select element will be disabled. In the example below, I have pre-set a value for the select element, but this is not necessary. Unlike Angular's default behaviour, Slodder forms <i>does</i> return the value of disabled elements by default.`,
+      description: `In some cases you want to disable the select element. If this is the case, you set <code>disabled: true</code> and the select element will be disabled. In the example below, I have pre-set a value for the select element, but this is not necessary. Unlike Angular's default behaviour, Plume forms <i>does</i> return the value of disabled elements by default.`,
       key: 'disabled',
       panelOpen: false,
       formElements: this.disabledSelect,
@@ -246,7 +254,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="formElements"></slf-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -289,7 +297,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="formElements"></slf-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -329,7 +337,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="formElements"></slf-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -369,7 +377,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="formElements"></slf-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -427,7 +435,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="formElements"></slf-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -480,7 +488,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="formElements"></slf-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -511,11 +519,12 @@ export class FormComponent {
         },
       ]
     }
-  ]
+  ];
 
-  constructor( private service: MockBirdService, protected override asideService: AsideService ) {
+  constructor( private service: MockBirdService, private pexels: PexelsService, protected override asideService: AsideService ) {
     super( asideService );
-    this.mockBirdDataSource = new MockBirdDataSource( service );
+    this.mockBirdDataSource = new MockBirdObservationOptionsDataSource( service );
+    this.mockObservationDataSource = new MockBirdObservationDetailsDataSource( service, pexels );
 
     this.examples.push({
       heading: 'Reactive data source',
@@ -525,13 +534,16 @@ export class FormComponent {
       formElements: [
         new DynamicFormGroup({
           key: 'observations',
-          direction: 'row',
+          direction: DIRECTION.ROW,
           formElements: [
             new DynamicSelect({
               key: 'region',
               label: 'Select a region',
               value: 'NZ',
-              linkedElements: [{ key: 'recentObservations', label: 'Recently observed birds', refreshOnValueChange: true }],
+              linkedElements: [
+                { key: 'obsId', label: 'Recently observed species', refreshOnValueChange: true },
+                { key: 'observationDetails', refreshOnValueChange: true }
+              ],
               options: [
                 {
                   label: 'Australia',
@@ -543,11 +555,16 @@ export class FormComponent {
               ]
             }),
             new DynamicSelect<string>({
-              key: 'recentObservations',
-              label: 'Recently observed birds',
+              key: 'obsId',
+              label: 'Recently observed species',
               useFilter: true,
-              allowMultiple: true,
               dataSource: this.mockBirdDataSource,
+              linkedElements: [{key: 'observationDetails', refreshOnValueChange: true}]
+            }),
+            new Observation({
+              key: 'observationDetails',
+              dataSource: this.mockObservationDataSource,
+              accumulateArguments: true
             })
           ]
         })
@@ -559,7 +576,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="questions"></slf-dynamic-form-group>\`,
+  template: \`<slf-dynamic-form-group [rootNode]="true" [formElements]="formElements"></slf-dynamic-form-group>\`,
 })
 export class FormComponent {
   birdDataSource = new BirdDataSource();
@@ -597,7 +614,6 @@ export class FormComponent {
         new DynamicSelect<string>({
           key: 'recentObservations',
           label: 'Recently observed birds',
-          allowMultiple: true,
 
           // Populate the options list through a reactive data source.
           // This data source should extend the AbstractObservableDataSource and implement

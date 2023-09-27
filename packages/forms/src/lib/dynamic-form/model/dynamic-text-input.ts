@@ -1,25 +1,6 @@
-import { AbstractFormQuestion } from './abstract-form-question';
-import { Validators } from '@angular/forms';
-import { DynamicTextInputOptions, TextBoxType, DynamicTextOptions } from './options';
+import { DynamicTextInputOptions, TextBoxType } from './options';
 import { DynamicTextInputComponent } from '../component/dynamic-text-input/dynamic-text-input.component';
-
-export abstract class DynamicText<T = string | number> extends AbstractFormQuestion<T> {
-  maxLength?: number;
-
-  protected constructor(options: DynamicTextOptions<T>) {
-    super(options);
-
-    this.maxLength = options.maxLength;
-
-    if (this.maxLength) {
-      if (Array.isArray(this.validators)) {
-        this.validators.push(Validators.maxLength(this.maxLength));
-      } else if (typeof this.validators === 'function') {
-        this.validators = [this.validators, Validators.maxLength(this.maxLength)];
-      }
-    }
-  }
-}
+import { DynamicText } from './dynamic-text';
 
 export class DynamicTextInput extends DynamicText<string> {
   component = DynamicTextInputComponent;
@@ -32,7 +13,7 @@ export class DynamicTextInput extends DynamicText<string> {
     this.type = options.type || 'text';
     this.icon = options.icon;
 
-    if ( this.value === undefined ) {
+    if ( this.value === null ) {
       this.value = '';
     }
   }

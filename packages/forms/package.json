@@ -1,5 +1,5 @@
 {
-  "name": "@slodder/forms",
+  "name": "@plume/forms",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/animations": "~16.0.0",
@@ -11,7 +11,7 @@
     "date-fns": "^2.30.0",
     "ngx-mat-select-search": "^7.0.2",
     "ngx-trim-directive": "^2.0.0",
-    "@slodder/utils": "^0.0.1",
+    "@plume/utils": "^0.0.1",
     "rxjs": "~7.8.0"
   },
   "dependencies": {

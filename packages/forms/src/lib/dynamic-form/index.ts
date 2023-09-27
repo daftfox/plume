@@ -2,6 +2,8 @@ export * from './model/abstract-form-question';
 
 // Form components
 export * from './component/abstract-form-question/abstract-form-question.component';
+export * from './component/abstract-reactive-form-question/abstract-reactive-form-question.component';
+export * from './component/abstract-reactive-form-element/abstract-reactive-form-element.component';
 export * from './component/abstract-form-group/abstract-form-group.component';
 export * from './component/dynamic-checkbox/dynamic-checkbox.component';
 export * from './component/dynamic-datepicker/dynamic-datepicker.component';

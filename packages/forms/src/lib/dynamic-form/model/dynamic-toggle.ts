@@ -7,7 +7,7 @@ export class DynamicToggle extends AbstractFormQuestion<boolean> {
   constructor(options: DynamicFormQuestionOptions<boolean>) {
     super( options );
 
-    if ( this.value === undefined ) {
+    if ( this.value === null ) {
       this.value = false;
     }
   }

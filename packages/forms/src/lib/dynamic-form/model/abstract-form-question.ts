@@ -68,7 +68,7 @@ export abstract class AbstractFormQuestion<T = DynamicFormElementValueType> impl
   disabled: boolean;
 
   /**
-   * Value of the form question. Defaults to undefined
+   * Value of the form question. Defaults to null
    * @default undefined
    */
   value?: T;
@@ -79,14 +79,14 @@ export abstract class AbstractFormQuestion<T = DynamicFormElementValueType> impl
   spacer?: SPACER;
 
   protected constructor( options: DynamicFormQuestionOptions<T> ) {
-    this.value = options.value !== undefined ? options.value : undefined;
+    this.value = options.value !== undefined && options.value !== null ? options.value : null;
     this.key = options.key || '';
     this.label = options.label || '';
     this.placeholder = options.placeholder || '';
     this.validators = options.validators || [];
     this.asyncValidators = options.asyncValidators || [];
-    this.spacer = typeof options.spacer === 'number' ? options.spacer : undefined;
-    this.disabled = options.disabled === undefined ? false : options.disabled;
+    this.spacer = typeof options.spacer === 'number' ? options.spacer : null;
+    this.disabled = options.disabled === null ? false : options.disabled;
     this.linkedElements = options.linkedElements || [];
     this.mutators = options.mutators || [];
   }

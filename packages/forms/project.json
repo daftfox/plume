@@ -2,7 +2,7 @@
   "name": "forms",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/forms/src",
-  "prefix": "slf",
+  "prefix": "plume",
   "tags": [],
   "projectType": "library",
   "targets": {

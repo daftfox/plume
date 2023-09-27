@@ -23,7 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
 
       <mat-list-item class="indent">
 <!--        <mat-icon matListItemIcon>question_mark</mat-icon>-->
-        What is slodder forms?
+        What is Plume forms?
       </mat-list-item>
 
       <mat-list-item class="indent">

@@ -1,7 +1,5 @@
 import { DynamicFormElementValueType } from './generic-form-values.interface';
 import { IFormQuestion } from './form-question.interface';
-import { AbstractObservableDataSource } from './abstract-observable-data-source';
+import { IReactiveFormElement } from './reactive-form-element.interface';
 
-export interface IReactiveFormQuestion<DT = unknown, T = DynamicFormElementValueType> extends IFormQuestion<T> {
-  dataSource: AbstractObservableDataSource<DT>;
-}
+export type IReactiveFormQuestion<DT = unknown, T = DynamicFormElementValueType> = IFormQuestion<T> & IReactiveFormElement<DT>;

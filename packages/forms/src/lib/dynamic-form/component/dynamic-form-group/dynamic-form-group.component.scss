@@ -4,11 +4,11 @@ form {
 
     &[ng-reflect-fx-layout=row] {
       gap: 1rem;
-      align-items: center;
+      align-items: flex-start;
     }
 
     &[ng-reflect-fx-layout=column] {
-      > slf-dynamic-form-question {
+      > plume-dynamic-form-question {
         display: block;
 
         &:not(:first-child) {

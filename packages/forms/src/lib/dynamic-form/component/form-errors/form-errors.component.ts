@@ -7,7 +7,7 @@ import { NgFor, NgIf } from '@angular/common';
  *
  */
 @Component({
-  selector: 'slf-form-errors',
+  selector: 'plume-form-errors',
   templateUrl: './form-errors.component.html',
   styleUrls: ['./form-errors.component.scss'],
   standalone: true,
@@ -39,7 +39,7 @@ export class FormErrorsComponent {
    */
   @Input() messages: any = {};
 
-  errorMessage?: string = undefined;
+  errorMessage?: string = null;
 
   // constructor(private formErrorService: FormErrorService) {}
 
@@ -70,7 +70,7 @@ export class FormErrorsComponent {
     }
 
     return message.replace(/{(\d+)}/g, ( match, index ) => {
-      return params[index] !== undefined ? params[ index ] : match;
+      return params[index] !== null ? params[ index ] : match;
     });
   }
 

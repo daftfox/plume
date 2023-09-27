@@ -2,7 +2,7 @@ import { AbstractFormQuestionComponent } from '../abstract-form-question/abstrac
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'slf-textarea-form-question',
+  selector: 'plume-textarea-form-question',
   templateUrl: './dynamic-text-area.component.html',
   styleUrls: ['../abstract-form-question/abstract-form-question.component.scss'],
   encapsulation: ViewEncapsulation.None

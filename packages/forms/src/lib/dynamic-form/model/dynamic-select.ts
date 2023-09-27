@@ -6,7 +6,7 @@ import { DynamicSelectComponent } from '../component/dynamic-select/dynamic-sele
 
 export type SelectValueType = string | number;
 
-export class DynamicSelect<T = SelectOptionValueType> extends AbstractReactiveFormQuestion<(SelectOption<T> | SelectOptionGroup<T>), SelectOptionValueType> {
+export class DynamicSelect<T = SelectOptionValueType> extends AbstractReactiveFormQuestion<(SelectOption<T> | SelectOptionGroup<T>)[], T | T[]> {
   component = DynamicSelectComponent;
   options: (SelectOption<T> | SelectOptionGroup<T>)[];
   allowMultiple: boolean;
@@ -20,6 +20,10 @@ export class DynamicSelect<T = SelectOptionValueType> extends AbstractReactiveFo
 
     if (options.useSelectAll && !options.allowMultiple) {
       throw new Error("Unable to add 'select all' option if selecting multiple options is not enabled.");
+    }
+
+    if ( options.allowMultiple && this.value === null ) {
+      this.value = [] as T[];
     }
 
     this.allowMultiple = options.allowMultiple || false;

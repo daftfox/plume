@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DynamicFormModule } from '@slodder/forms';
+import { DynamicFormModule } from '@plume/forms';
 import { AbstractDemoComponent, Example } from '../abstract-demo/abstract-demo.component';
 import {
   MAT_DATE_LOCALE,

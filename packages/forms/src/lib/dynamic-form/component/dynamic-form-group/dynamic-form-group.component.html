@@ -16,7 +16,7 @@
         fxLayout
         fxLayoutGap="1rem">
         <button
-          *ngIf="submitButtonBadgeLabel !== undefined"
+          *ngIf="submitButtonBadgeLabel !== null"
           mat-raised-button
           [matBadge]="submitButtonBadgeLabel"
           matBadgePosition="below before"
@@ -29,7 +29,7 @@
         </button>
 
         <button
-          *ngIf="submitButtonBadgeLabel === undefined"
+          *ngIf="submitButtonBadgeLabel === null"
           mat-raised-button
           color="primary"
           [disabled]="!isValid || disabled"

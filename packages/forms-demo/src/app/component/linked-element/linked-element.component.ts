@@ -6,7 +6,7 @@ import {
   DynamicSelect,
   DynamicToggle,
   toggleOtherControlDisabled
-} from "@slodder/forms";
+} from "@plume/forms";
 import {MatTableModule} from "@angular/material/table";
 import { GistComponent } from '../../../shared/component/gist/gist.component';
 

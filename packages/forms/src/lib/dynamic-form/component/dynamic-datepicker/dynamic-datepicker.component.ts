@@ -4,7 +4,7 @@ import { MatCalendarView, MatDatepicker } from '@angular/material/datepicker';
 import { DatepickerMode } from '../../model/options';
 
 @Component({
-  selector: 'slf-datepicker-form-question',
+  selector: 'plume-datepicker-form-question',
   templateUrl: './dynamic-datepicker.component.html',
   styleUrls: ['../abstract-form-question/abstract-form-question.component.scss'],
   encapsulation: ViewEncapsulation.None

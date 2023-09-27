@@ -1,5 +1,5 @@
 import {DynamicFormElementValueType, LinkedElement} from '../model';
-import {isNullish} from "@slodder/utils";
+import {isNullish} from "@plume/utils";
 import {FormGroup} from "@angular/forms";
 
 export const toggleOtherControlDisabled = <T = DynamicFormElementValueType>(linkedElements: LinkedElement[], form: FormGroup, value?: T) => {

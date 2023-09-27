@@ -1,6 +1,6 @@
 import { AbstractFormQuestionComponent } from '../component/abstract-form-question/abstract-form-question.component';
 import { DynamicFormElementValueType } from '../model';
-import {isNullish} from "@slodder/utils";
+import {isNullish} from "@plume/utils";
 
 export const toggleOtherControlEnabled = (scope: AbstractFormQuestionComponent, value?: DynamicFormElementValueType) => {
   scope.linkedElements

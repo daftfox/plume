@@ -1,7 +1,7 @@
 import { Directive, ViewContainerRef } from '@angular/core';
 
 @Directive({
-  selector: '[slfFormElementHost]',
+  selector: '[plumeFormElementHost]',
   standalone: true
 })
 export class DynamicFormElementHostDirective {

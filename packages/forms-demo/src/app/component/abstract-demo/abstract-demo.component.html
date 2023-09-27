@@ -11,14 +11,14 @@
   <div fxLayout>
     <p fxFlex="60" [innerHTML]="example.description"></p>
   </div>
-  <slf-dynamic-form-group
+  <plume-dynamic-form-group
     #form
     [key]="example.key"
-    [formElements]="example.formElements"></slf-dynamic-form-group>
+    [formElements]="example.formElements"></plume-dynamic-form-group>
 
-  <div class="form-values">
+  <div class="form-values" *ngIf="(form.value | async) as fv">
     <h3>Form values</h3>
-    <pre><code [highlight]="form.value | json" [languages]="['json']"></code></pre>
+    <pre><code [highlight]="fv | json" [languages]="['json']"></code></pre>
   </div>
 
   <mat-accordion *ngIf="example.fileGists.length">

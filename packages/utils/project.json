@@ -2,7 +2,7 @@
   "name": "utils",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/utils/src",
-  "prefix": "slu",
+  "prefix": "plume",
   "tags": [],
   "projectType": "library",
   "targets": {

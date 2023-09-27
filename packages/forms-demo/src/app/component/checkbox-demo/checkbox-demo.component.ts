@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {DynamicCheckbox, DynamicFormModule, DynamicFormGroup} from '@slodder/forms';
+import { DIRECTION, DynamicCheckbox, DynamicFormGroup, DynamicFormModule } from '@plume/forms';
 import { AbstractDemoComponent, Example } from '../abstract-demo/abstract-demo.component';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -38,7 +38,7 @@ export class CheckboxDemoComponent extends AbstractDemoComponent {
     new DynamicFormGroup({
       label: 'The riroriro is:',
       key: 'riroriroProperties',
-      direction: 'row',
+      direction: DIRECTION.ROW,
       formElements: [
         new DynamicCheckbox({
           key: 'territorial',

@@ -1,8 +1,8 @@
 import { SPACER } from './spacer.enum';
 import { DynamicFormHintOptions } from './options';
-import { IFormStatic } from './form-static.interface';
+import { IFormOutput } from './form-output.interface';
 
-export class DynamicFormHint implements IFormStatic {
+export class DynamicFormHint implements IFormOutput {
   key: string;
   hint?: string;
   heading?: string;
