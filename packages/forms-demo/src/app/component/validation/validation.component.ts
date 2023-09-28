@@ -94,7 +94,11 @@ export class FormComponent {
     new DynamicTextInput({
       key: 'flightless',
       label: \`Please don't enter the word 'flying'. It offends the penguins.\`,
+
+      // Add custom validator to list of validators
       validators: [this.customValidator('flying')],
+
+      // Add additional validation message for custom validator error
       additionalValidationMessages: new Map([['forbiddenValue', 'You offended the penguins']])
     })
   ];

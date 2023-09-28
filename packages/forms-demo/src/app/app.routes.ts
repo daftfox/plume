@@ -30,11 +30,11 @@ export const appRoutes: Route[] = [
       }, {
         path: 'linked-element',
         component: LinkedElementComponent
-      }, {
-        path: '',
-        outlet: 'aside',
-        component: AsideComponent,
       }
     ]
+  }, {
+    path: '',
+    outlet: 'aside',
+    component: AsideComponent,
   }
 ];
