@@ -14,7 +14,7 @@ export class DynamicTextAreaComponent extends AbstractFormQuestionComponent<stri
   constructor() {
     super();
 
-    this.validationMessages.set('maxlength', 'Maximum length is {0}, but current input length is {1}');
-    this.validationMessages.set('minlength', 'Minimum length is {0}, but current input length is {1}');
+    this.defaultValidationMessages.set('maxlength', 'Maximum length is {0}, but current input length is {1}');
+    this.defaultValidationMessages.set('minlength', 'Minimum length is {0}, but current input length is {1}');
   }
 }

@@ -65,7 +65,6 @@ export class LinkedElementComponent extends AbstractDemoComponent {
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
   template: \`<plume-dynamic-form-group
-  [rootNode]="true"
   [formElements]="questions"
   direction="row"></plume-dynamic-form-group>\`,
 })

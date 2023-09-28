@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {MatListModule} from '@angular/material/list';
-import { IsActiveMatchOptions, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import {AsideContent, AsideService} from "../../service/aside.service";
-import {Observable, tap} from "rxjs";
+import {Observable} from "rxjs";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 
 @Component( {

@@ -22,12 +22,13 @@ export abstract class AbstractFormQuestionComponent<T = DynamicFormElementValueT
   @Input() mutators: MutatorFn[] = [];
 
   @Input() formInitialised: Observable<null>;
+  @Input() additionalValidationMessages: Map<string, string>;
 
   @Output() clearArguments = new Subject<string>();
   @Output() refreshLinkedQuestion = new Subject<{key: string, args: Map<string, unknown>}>();
 
-  validationMessages = new Map<string, string>([
-    [ 'required', 'Required' ]
+  defaultValidationMessages = new Map<string, string>([
+    [ 'required', 'Required' ],
   ]);
 
   protected unsubscribe = new Subject<null>();
@@ -39,6 +40,10 @@ export abstract class AbstractFormQuestionComponent<T = DynamicFormElementValueT
   }
 
   ngOnInit() {
+    if ( this.additionalValidationMessages ) {
+      this.defaultValidationMessages = new Map([...this.defaultValidationMessages, ...this.additionalValidationMessages]);
+    }
+
     this.formInitialised.pipe(
       switchMap(() =>
         merge(this.control.valueChanges, this.control.statusChanges)

@@ -33,7 +33,7 @@ extends AbstractReactiveFormQuestionComponent<
   constructor() {
     super();
 
-    this.validationMessages.set('required', 'Please select an option');
+    this.defaultValidationMessages.set('required', 'Please select an option');
   }
 
   override ngOnInit() {

@@ -19,4 +19,5 @@ export interface DynamicFormQuestionOptions<T = DynamicFormElementValueType> {
   disabled?: boolean;
   spacer?: SPACER;
   mutators?: MutatorFn[];
+  additionalValidationMessages?: Map<string, string>;
 }

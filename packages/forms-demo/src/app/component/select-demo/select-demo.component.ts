@@ -214,7 +214,7 @@ export class SelectDemoComponent extends AbstractDemoComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="formElements"></plume-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -254,7 +254,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="formElements"></plume-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -297,7 +297,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="formElements"></plume-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -337,7 +337,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="formElements"></plume-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -377,7 +377,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="formElements"></plume-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -435,7 +435,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="formElements"></plume-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -488,7 +488,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="formElements"></plume-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   formElements = [
@@ -576,7 +576,7 @@ export class FormComponent {
   standalone: true,
   selector: 'app-form',
   imports: [ CommonModule, DynamicFormModule ],
-  template: \`<plume-dynamic-form-group [rootNode]="true" [formElements]="formElements"></plume-dynamic-form-group>\`,
+  template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
 })
 export class FormComponent {
   // Reactive data source for the select element displaying species observations

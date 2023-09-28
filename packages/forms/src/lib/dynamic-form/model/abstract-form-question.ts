@@ -78,6 +78,8 @@ export abstract class AbstractFormQuestion<T = DynamicFormElementValueType> impl
    */
   spacer?: SPACER;
 
+  additionalValidationMessages?: Map<string, string>;
+
   protected constructor( options: DynamicFormQuestionOptions<T> ) {
     this.value = options.value !== undefined && options.value !== null ? options.value : null;
     this.key = options.key || '';
@@ -89,6 +91,7 @@ export abstract class AbstractFormQuestion<T = DynamicFormElementValueType> impl
     this.disabled = options.disabled === null ? false : options.disabled;
     this.linkedElements = options.linkedElements || [];
     this.mutators = options.mutators || [];
+    this.additionalValidationMessages = options.additionalValidationMessages;
   }
 
   getFormControl(): FormControl<T> {

@@ -1,1 +1,6 @@
-<mat-checkbox [formControl]="control">{{ label }}</mat-checkbox>
+<div fxLayout fxLayoutGap="1rem" fxLayoutAlign="start center">
+  <mat-checkbox [formControl]="control">{{ label }}</mat-checkbox>
+  <mat-error>
+    <plume-form-errors [control]="control" [validationMessages]="defaultValidationMessages"></plume-form-errors>
+  </mat-error>
+</div>

@@ -22,8 +22,8 @@ export class DynamicTextInputComponent extends AbstractFormQuestionComponent<str
   constructor() {
     super();
 
-    this.validationMessages.set('maxlength', 'Maximum length is {0}, but current input length is {1}');
-    this.validationMessages.set('minlength', 'Minimum length is {0}, but current input length is {1}');
+    this.defaultValidationMessages.set('maxlength', 'The maximum length is {0}, but you entered {1} characters');
+    this.defaultValidationMessages.set('minlength', 'The minimum length is {0}, but you entered {1} characters');
   }
 
   override ngOnInit() {

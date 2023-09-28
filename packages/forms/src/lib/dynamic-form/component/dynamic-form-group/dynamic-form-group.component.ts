@@ -247,6 +247,9 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
       if ( 'maxLength' in formElement ) {
         ref.setInput( 'maxLength', formElement['maxLength'] );
       }
+      if ( 'additionalValidationMessages' in formElement ) {
+        ref.setInput( 'additionalValidationMessages', formElement['additionalValidationMessages'] );
+      }
       if ( 'type' in formElement ) {
         ref.setInput( 'type', formElement['type'] );
       }

@@ -5,8 +5,13 @@ import { DatepickerDemoComponent } from './component/datepicker-demo/datepicker-
 import { SelectDemoComponent } from './component/select-demo/select-demo.component';
 import {LinkedElementComponent} from "./component/linked-element/linked-element.component";
 import { AsideComponent } from './component/aside/aside.component';
+import { ValidationComponent } from './component/validation/validation.component';
 
 export const appRoutes: Route[] = [
+  {
+    path: 'validation',
+    component: ValidationComponent
+  },
   {
     path: 'form-components',
     children: [

@@ -32,7 +32,7 @@ import { MatIconModule } from '@angular/material/icon';
       </mat-list-item>
       <mat-divider></mat-divider>
 
-      <mat-list-item>
+      <mat-list-item routerLink="validation">
 <!--        <mat-icon matListItemIcon>playlist_add_check</mat-icon>-->
         Validation
       </mat-list-item>
