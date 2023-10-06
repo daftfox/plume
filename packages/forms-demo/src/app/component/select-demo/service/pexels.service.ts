@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createClient, ErrorResponse, Photo } from 'pexels';
-import { from, map, Observable, take } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 
 export interface QueryResult {
   total_results: number;

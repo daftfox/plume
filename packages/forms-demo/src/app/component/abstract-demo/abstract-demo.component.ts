@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DynamicFormElement, DynamicFormModule } from '@plume/forms';
+import { DynamicFormElement, DynamicFormModule, IDynamicFormElement } from '@plume/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -15,7 +15,7 @@ export interface Example {
   description?: string;
   key: string;
   panelOpen: boolean;
-  formElements: DynamicFormElement[];
+  formElements: IDynamicFormElement[];
   fileGists: {name: string, code: string}[];
 }
 

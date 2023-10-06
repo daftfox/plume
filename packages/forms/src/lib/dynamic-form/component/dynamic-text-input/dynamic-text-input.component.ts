@@ -1,7 +1,8 @@
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { TextBoxType } from '../../model/options';
 import { Validators } from '@angular/forms';
+import { DynamicFormService } from '../../service/dynamic-form.service';
 
 @Component({
   selector: 'plume-textbox-form-question',
@@ -19,8 +20,8 @@ export class DynamicTextInputComponent extends AbstractFormQuestionComponent<str
 
   passwordVisible = false;
 
-  constructor() {
-    super();
+  constructor( protected override service: DynamicFormService ) {
+    super(service);
 
     this.defaultValidationMessages.set('maxlength', 'The maximum length is {0}, but you entered {1} characters');
     this.defaultValidationMessages.set('minlength', 'The minimum length is {0}, but you entered {1} characters');

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DynamicFormModule, DynamicFormElement, DynamicTextInput } from '@plume/forms';
+import { DynamicFormModule, DynamicFormElement, DynamicTextInput, IDynamicFormElement } from '@plume/forms';
 import { AbstractDemoComponent, Example } from '../abstract-demo/abstract-demo.component';
 import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -23,14 +23,14 @@ export class TextInputDemoComponent extends AbstractDemoComponent {
   In its essence, the input is not that much more complex than the default Angular Material variety, were it not for its integration with all the other goodies Plume forms has to offer. This means maximum reusability and access to complex (asynchronous) validation and mutation.<br>
   Only two configuration properties are required; <code>key</code> and <code>label</code>, although I recommend you also enter a <code>placeholder</code> for increased usability.
 `;
-  basicTextInput: DynamicFormElement[] = [
+  basicTextInput: IDynamicFormElement[] = [
     new DynamicTextInput({
       key: 'keaLikes',
       label: 'What do you like most about the kea?',
       placeholder: 'What I like about the kea is...'
     })
   ];
-  disabledTextInput: DynamicFormElement[] = [
+  disabledTextInput: IDynamicFormElement[] = [
     new DynamicTextInput({
       key: 'neuroticBird',
       label: 'Which is the most neurotic bird in your opinion?',
@@ -38,7 +38,7 @@ export class TextInputDemoComponent extends AbstractDemoComponent {
       disabled: true,
     })
   ];
-  passwordTextInput: DynamicFormElement[] = [
+  passwordTextInput: IDynamicFormElement[] = [
     new DynamicTextInput({
       key: 'password',
       label: 'Password',
@@ -46,7 +46,7 @@ export class TextInputDemoComponent extends AbstractDemoComponent {
       type: 'password',
     }),
   ];
-  iconTextInput: DynamicFormElement[] = [
+  iconTextInput: IDynamicFormElement[] = [
     new DynamicTextInput({
       key: 'searchBird',
       label: 'Which bird do you want to find?',
@@ -54,7 +54,7 @@ export class TextInputDemoComponent extends AbstractDemoComponent {
       icon: 'search'
     }),
   ];
-  requiredTextInput: DynamicFormElement[] = [
+  requiredTextInput: IDynamicFormElement[] = [
     new DynamicTextInput({
       key: 'toutouwaiLookalike',
       label: 'The toutouwai looks a lot like which bird?',
@@ -62,7 +62,7 @@ export class TextInputDemoComponent extends AbstractDemoComponent {
       validators: [Validators.required]
     }),
   ];
-  maxLengthTextInput: DynamicFormElement[] = [
+  maxLengthTextInput: IDynamicFormElement[] = [
     new DynamicTextInput({
       key: 'favouriteBird',
       label: 'What is your favourite bird whose name is 4 characters long?',

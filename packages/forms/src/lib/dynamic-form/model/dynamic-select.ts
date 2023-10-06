@@ -4,8 +4,6 @@ import { DynamicSelectOptions } from './options';
 import { AbstractReactiveFormQuestion } from './abstract-reactive-form-question';
 import { DynamicSelectComponent } from '../component/dynamic-select/dynamic-select.component';
 
-export type SelectValueType = string | number;
-
 export class DynamicSelect<T = SelectOptionValueType> extends AbstractReactiveFormQuestion<(SelectOption<T> | SelectOptionGroup<T>)[], T | T[]> {
   component = DynamicSelectComponent;
   options: (SelectOption<T> | SelectOptionGroup<T>)[];

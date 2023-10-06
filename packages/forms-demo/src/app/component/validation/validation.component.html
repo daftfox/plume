@@ -24,7 +24,11 @@
   <div fxLayout>
     <p fxFlex="60">You will frequently find yourself needing slightly more advanced validators. Validation error messages for these validators will have to supplied manually.</p>
   </div>
-  <plume-dynamic-form-group [formElements]="customValidation"></plume-dynamic-form-group>
+  <plume-dynamic-form-group [formElements]="customValidation" [displayedElements]="displayedElements"></plume-dynamic-form-group>
+
+  <div>
+    <button mat-raised-button color="primary" (click)="togglePenguins()">Toggle control visibility</button>
+  </div>
 
   <mat-accordion>
     <mat-expansion-panel (opened)="customValidationPanelOpen = true" (closed)="customValidationPanelOpen = false">

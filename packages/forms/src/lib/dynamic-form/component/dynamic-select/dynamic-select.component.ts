@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {distinctUntilChanged, map, takeUntil, tap} from 'rxjs/operators';
 import { SelectOption, SelectOptionGroup, SelectOptionValueType } from '../../model';
 import { startWith, combineLatest, Observable, iif } from 'rxjs';
@@ -7,12 +7,34 @@ import { filterItems } from '@plume/utils';
 import {
   AbstractReactiveFormQuestionComponent
 } from '../abstract-reactive-form-question/abstract-reactive-form-question.component';
+import { DynamicFormService } from '../../service/dynamic-form.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormErrorsComponent } from '../form-errors/form-errors.component';
 
 @Component({
   selector: 'plume-select-form-question',
   templateUrl: './dynamic-select.component.html',
   styleUrls: ['../abstract-form-question/abstract-form-question.component.scss', './dynamic-select.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [
+    AsyncPipe,
+    FormErrorsComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    NgForOf,
+    NgxMatSelectSearchModule,
+  ]
 })
 export class DynamicSelectComponent<T = SelectOptionValueType>
 extends AbstractReactiveFormQuestionComponent<
@@ -30,8 +52,8 @@ extends AbstractReactiveFormQuestionComponent<
   filterControl = new FormControl<T>(null);
   allSelected = false;
 
-  constructor() {
-    super();
+  constructor( protected override service: DynamicFormService) {
+    super(service);
 
     this.defaultValidationMessages.set('required', 'Please select an option');
   }

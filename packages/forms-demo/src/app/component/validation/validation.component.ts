@@ -5,13 +5,15 @@ import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@ang
 import { MatExpansionModule } from '@angular/material/expansion';
 import { GistComponent } from '../../../shared/component/gist/gist.component';
 import { FlexModule } from '@angular/flex-layout';
+import { Subject } from 'rxjs';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'demo-validation',
   templateUrl: './validation.component.html',
   styleUrls: ['../abstract-demo/abstract-demo.component.scss'],
   standalone: true,
-  imports: [ ObserveVisibilityDirective, DynamicFormModule, MatExpansionModule, GistComponent, FlexModule ]
+  imports: [ ObserveVisibilityDirective, DynamicFormModule, MatExpansionModule, GistComponent, FlexModule, MatButtonModule ],
 })
 export class ValidationComponent {
   basicValidationPanelOpen = false;
@@ -111,6 +113,14 @@ export class FormComponent {
 }`
     }
   ];
+
+  display = true;
+  displayedElements = new Subject<string[]>();
+
+  togglePenguins() {
+    this.display = !this.display;
+    this.displayedElements.next( this.display ? ['flightless'] : [] );
+  }
 
   private customValidator( forbiddenValue: string ): ValidatorFn {
     return ( control: AbstractControl ): ValidationErrors | null => {

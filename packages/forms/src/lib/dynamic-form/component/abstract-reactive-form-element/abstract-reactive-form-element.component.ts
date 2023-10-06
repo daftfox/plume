@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { BehaviorSubject, iif, Observable, scan, Subject, switchMap, take } from 'rxjs';
+import { BehaviorSubject, iif, scan, Subject, switchMap } from 'rxjs';
 import { AbstractObservableDataSource } from '../../model';
 import { OnInit } from '@angular/core';
 import { takeUntil, tap } from 'rxjs/operators';

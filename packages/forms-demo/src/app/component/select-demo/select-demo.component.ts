@@ -201,324 +201,324 @@ export class SelectDemoComponent extends AbstractDemoComponent {
   ];
 
   public override examples: Example[] = [
-    {
-      heading: 'Basic select',
-      description: `A basic select element with a static list of options and nothing else. You should provide at least a <code>key</code>, <code>label</code> and <code>options</code> property to draw a basic select on the screen.`,
-      key: 'basic',
-      panelOpen: false,
-      formElements: this.basic,
-      fileGists:  [
-        {
-          name: 'form.component.ts',
-          code: `@Component({
-  standalone: true,
-  selector: 'app-form',
-  imports: [ CommonModule, DynamicFormModule ],
-  template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
-})
-export class FormComponent {
-  formElements = [
-    new DynamicSelect<string>({
-      key: 'birdOfTheYear',
-      label: 'Bird of the year',
-
-      // Options are passed as a static array
-      options: [
-        {
-          label: 'Pukeko',
-          value: 'pukeko',
-        }, {
-          label: 'Kiwi',
-          value: 'kiwi',
-        }, {
-          label: 'Kakapo',
-          value: 'kakapo',
-        }
-      ]
-    })
-  ];
-}`
-        }
-      ]
-    },
-    {
-      heading: 'Disabled select',
-      description: `In some cases you want to disable the select element. If this is the case, you set <code>disabled: true</code> and the select element will be disabled. In the example below, I have pre-set a value for the select element, but this is not necessary. Unlike Angular's default behaviour, Plume forms <i>does</i> return the value of disabled elements by default.`,
-      key: 'disabled',
-      panelOpen: false,
-      formElements: this.disabledSelect,
-      fileGists: [
-        {
-          name: 'form.component.ts',
-          code: `@Component({
-  standalone: true,
-  selector: 'app-form',
-  imports: [ CommonModule, DynamicFormModule ],
-  template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
-})
-export class FormComponent {
-  formElements = [
-    new DynamicSelect<string>({
-      key: 'birdOfTheYear',
-      label: 'Bird of the year',
-
-      // Value has been pre-set
-      value: 'kakapo',
-
-      // Select element is disabled
-      disabled: true,
-      options: [
-        {
-          label: 'Pukeko',
-          value: 'pukeko',
-        }, {
-          label: 'Kiwi',
-          value: 'kiwi',
-        }, {
-          label: 'Kakapo',
-          value: 'kakapo',
-        }
-      ]
-    })
-  ];
-}`
-        }
-      ]
-    }, {
-      heading: 'Nullable select',
-      description: `More often than not you want the user to be able to deselect an option and not select a different one in return. Simply provide the <code>nullable: true</code> property.`,
-      key: 'nullable',
-      panelOpen: false,
-      formElements: this.nullableSelect,
-      fileGists: [
-        {
-          name: 'form.component.ts',
-          code: `@Component({
-  standalone: true,
-  selector: 'app-form',
-  imports: [ CommonModule, DynamicFormModule ],
-  template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
-})
-export class FormComponent {
-  formElements = [
-    new DynamicSelect<string>({
-      key: 'birdOfTheYear',
-      label: 'Bird of the year',
-
-      // Allow the element to have a null value
-      nullable: true,
-      options: [
-        {
-          label: 'Pukeko',
-          value: 'pukeko',
-        }, {
-          label: 'Kiwi',
-          value: 'kiwi',
-        }, {
-          label: 'Kakapo',
-          value: 'kakapo',
-        }
-      ]
-    })
-  ];
-}`
-        }
-      ]
-    }, {
-      heading: 'Filtered select',
-      description: `A very powerful feature of the <code>DynamicSelect</code> element, is the option to add a filter. The filter removes any element that does not match with the entered value, which is very useful for select elements with many options. Just set <code>useFilter: true</code> and a filter will be added to the top of the select element options list.`,
-      key: 'filter',
-      panelOpen: false,
-      formElements: this.filterSelect,
-      fileGists: [
-        {
-          name: 'form.component.ts',
-          code: `@Component({
-  standalone: true,
-  selector: 'app-form',
-  imports: [ CommonModule, DynamicFormModule ],
-  template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
-})
-export class FormComponent {
-  formElements = [
-    new DynamicSelect<string>({
-      key: 'birdOfTheYear',
-      label: 'Bird of the year',
-
-      // Add a filter to the select element
-      useFilter: true,
-      options: [
-        {
-          label: 'Toutouwai',
-          value: 'toutouwai',
-        }, {
-          label: 'Karearea',
-          value: 'karearea',
-        }, {
-          label: 'Kea',
-          value: 'kea',
-        }
-      ]
-    })
-  ];
-}`
-        }
-      ]
-    }, {
-      heading: 'Multi-select',
-      description: `To allow the user to select more than one option, pass the <code>allowMultiple: true</code> property. It is also simple to add a 'Select all' option. Just add <code>useSelectAll: true</code>.<br>Please note that the value type of a multi-select will be an <code>array</code> instead of a <code>string</code> or <code>number</code>.`,
-      key: 'multi',
-      panelOpen: false,
-      formElements: this.multiSelect,
-      fileGists: [
-        {
-          name: 'form.component.ts',
-          code: `@Component({
-  standalone: true,
-  selector: 'app-form',
-  imports: [ CommonModule, DynamicFormModule ],
-  template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
-})
-export class FormComponent {
-  formElements = [
-    new DynamicSelect<string>({
-      key: 'goodBirds',
-      label: 'Select the good birds',
-
-      // Add a filter to the select element
-      withFilter: true,
-
-      // Allow the user to select multiple options
-      allowMultiple: true,
-
-      // Add a 'Select all' option to the top of the list of options
-      useSelectAll: true,
-      options: [
-        {
-          label: 'Piwakawaka',
-          value: 'piwakawaka',
-        }, {
-          label: 'Toutouwai',
-          value: 'toutouwai',
-        }, {
-          label: 'Karearea',
-          value: 'karearea',
-        }, {
-          label: 'Kea',
-          value: 'kea',
-        }, {
-          label: 'Pukeko',
-          value: 'pukeko',
-        }, {
-          label: 'Kiwi',
-          value: 'kiwi',
-        }, {
-          label: 'Kakapo',
-          value: 'kakapo',
-        }
-      ]
-    })
-  ];
-}`
-        }
-      ]
-    }, {
-      heading: 'Grouped options',
-      description: 'The dynamic select element is also able to display grouped options. Provide a list of <code>SelectOptionGroup</code> elements instead of <code>SelectOption</code> elements and the rest is taken care of.',
-      key: 'grouped',
-      panelOpen: false,
-      formElements: this.groupedSelect,
-      fileGists: [
-        {
-          name: 'form.component.ts',
-          code: `@Component({
-  standalone: true,
-  selector: 'app-form',
-  imports: [ CommonModule, DynamicFormModule ],
-  template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
-})
-export class FormComponent {
-  formElements = [
-    new DynamicSelect<string>({
-      key: 'birdOfTheYear',
-      label: 'Bird of the year',
-      allowMultiple: true,
-      options: [
-        {
-
-          // Options are grouped
-          label: 'Flightless',
-          options: [
-            {
-              label: 'Kiwi',
-              value: 'kiwi',
-            }, {
-              label: 'Kakapo',
-              value: 'kakapo',
-            }
-          ]
-        }, {
-          label: 'Flighted',
-          options: [
-            {
-              label: 'Tui',
-              value: 'tui',
-            }, {
-              label: 'Toutouwai',
-              value: 'toutouwai',
-            }
-          ]
-        }
-      ]
-    })
-  ];
-}`
-        }
-      ]
-    }, {
-      heading: 'Disabled options',
-      description: `When options should be disabled, simply mark them as disabled in their respective properties and they will be disabled by default. If you need more complex behaviour than this please refer to <a href="mutation">mutation</a>.`,
-      key: 'disabled-options',
-      panelOpen: false,
-      formElements: this.disabledOptions,
-      fileGists: [
-        {
-          name: 'form.component.ts',
-          code: `@Component({
-  standalone: true,
-  selector: 'app-form',
-  imports: [ CommonModule, DynamicFormModule ],
-  template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
-})
-export class FormComponent {
-  formElements = [
-    new DynamicSelect<string>({
-      key: 'birdOfTheYear',
-      label: 'Bird of the year',
-      options: [
-        {
-          label: 'Tomtit',
-          value: 'tomtit',
-
-          // This option is disabled. A realistic use-case would be when this is done through a reactive data source
-          disabled: true,
-        }, {
-          label: 'Piwakawaka',
-          value: 'piwakawaka',
-        }, {
-          label: 'Tauhoe',
-          value: 'tauhoe',
-
-          // This option is also disabled
-          disabled: true
-        }
-      ]
-    })
-  ];
-}`
-        },
-      ]
-    }
+//     {
+//       heading: 'Basic select',
+//       description: `A basic select element with a static list of options and nothing else. You should provide at least a <code>key</code>, <code>label</code> and <code>options</code> property to draw a basic select on the screen.`,
+//       key: 'basic',
+//       panelOpen: false,
+//       formElements: this.basic,
+//       fileGists:  [
+//         {
+//           name: 'form.component.ts',
+//           code: `@Component({
+//   standalone: true,
+//   selector: 'app-form',
+//   imports: [ CommonModule, DynamicFormModule ],
+//   template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
+// })
+// export class FormComponent {
+//   formElements = [
+//     new DynamicSelect<string>({
+//       key: 'birdOfTheYear',
+//       label: 'Bird of the year',
+//
+//       // Options are passed as a static array
+//       options: [
+//         {
+//           label: 'Pukeko',
+//           value: 'pukeko',
+//         }, {
+//           label: 'Kiwi',
+//           value: 'kiwi',
+//         }, {
+//           label: 'Kakapo',
+//           value: 'kakapo',
+//         }
+//       ]
+//     })
+//   ];
+// }`
+//         }
+//       ]
+//     },
+//     {
+//       heading: 'Disabled select',
+//       description: `In some cases you want to disable the select element. If this is the case, you set <code>disabled: true</code> and the select element will be disabled. In the example below, I have pre-set a value for the select element, but this is not necessary. Unlike Angular's default behaviour, Plume forms <i>does</i> return the value of disabled elements by default.`,
+//       key: 'disabled',
+//       panelOpen: false,
+//       formElements: this.disabledSelect,
+//       fileGists: [
+//         {
+//           name: 'form.component.ts',
+//           code: `@Component({
+//   standalone: true,
+//   selector: 'app-form',
+//   imports: [ CommonModule, DynamicFormModule ],
+//   template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
+// })
+// export class FormComponent {
+//   formElements = [
+//     new DynamicSelect<string>({
+//       key: 'birdOfTheYear',
+//       label: 'Bird of the year',
+//
+//       // Value has been pre-set
+//       value: 'kakapo',
+//
+//       // Select element is disabled
+//       disabled: true,
+//       options: [
+//         {
+//           label: 'Pukeko',
+//           value: 'pukeko',
+//         }, {
+//           label: 'Kiwi',
+//           value: 'kiwi',
+//         }, {
+//           label: 'Kakapo',
+//           value: 'kakapo',
+//         }
+//       ]
+//     })
+//   ];
+// }`
+//         }
+//       ]
+//     }, {
+//       heading: 'Nullable select',
+//       description: `More often than not you want the user to be able to deselect an option and not select a different one in return. Simply provide the <code>nullable: true</code> property.`,
+//       key: 'nullable',
+//       panelOpen: false,
+//       formElements: this.nullableSelect,
+//       fileGists: [
+//         {
+//           name: 'form.component.ts',
+//           code: `@Component({
+//   standalone: true,
+//   selector: 'app-form',
+//   imports: [ CommonModule, DynamicFormModule ],
+//   template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
+// })
+// export class FormComponent {
+//   formElements = [
+//     new DynamicSelect<string>({
+//       key: 'birdOfTheYear',
+//       label: 'Bird of the year',
+//
+//       // Allow the element to have a null value
+//       nullable: true,
+//       options: [
+//         {
+//           label: 'Pukeko',
+//           value: 'pukeko',
+//         }, {
+//           label: 'Kiwi',
+//           value: 'kiwi',
+//         }, {
+//           label: 'Kakapo',
+//           value: 'kakapo',
+//         }
+//       ]
+//     })
+//   ];
+// }`
+//         }
+//       ]
+//     }, {
+//       heading: 'Filtered select',
+//       description: `A very powerful feature of the <code>DynamicSelect</code> element, is the option to add a filter. The filter removes any element that does not match with the entered value, which is very useful for select elements with many options. Just set <code>useFilter: true</code> and a filter will be added to the top of the select element options list.`,
+//       key: 'filter',
+//       panelOpen: false,
+//       formElements: this.filterSelect,
+//       fileGists: [
+//         {
+//           name: 'form.component.ts',
+//           code: `@Component({
+//   standalone: true,
+//   selector: 'app-form',
+//   imports: [ CommonModule, DynamicFormModule ],
+//   template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
+// })
+// export class FormComponent {
+//   formElements = [
+//     new DynamicSelect<string>({
+//       key: 'birdOfTheYear',
+//       label: 'Bird of the year',
+//
+//       // Add a filter to the select element
+//       useFilter: true,
+//       options: [
+//         {
+//           label: 'Toutouwai',
+//           value: 'toutouwai',
+//         }, {
+//           label: 'Karearea',
+//           value: 'karearea',
+//         }, {
+//           label: 'Kea',
+//           value: 'kea',
+//         }
+//       ]
+//     })
+//   ];
+// }`
+//         }
+//       ]
+//     }, {
+//       heading: 'Multi-select',
+//       description: `To allow the user to select more than one option, pass the <code>allowMultiple: true</code> property. It is also simple to add a 'Select all' option. Just add <code>useSelectAll: true</code>.<br>Please note that the value type of a multi-select will be an <code>array</code> instead of a <code>string</code> or <code>number</code>.`,
+//       key: 'multi',
+//       panelOpen: false,
+//       formElements: this.multiSelect,
+//       fileGists: [
+//         {
+//           name: 'form.component.ts',
+//           code: `@Component({
+//   standalone: true,
+//   selector: 'app-form',
+//   imports: [ CommonModule, DynamicFormModule ],
+//   template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
+// })
+// export class FormComponent {
+//   formElements = [
+//     new DynamicSelect<string>({
+//       key: 'goodBirds',
+//       label: 'Select the good birds',
+//
+//       // Add a filter to the select element
+//       withFilter: true,
+//
+//       // Allow the user to select multiple options
+//       allowMultiple: true,
+//
+//       // Add a 'Select all' option to the top of the list of options
+//       useSelectAll: true,
+//       options: [
+//         {
+//           label: 'Piwakawaka',
+//           value: 'piwakawaka',
+//         }, {
+//           label: 'Toutouwai',
+//           value: 'toutouwai',
+//         }, {
+//           label: 'Karearea',
+//           value: 'karearea',
+//         }, {
+//           label: 'Kea',
+//           value: 'kea',
+//         }, {
+//           label: 'Pukeko',
+//           value: 'pukeko',
+//         }, {
+//           label: 'Kiwi',
+//           value: 'kiwi',
+//         }, {
+//           label: 'Kakapo',
+//           value: 'kakapo',
+//         }
+//       ]
+//     })
+//   ];
+// }`
+//         }
+//       ]
+//     }, {
+//       heading: 'Grouped options',
+//       description: 'The dynamic select element is also able to display grouped options. Provide a list of <code>SelectOptionGroup</code> elements instead of <code>SelectOption</code> elements and the rest is taken care of.',
+//       key: 'grouped',
+//       panelOpen: false,
+//       formElements: this.groupedSelect,
+//       fileGists: [
+//         {
+//           name: 'form.component.ts',
+//           code: `@Component({
+//   standalone: true,
+//   selector: 'app-form',
+//   imports: [ CommonModule, DynamicFormModule ],
+//   template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
+// })
+// export class FormComponent {
+//   formElements = [
+//     new DynamicSelect<string>({
+//       key: 'birdOfTheYear',
+//       label: 'Bird of the year',
+//       allowMultiple: true,
+//       options: [
+//         {
+//
+//           // Options are grouped
+//           label: 'Flightless',
+//           options: [
+//             {
+//               label: 'Kiwi',
+//               value: 'kiwi',
+//             }, {
+//               label: 'Kakapo',
+//               value: 'kakapo',
+//             }
+//           ]
+//         }, {
+//           label: 'Flighted',
+//           options: [
+//             {
+//               label: 'Tui',
+//               value: 'tui',
+//             }, {
+//               label: 'Toutouwai',
+//               value: 'toutouwai',
+//             }
+//           ]
+//         }
+//       ]
+//     })
+//   ];
+// }`
+//         }
+//       ]
+//     }, {
+//       heading: 'Disabled options',
+//       description: `When options should be disabled, simply mark them as disabled in their respective properties and they will be disabled by default. If you need more complex behaviour than this please refer to <a href="mutation">mutation</a>.`,
+//       key: 'disabled-options',
+//       panelOpen: false,
+//       formElements: this.disabledOptions,
+//       fileGists: [
+//         {
+//           name: 'form.component.ts',
+//           code: `@Component({
+//   standalone: true,
+//   selector: 'app-form',
+//   imports: [ CommonModule, DynamicFormModule ],
+//   template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
+// })
+// export class FormComponent {
+//   formElements = [
+//     new DynamicSelect<string>({
+//       key: 'birdOfTheYear',
+//       label: 'Bird of the year',
+//       options: [
+//         {
+//           label: 'Tomtit',
+//           value: 'tomtit',
+//
+//           // This option is disabled. A realistic use-case would be when this is done through a reactive data source
+//           disabled: true,
+//         }, {
+//           label: 'Piwakawaka',
+//           value: 'piwakawaka',
+//         }, {
+//           label: 'Tauhoe',
+//           value: 'tauhoe',
+//
+//           // This option is also disabled
+//           disabled: true
+//         }
+//       ]
+//     })
+//   ];
+// }`
+//         },
+//       ]
+//     }
   ];
 
   constructor( private service: MockBirdService, private pexels: PexelsService, protected override asideService: AsideService ) {

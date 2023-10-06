@@ -4,8 +4,7 @@ import {
 } from '@plume/forms';
 import { MockObservation } from '../model/mock-observation';
 import { Component, OnInit } from '@angular/core';
-import { AsyncPipe, DatePipe, JsonPipe, NgIf } from '@angular/common';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 import { FlexModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
