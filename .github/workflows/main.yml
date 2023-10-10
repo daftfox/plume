@@ -5,9 +5,13 @@ on:
       - main
   pull_request:
 
+env:
+  NX_BASE: ${{ github.event.pull_request.base.sha }}
+  NX_HEAD: ${{ github.sha }}
+
 jobs:
   main:
-    name: Nx Cloud - Main Job
+    name: Nx Cloud - Lint, test and build in parallel
     uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.13.0
     with:
       number-of-agents: 3
