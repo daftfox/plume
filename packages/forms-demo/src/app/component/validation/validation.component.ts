@@ -187,7 +187,7 @@ export class FormComponent {
   displayedElements = new Subject<string[]>();
 
   private forbiddenValue(forbiddenValue: string): PlumeValidatorFn {
-    return (service: DynamicFormService): ValidatorFn =>
+    return (_service: DynamicFormService): ValidatorFn =>
       (control: AbstractControl): ValidationErrors | null =>
         control.value &&
         control.value.toLowerCase() === forbiddenValue.toLowerCase()

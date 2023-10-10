@@ -1,5 +1,6 @@
 import { isNullish } from './is-nullish';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const filterItems = <T>(items: T[], filters: any): T[] => {
   let filteredData = [...items];
   for (const i in filters) {

@@ -28,7 +28,7 @@ export class PexelsService {
         per_page: 1,
       }),
     ).pipe(
-      catchError((err) => {
+      catchError(() => {
         return of({ error: 'Something went wrong :(' });
       }),
       map((result: QueryResult | ErrorResponse) => {

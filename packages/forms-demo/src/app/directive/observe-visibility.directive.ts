@@ -86,13 +86,12 @@ export class ObserveVisibilityDirective
 
     this.subject$
       .pipe(delay(this.debounceTime), filter(Boolean))
-      .subscribe(async ({ entry, observer }) => {
+      .subscribe(async ({ entry }) => {
         const target = entry.target as HTMLElement;
         const isStillVisible = await this.isVisible(target);
 
         if (isStillVisible) {
           this.visible.emit(target);
-          // observer.unobserve(target);
         }
       });
   }

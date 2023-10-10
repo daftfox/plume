@@ -16,5 +16,5 @@ export class DynamicButtonComponent {
   @Input() color: ThemePalette;
   @Input() label: string;
   @Input() icon: string;
-  @Input() action: (args?: any) => void;
+  @Input() action: (args?: unknown) => void;
 }

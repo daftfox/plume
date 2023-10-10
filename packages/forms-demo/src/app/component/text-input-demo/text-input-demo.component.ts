@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {
   DynamicFormModule,
-  DynamicFormElement,
   DynamicTextInput,
   IDynamicFormElement,
 } from '@plume/forms';

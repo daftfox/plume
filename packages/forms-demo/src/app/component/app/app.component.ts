@@ -5,7 +5,6 @@ import { MatDrawerContent, MatSidenavModule } from '@angular/material/sidenav';
 import { HeaderComponent } from '../header/header.component';
 import { SidebarNavigationComponent } from '../sidebar-navigation.component/sidebar-navigation.component';
 import { AsideService } from '../../service/aside.service';
-import { ViewportScroller } from '@angular/common';
 
 @Component({
   standalone: true,

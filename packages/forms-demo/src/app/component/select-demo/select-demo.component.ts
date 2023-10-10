@@ -14,7 +14,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
-import { Subject, tap } from 'rxjs';
+import { Subject } from 'rxjs';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterLink } from '@angular/router';
 import { AsideService } from '../../service/aside.service';

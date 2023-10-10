@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  DynamicFormElement,
   DynamicFormModule,
   IDynamicFormElement,
 } from '@plume/forms';

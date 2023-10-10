@@ -2,7 +2,6 @@ import {
   AsyncValidatorFn,
   FormControl,
   ValidatorFn,
-  Validators,
 } from '@angular/forms';
 import { SPACER } from './spacer.enum';
 import { DynamicFormElementValueType } from './generic-form-values.interface';

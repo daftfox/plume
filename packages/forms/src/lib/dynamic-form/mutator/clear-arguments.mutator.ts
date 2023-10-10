@@ -7,7 +7,7 @@ export const clearArguments: MutatorFn = <T = DynamicFormElementValueType>(
   originKey: string,
   targetKey: string,
   service: DynamicFormService,
-  value?: T,
+  _value?: T,
 ) => {
   const linkedElement = service.getFormComponent(targetKey);
 

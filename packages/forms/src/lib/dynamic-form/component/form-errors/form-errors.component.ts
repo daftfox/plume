@@ -37,7 +37,7 @@ export class FormErrorsComponent {
    *
    * Wild card character '{n}' will be replaced with the ValidationErrors value for the given key.
    */
-  @Input() messages: any = {};
+  @Input() messages: string[] = [];
 
   errorMessage?: string = null;
 
@@ -62,14 +62,14 @@ export class FormErrorsComponent {
     return messages;
   }
 
-  formatValidationMessage(message: string, values: any): string {
+  formatValidationMessage(message: string, values: string | number | object | []): string {
     let params: string[];
     if (Array.isArray(values)) {
       params = values;
     } else if (typeof values === 'object') {
       params = Object.values(values);
     } else {
-      params = [values];
+      params = [typeof values === 'number' ? values.toString(10) : values];
     }
 
     return message
