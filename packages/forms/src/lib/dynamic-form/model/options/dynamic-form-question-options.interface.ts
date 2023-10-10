@@ -9,7 +9,10 @@ export interface DynamicFormQuestionOptions<T = DynamicFormElementValueType> {
   key?: string;
   label?: string;
   placeholder?: string;
-  validators?: ValidatorFn | PlumeValidatorFn | (ValidatorFn | PlumeValidatorFn)[];
+  validators?:
+    | ValidatorFn
+    | PlumeValidatorFn
+    | (ValidatorFn | PlumeValidatorFn)[];
   asyncValidators?: AsyncValidatorFn | AsyncValidatorFn[];
   linkedElements?: LinkedElement[];
   /**

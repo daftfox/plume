@@ -29,7 +29,7 @@ import { YearMonthFormatModule } from '../year-month-format';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HighlightModule } from 'ngx-highlightjs';
 import { DynamicButtonComponent } from './component/dynamic-button/dynamic-button.component';
-import {DynamicDatepickerComponent} from "./component/dynamic-datepicker/dynamic-datepicker.component";
+import { DynamicDatepickerComponent } from './component/dynamic-datepicker/dynamic-datepicker.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +71,7 @@ import {DynamicDatepickerComponent} from "./component/dynamic-datepicker/dynamic
     NgxTrimDirectiveModule,
     YearMonthFormatModule,
     MatProgressSpinnerModule,
-    HighlightModule
+    HighlightModule,
   ],
   exports: [
     DynamicCheckboxComponent,

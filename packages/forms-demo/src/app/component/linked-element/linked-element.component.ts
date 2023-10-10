@@ -1,35 +1,33 @@
-import {Component} from "@angular/core";
-import {AbstractDemoComponent} from "../abstract-demo/abstract-demo.component";
-import {RouterLink} from "@angular/router";
+import { Component } from '@angular/core';
+import { AbstractDemoComponent } from '../abstract-demo/abstract-demo.component';
+import { RouterLink } from '@angular/router';
 import {
   disableIfTrue,
   DynamicFormModule,
   DynamicSelect,
   DynamicToggle,
 } from '@plume/forms';
-import {MatTableModule} from "@angular/material/table";
+import { MatTableModule } from '@angular/material/table';
 import { GistComponent } from '../../../shared/component/gist/gist.component';
 
 @Component({
   standalone: true,
   selector: 'demo-linked-element',
-  imports: [
-    RouterLink,
-    GistComponent,
-    MatTableModule,
-    DynamicFormModule
-  ],
-  templateUrl: './linked-element.component.html'
+  imports: [RouterLink, GistComponent, MatTableModule, DynamicFormModule],
+  templateUrl: './linked-element.component.html',
 })
 export class LinkedElementComponent extends AbstractDemoComponent {
   override title = 'Linked elements';
-  linkedElementInterfaceGist = [{
-        name: 'linked-element.interface.ts',
-        code: `interface LinkedElement {
+  linkedElementInterfaceGist = [
+    {
+      name: 'linked-element.interface.ts',
+      code: `interface LinkedElement {
   label: string;
   key: string;
   refreshOnValueChange?: boolean;
-}`}];
+}`,
+    },
+  ];
 
   linkedElementExampleQuestions = [
     new DynamicToggle({
@@ -45,15 +43,17 @@ export class LinkedElementComponent extends AbstractDemoComponent {
         {
           label: 'Pukeko',
           value: 'pukeko',
-        }, {
+        },
+        {
           label: 'Kiwi',
           value: 'kiwi',
-        }, {
+        },
+        {
           label: 'Kakapo',
           value: 'kakapo',
-        }
-      ]
-    })
+        },
+      ],
+    }),
   ];
   linkedElementExampleGist = {
     fileGists: [
@@ -96,8 +96,8 @@ export class FormComponent {
       ]
     })
   ];
-}`
-      }
-    ]
-  }
+}`,
+      },
+    ],
+  };
 }

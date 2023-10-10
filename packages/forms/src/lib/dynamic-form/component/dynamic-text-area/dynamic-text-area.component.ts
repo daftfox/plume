@@ -8,24 +8,32 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 @Component({
   selector: 'plume-textarea-form-question',
   templateUrl: './dynamic-text-area.component.html',
-  styleUrls: ['../abstract-form-question/abstract-form-question.component.scss'],
+  styleUrls: [
+    '../abstract-form-question/abstract-form-question.component.scss',
+  ],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [
     FormErrorsComponent,
     FormsModule,
     MatFormFieldModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
 })
 export class DynamicTextAreaComponent extends AbstractFormQuestionComponent<string> {
   @Input() rows: number;
   @Input() maxLength: number;
 
-  constructor( protected override service: DynamicFormService ) {
+  constructor(protected override service: DynamicFormService) {
     super(service);
 
-    this.defaultValidationMessages.set('maxlength', 'Maximum length is {0}, but current input length is {1}');
-    this.defaultValidationMessages.set('minlength', 'Minimum length is {0}, but current input length is {1}');
+    this.defaultValidationMessages.set(
+      'maxlength',
+      'Maximum length is {0}, but current input length is {1}',
+    );
+    this.defaultValidationMessages.set(
+      'minlength',
+      'Minimum length is {0}, but current input length is {1}',
+    );
   }
 }

@@ -2,17 +2,29 @@ import { Directive, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import {
-  IFormAction, IFormGroup, IFormQuestion, IFormOutput, IReactiveFormQuestion, IDynamicFormElement,
+  IFormAction,
+  IFormGroup,
+  IFormQuestion,
+  IFormOutput,
+  IReactiveFormQuestion,
+  IDynamicFormElement,
 } from '../../model';
 
-export type DynamicFormElement = IFormQuestion | IReactiveFormQuestion | IFormGroup | IFormOutput | IFormAction;
+export type DynamicFormElement =
+  | IFormQuestion
+  | IReactiveFormQuestion
+  | IFormGroup
+  | IFormOutput
+  | IFormAction;
 
 @Directive()
 export abstract class AbstractFormGroupComponent implements OnDestroy {
   @Input() form: FormGroup;
   @Input() key: string;
   @Input() label: string;
-  @Input() formElements: Observable<IDynamicFormElement[]> | IDynamicFormElement[];
+  @Input() formElements:
+    | Observable<IDynamicFormElement[]>
+    | IDynamicFormElement[];
 
   protected unsubscribe = new Subject<null>();
 

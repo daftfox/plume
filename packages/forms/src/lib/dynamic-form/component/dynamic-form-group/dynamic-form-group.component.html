@@ -1,9 +1,5 @@
 <ng-container>
-  <form
-    *ngIf="form"
-    (ngSubmit)="submit()"
-    [formGroup]="form">
-
+  <form *ngIf="form" (ngSubmit)="submit()" [formGroup]="form">
     <h2 *ngIf="label">{{ label }}</h2>
 
     <div [fxLayout]="direction" fxLayoutGap="1rem">
@@ -12,9 +8,7 @@
 
     <ng-container *ngIf="showControls">
       <div class="spacer"></div>
-      <div
-        fxLayout
-        fxLayoutGap="1rem">
+      <div fxLayout fxLayoutGap="1rem">
         <button
           *ngIf="submitButtonBadgeLabel !== null"
           mat-raised-button
@@ -23,7 +17,8 @@
           matBadgeColor="accent"
           color="primary"
           [disabled]="!isValid || disabled"
-          type="submit">
+          type="submit"
+        >
           <mat-icon *ngIf="submitButtonIcon">{{ submitButtonIcon }}</mat-icon>
           {{ submitButtonLabel }}
         </button>
@@ -33,7 +28,8 @@
           mat-raised-button
           color="primary"
           [disabled]="!isValid || disabled"
-          type="submit">
+          type="submit"
+        >
           <mat-icon *ngIf="submitButtonIcon">{{ submitButtonIcon }}</mat-icon>
           {{ submitButtonLabel }}
         </button>
@@ -42,14 +38,13 @@
           type="button"
           mat-raised-button
           [disabled]="form.pristine"
-          (click)="cancel()">
+          (click)="cancel()"
+        >
           {{ cancelButtonLabel }}
         </button>
       </div>
     </ng-container>
-    <button
-      type="submit"
-      style="display: none"></button>
+    <button type="submit" style="display: none"></button>
   </form>
 </ng-container>
 

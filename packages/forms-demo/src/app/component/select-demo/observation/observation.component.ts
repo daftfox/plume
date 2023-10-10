@@ -1,6 +1,6 @@
 import {
   AbstractReactiveFormElementComponent,
-  AbstractReactiveFormOutput
+  AbstractReactiveFormOutput,
 } from '@plume/forms';
 import { MockObservation } from '../model/mock-observation';
 import { Component, OnInit } from '@angular/core';
@@ -18,13 +18,22 @@ export class Observation extends AbstractReactiveFormOutput<MockObservation> {
 @Component({
   selector: 'demo-observation',
   templateUrl: './observation.component.html',
-  styleUrls: [
-    './observation.component.scss'
-  ],
+  styleUrls: ['./observation.component.scss'],
   standalone: true,
-  imports: [ AsyncPipe, NgIf, DatePipe, FlexModule, MatCardModule, MatProgressBarModule, MatProgressSpinnerModule ],
+  imports: [
+    AsyncPipe,
+    NgIf,
+    DatePipe,
+    FlexModule,
+    MatCardModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+  ],
 })
-export class ObservationComponent extends AbstractReactiveFormElementComponent<MockObservation> implements OnInit {
+export class ObservationComponent
+  extends AbstractReactiveFormElementComponent<MockObservation>
+  implements OnInit
+{
   observation: Observable<MockObservation>;
 
   override ngOnInit() {

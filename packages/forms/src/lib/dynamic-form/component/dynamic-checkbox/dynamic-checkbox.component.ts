@@ -10,7 +10,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 @Component({
   selector: 'plume-checkbox-form-question',
   templateUrl: './dynamic-checkbox.component.html',
-  styleUrls: ['../abstract-form-question/abstract-form-question.component.scss', './dynamic-checkbox.component.scss'],
+  styleUrls: [
+    '../abstract-form-question/abstract-form-question.component.scss',
+    './dynamic-checkbox.component.scss',
+  ],
   standalone: true,
   imports: [
     FlexLayoutModule,
@@ -20,7 +23,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatFormFieldModule,
     NgIf,
     ReactiveFormsModule,
-  ]
+  ],
 })
 export class DynamicCheckboxComponent extends AbstractFormQuestionComponent<boolean> {
   isRequired(): boolean {

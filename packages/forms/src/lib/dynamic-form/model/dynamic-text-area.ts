@@ -11,7 +11,7 @@ export class DynamicTextArea extends DynamicText<string> {
 
     this.rows = options.rows || 10;
 
-    if ( this.value === null ) {
+    if (this.value === null) {
       this.value = '';
     }
   }

@@ -1,7 +1,18 @@
 import { Component } from '@angular/core';
 import { ObserveVisibilityDirective } from '../../directive/observe-visibility.directive';
-import { DynamicCheckbox, DynamicFormModule, DynamicFormService, DynamicTextInput, PlumeValidatorFn } from '@plume/forms';
-import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+  DynamicCheckbox,
+  DynamicFormModule,
+  DynamicFormService,
+  DynamicTextInput,
+  PlumeValidatorFn,
+} from '@plume/forms';
+import {
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { GistComponent } from '../../../shared/component/gist/gist.component';
 import { FlexModule } from '@angular/flex-layout';
@@ -13,7 +24,14 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './validation.component.html',
   styleUrls: ['../abstract-demo/abstract-demo.component.scss'],
   standalone: true,
-  imports: [ ObserveVisibilityDirective, DynamicFormModule, MatExpansionModule, GistComponent, FlexModule, MatButtonModule ],
+  imports: [
+    ObserveVisibilityDirective,
+    DynamicFormModule,
+    MatExpansionModule,
+    GistComponent,
+    FlexModule,
+    MatButtonModule,
+  ],
 })
 export class ValidationComponent {
   basicValidationPanelOpen = false;
@@ -27,13 +45,15 @@ export class ValidationComponent {
       key: 'areGannetsStillDope',
       label: 'Gannets are still dope',
       validators: [Validators.requiredTrue],
-      additionalValidationMessages: new Map([['required', 'Still required, mate']])
+      additionalValidationMessages: new Map([
+        ['required', 'Still required, mate'],
+      ]),
     }),
     new DynamicTextInput({
       key: 'whyAreGannetsDope',
       label: 'Please explain why Gannets are dope (max 10 characters)',
       validators: [Validators.required, Validators.maxLength(10)],
-    })
+    }),
   ];
   basicValidationFileGists = [
     {
@@ -69,8 +89,8 @@ export class FormComponent {
       validators: [Validators.required, Validators.maxLength(10)],
     })
   ];
-}`
-    }
+}`,
+    },
   ];
 
   customValidationPanelOpen = false;
@@ -79,8 +99,10 @@ export class FormComponent {
       key: 'flightless',
       label: `Please don't enter the word 'flying'. It offends the penguins.`,
       validators: [this.forbiddenValue('flying')],
-      additionalValidationMessages: new Map([['forbiddenValue', 'You offended the penguins']])
-    })
+      additionalValidationMessages: new Map([
+        ['forbiddenValue', 'You offended the penguins'],
+      ]),
+    }),
   ];
   customValidationFileGists = [
     {
@@ -113,8 +135,8 @@ export class FormComponent {
         { forbiddenValue }
         : null;
   }
-}`
-    }
+}`,
+    },
   ];
 
   customValidatorMessagePanelOpen = false;
@@ -123,8 +145,10 @@ export class FormComponent {
       key: 'leopardSeal',
       label: `The penguins also REALLY don't like the 'leopard seal'.`,
       validators: [this.forbiddenValue('leopard seal')],
-      additionalValidationMessages: new Map([['forbiddenValue', 'The {0} scared off the penguins!']])
-    })
+      additionalValidationMessages: new Map([
+        ['forbiddenValue', 'The {0} scared off the penguins!'],
+      ]),
+    }),
   ];
   customValidatorMessageFileGists = [
     {
@@ -155,18 +179,19 @@ export class FormComponent {
         { forbiddenValue }
         : null;
   }
-}`
-    }
+}`,
+    },
   ];
 
   display = true;
   displayedElements = new Subject<string[]>();
 
-  private forbiddenValue( forbiddenValue: string ): PlumeValidatorFn  {
-    return ( service: DynamicFormService ): ValidatorFn => ( control: AbstractControl ): ValidationErrors | null =>
-      control.value &&
-      control.value.toLowerCase() === forbiddenValue.toLowerCase() ?
-        { forbiddenValue }
-        : null;
+  private forbiddenValue(forbiddenValue: string): PlumeValidatorFn {
+    return (service: DynamicFormService): ValidatorFn =>
+      (control: AbstractControl): ValidationErrors | null =>
+        control.value &&
+        control.value.toLowerCase() === forbiddenValue.toLowerCase()
+          ? { forbiddenValue }
+          : null;
   }
 }

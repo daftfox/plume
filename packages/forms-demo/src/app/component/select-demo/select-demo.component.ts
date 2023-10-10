@@ -3,9 +3,14 @@ import {
   DIRECTION,
   DynamicFormGroup,
   DynamicFormModule,
-  DynamicSelect, IDynamicFormElement, refreshDataSource,
+  DynamicSelect,
+  IDynamicFormElement,
+  refreshDataSource,
 } from '@plume/forms';
-import { AbstractDemoComponent, Example } from '../abstract-demo/abstract-demo.component';
+import {
+  AbstractDemoComponent,
+  Example,
+} from '../abstract-demo/abstract-demo.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,10 +30,21 @@ import { MockBirdObservationDetailsDataSource } from './data-source/mock-bird-ob
 @Component({
   standalone: true,
   selector: 'demo-select',
-  imports: [ CommonModule, DynamicFormModule, HttpClientModule, MatButtonModule, MatExpansionModule, RouterLink, HighlightModule, ObserveVisibilityDirective, FlexModule, GistComponent ],
-  providers: [ MockBirdService ],
+  imports: [
+    CommonModule,
+    DynamicFormModule,
+    HttpClientModule,
+    MatButtonModule,
+    MatExpansionModule,
+    RouterLink,
+    HighlightModule,
+    ObserveVisibilityDirective,
+    FlexModule,
+    GistComponent,
+  ],
+  providers: [MockBirdService],
   templateUrl: '../abstract-demo/abstract-demo.component.html',
-  styleUrls: [ '../abstract-demo/abstract-demo.component.scss' ],
+  styleUrls: ['../abstract-demo/abstract-demo.component.scss'],
 })
 export class SelectDemoComponent extends AbstractDemoComponent {
   public override title = 'Select';
@@ -45,15 +61,17 @@ export class SelectDemoComponent extends AbstractDemoComponent {
         {
           label: 'Pukeko',
           value: 'pukeko',
-        }, {
+        },
+        {
           label: 'Kiwi',
           value: 'kiwi',
-        }, {
+        },
+        {
           label: 'Kakapo',
           value: 'kakapo',
-        }
-      ]
-    })
+        },
+      ],
+    }),
   ];
   disabledSelect: IDynamicFormElement[] = [
     new DynamicSelect<string>({
@@ -65,14 +83,16 @@ export class SelectDemoComponent extends AbstractDemoComponent {
         {
           label: 'Pukeko',
           value: 'pukeko',
-        }, {
+        },
+        {
           label: 'Kiwi',
           value: 'kiwi',
-        }, {
+        },
+        {
           label: 'Kakapo',
           value: 'kakapo',
-        }
-      ]
+        },
+      ],
     }),
   ];
   groupedSelect: IDynamicFormElement[] = [
@@ -86,24 +106,27 @@ export class SelectDemoComponent extends AbstractDemoComponent {
             {
               label: 'Kiwi',
               value: 'kiwi',
-            }, {
+            },
+            {
               label: 'Kakapo',
               value: 'kakapo',
-            }
-          ]
-        }, {
+            },
+          ],
+        },
+        {
           label: 'Flighted',
           options: [
             {
               label: 'Tui',
               value: 'tui',
-            }, {
+            },
+            {
               label: 'Toutouwai',
               value: 'toutouwai',
-            }
-          ]
-        }
-      ]
+            },
+          ],
+        },
+      ],
     }),
   ];
   nullableSelect: IDynamicFormElement[] = [
@@ -115,14 +138,16 @@ export class SelectDemoComponent extends AbstractDemoComponent {
         {
           label: 'Pukeko',
           value: 'pukeko',
-        }, {
+        },
+        {
           label: 'Kiwi',
           value: 'kiwi',
-        }, {
+        },
+        {
           label: 'Kakapo',
           value: 'kakapo',
-        }
-      ]
+        },
+      ],
     }),
   ];
   disabledOptions: IDynamicFormElement[] = [
@@ -134,15 +159,17 @@ export class SelectDemoComponent extends AbstractDemoComponent {
           label: 'Tomtit',
           value: 'tomtit',
           disabled: true,
-        }, {
+        },
+        {
           label: 'Piwakawaka',
           value: 'piwakawaka',
-        }, {
+        },
+        {
           label: 'Tauhoe',
           value: 'tauhoe',
-          disabled: true
-        }
-      ]
+          disabled: true,
+        },
+      ],
     }),
   ];
   filterSelect: IDynamicFormElement[] = [
@@ -154,14 +181,16 @@ export class SelectDemoComponent extends AbstractDemoComponent {
         {
           label: 'Toutouwai',
           value: 'toutouwai',
-        }, {
+        },
+        {
           label: 'Karearea',
           value: 'karearea',
-        }, {
+        },
+        {
           label: 'Kea',
           value: 'kea',
-        }
-      ]
+        },
+      ],
     }),
   ];
   multiSelect: IDynamicFormElement[] = [
@@ -175,26 +204,32 @@ export class SelectDemoComponent extends AbstractDemoComponent {
         {
           label: 'Piwakawaka',
           value: 'piwakawaka',
-        }, {
+        },
+        {
           label: 'Toutouwai',
           value: 'toutouwai',
-        }, {
+        },
+        {
           label: 'Karearea',
           value: 'karearea',
-        }, {
+        },
+        {
           label: 'Kea',
           value: 'kea',
-        }, {
+        },
+        {
           label: 'Pukeko',
           value: 'pukeko',
-        }, {
+        },
+        {
           label: 'Kiwi',
           value: 'kiwi',
-        }, {
+        },
+        {
           label: 'Kakapo',
           value: 'kakapo',
-        }
-      ]
+        },
+      ],
     }),
   ];
 
@@ -205,7 +240,7 @@ export class SelectDemoComponent extends AbstractDemoComponent {
       key: 'basic',
       panelOpen: false,
       formElements: this.basic,
-      fileGists:  [
+      fileGists: [
         {
           name: 'form.component.ts',
           code: `@Component({
@@ -235,9 +270,9 @@ export class FormComponent {
       ]
     })
   ];
-}`
-        }
-      ]
+}`,
+        },
+      ],
     },
     {
       heading: 'Disabled select',
@@ -279,10 +314,11 @@ export class FormComponent {
       ]
     })
   ];
-}`
-        }
-      ]
-    }, {
+}`,
+        },
+      ],
+    },
+    {
       heading: 'Nullable select',
       description: `More often than not you want the user to be able to deselect an option and not select a different one in return. Simply provide the <code>nullable: true</code> property.`,
       key: 'nullable',
@@ -319,10 +355,11 @@ export class FormComponent {
       ]
     })
   ];
-}`
-        }
-      ]
-    }, {
+}`,
+        },
+      ],
+    },
+    {
       heading: 'Filtered select',
       description: `A very powerful feature of the <code>DynamicSelect</code> element, is the option to add a filter. The filter removes any element that does not match with the entered value, which is very useful for select elements with many options. Just set <code>useFilter: true</code> and a filter will be added to the top of the select element options list.`,
       key: 'filter',
@@ -359,10 +396,11 @@ export class FormComponent {
       ]
     })
   ];
-}`
-        }
-      ]
-    }, {
+}`,
+        },
+      ],
+    },
+    {
       heading: 'Multi-select',
       description: `To allow the user to select more than one option, pass the <code>allowMultiple: true</code> property. It is also simple to add a 'Select all' option. Just add <code>useSelectAll: true</code>.<br>Please note that the value type of a multi-select will be an <code>array</code> instead of a <code>string</code> or <code>number</code>.`,
       key: 'multi',
@@ -417,12 +455,14 @@ export class FormComponent {
       ]
     })
   ];
-}`
-        }
-      ]
-    }, {
+}`,
+        },
+      ],
+    },
+    {
       heading: 'Grouped options',
-      description: 'The dynamic select element is also able to display grouped options. Provide a list of <code>SelectOptionGroup</code> elements instead of <code>SelectOption</code> elements and the rest is taken care of.',
+      description:
+        'The dynamic select element is also able to display grouped options. Provide a list of <code>SelectOptionGroup</code> elements instead of <code>SelectOption</code> elements and the rest is taken care of.',
       key: 'grouped',
       panelOpen: false,
       formElements: this.groupedSelect,
@@ -470,10 +510,11 @@ export class FormComponent {
       ]
     })
   ];
-}`
-        }
-      ]
-    }, {
+}`,
+        },
+      ],
+    },
+    {
       heading: 'Disabled options',
       description: `When options should be disabled, simply mark them as disabled in their respective properties and they will be disabled by default. If you need more complex behaviour than this please refer to <a href="mutation">mutation</a>.`,
       key: 'disabled-options',
@@ -513,16 +554,21 @@ export class FormComponent {
       ]
     })
   ];
-}`
+}`,
         },
-      ]
-    }
+      ],
+    },
   ];
 
-  constructor( private service: MockBirdService, protected override asideService: AsideService ) {
-    super( asideService );
-    this.mockBirdDataSource = new MockBirdObservationOptionsDataSource( service );
-    this.mockObservationDataSource = new MockBirdObservationDetailsDataSource( service );
+  constructor(
+    private service: MockBirdService,
+    protected override asideService: AsideService,
+  ) {
+    super(asideService);
+    this.mockBirdDataSource = new MockBirdObservationOptionsDataSource(service);
+    this.mockObservationDataSource = new MockBirdObservationDetailsDataSource(
+      service,
+    );
 
     this.examples.push({
       heading: 'Reactive data source',
@@ -540,38 +586,43 @@ export class FormComponent {
               value: 'NZ',
               linkedElements: [
                 { key: 'obsId', mutators: [refreshDataSource] },
-                { key: 'observationDetails', mutators: [refreshDataSource] }
+                { key: 'observationDetails', mutators: [refreshDataSource] },
               ],
               options: [
                 {
                   label: 'Australia',
                   value: 'AU',
-                }, {
+                },
+                {
                   label: 'Fiji',
-                  value: 'FJ'
-                }, {
+                  value: 'FJ',
+                },
+                {
                   label: 'New Caledonia',
-                  value: 'NC'
-                }, {
+                  value: 'NC',
+                },
+                {
                   label: 'New Zealand',
-                  value: 'NZ'
-                }
-              ]
+                  value: 'NZ',
+                },
+              ],
             }),
             new DynamicSelect<string>({
               key: 'obsId',
               label: 'Recently observed species',
               useFilter: true,
               dataSource: this.mockBirdDataSource,
-              linkedElements: [{key: 'observationDetails', mutators: [refreshDataSource]}]
+              linkedElements: [
+                { key: 'observationDetails', mutators: [refreshDataSource] },
+              ],
             }),
             new Observation({
               key: 'observationDetails',
               dataSource: this.mockObservationDataSource,
-              accumulateArguments: true
-            })
-          ]
-        })
+              accumulateArguments: true,
+            }),
+          ],
+        }),
       ],
       fileGists: [
         {
@@ -648,8 +699,9 @@ export class FormComponent {
   refresh() {
     this.birdDataSource.refresh();
   }
-}`
-        }, {
+}`,
+        },
+        {
           name: 'bird.data-source.ts',
           code: `// You should extend the AbstractObservableDataSource class and pass an instance of your own data source
 // to the dataSource property in the options provided to the DynamicSelect constructor
@@ -664,7 +716,7 @@ export class BirdDataSource extends AbstractObservableDataSource<SelectOption<st
     // Is called to refresh data and cause the observable returned from connect() to re-emit
     ...
   }
-}`
+}`,
         },
         {
           name: 'observation.data-source.ts',
@@ -682,7 +734,7 @@ export class ObservationDataSource extends AbstractObservableDataSource<IObserva
     // Is called to refresh data and cause the observable returned from connect() to re-emit
     ...
   }
-}`
+}`,
         },
         {
           name: 'observation.component.ts',
@@ -703,9 +755,9 @@ export class ObservationComponent extends AbstractReactiveFormElementComponent<I
     super.ngOnInit();
     this.observation = this.dataSource.connect();
   }
-}`
-        }
-      ]
+}`,
+        },
+      ],
     });
   }
 }

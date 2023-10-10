@@ -2,8 +2,8 @@ import { Directive, ViewContainerRef } from '@angular/core';
 
 @Directive({
   selector: '[plumeFormElementHost]',
-  standalone: true
+  standalone: true,
 })
 export class DynamicFormElementHostDirective {
-  constructor( public viewContainerRef: ViewContainerRef ) {}
+  constructor(public viewContainerRef: ViewContainerRef) {}
 }

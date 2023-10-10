@@ -4,10 +4,10 @@ import { DynamicCheckboxComponent } from '../component/dynamic-checkbox/dynamic-
 
 export class DynamicCheckbox extends AbstractFormQuestion<boolean> {
   component = DynamicCheckboxComponent;
-  constructor( options: DynamicFormQuestionOptions<boolean> ) {
-    super( options );
+  constructor(options: DynamicFormQuestionOptions<boolean>) {
+    super(options);
 
-    if ( this.value === null ) {
+    if (this.value === null) {
       this.value = false;
     }
   }

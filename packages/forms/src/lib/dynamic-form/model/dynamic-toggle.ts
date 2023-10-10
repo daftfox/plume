@@ -5,9 +5,9 @@ import { DynamicToggleComponent } from '../component/dynamic-toggle/dynamic-togg
 export class DynamicToggle extends AbstractFormQuestion<boolean> {
   component = DynamicToggleComponent;
   constructor(options: DynamicFormQuestionOptions<boolean>) {
-    super( options );
+    super(options);
 
-    if ( this.value === null ) {
+    if (this.value === null) {
       this.value = false;
     }
   }

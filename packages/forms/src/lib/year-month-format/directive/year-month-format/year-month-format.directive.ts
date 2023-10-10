@@ -18,9 +18,9 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
           monthYearLabel: 'MMM YYYY',
           dateA11yLabel: 'LL',
           monthYearA11yLabel: 'MMMM YYYY',
-        }
-      }
-    }
-  ]
+        },
+      },
+    },
+  ],
 })
 export class YearMonthFormatDirective {}

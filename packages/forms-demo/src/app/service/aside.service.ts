@@ -1,5 +1,5 @@
-import {Injectable} from "@angular/core";
-import {BehaviorSubject, Observable} from "rxjs";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface AsideContent {
   title: string;
@@ -12,21 +12,24 @@ export interface AsideItem {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AsideService {
-  private _content: BehaviorSubject<AsideContent | null> = new BehaviorSubject<AsideContent | null>( null );
-  private _activeFragment: BehaviorSubject<string | null> = new BehaviorSubject<string | null>( null );
+  private _content: BehaviorSubject<AsideContent | null> =
+    new BehaviorSubject<AsideContent | null>(null);
+  private _activeFragment: BehaviorSubject<string | null> = new BehaviorSubject<
+    string | null
+  >(null);
   getContent(): Observable<AsideContent> {
     return this._content.asObservable();
   }
 
-  setContent( content: AsideContent ) {
-    this._content.next( content );
+  setContent(content: AsideContent) {
+    this._content.next(content);
   }
 
-  setActiveFragment( fragment: string ) {
-    this._activeFragment.next( fragment );
+  setActiveFragment(fragment: string) {
+    this._activeFragment.next(fragment);
   }
 
   getActiveFragment() {

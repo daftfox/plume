@@ -1,6 +1,11 @@
 <div fxLayout fxLayoutGap="1rem" fxLayoutAlign="start center">
-  <mat-checkbox [formControl]="control">{{ label }}{{ isRequired() ? '*' : ''}}</mat-checkbox>
+  <mat-checkbox [formControl]="control"
+    >{{ label }}{{ isRequired() ? '*' : '' }}</mat-checkbox
+  >
   <mat-error *ngIf="!control.pristine">
-    <plume-form-errors [control]="control" [validationMessages]="defaultValidationMessages"></plume-form-errors>
+    <plume-form-errors
+      [control]="control"
+      [validationMessages]="defaultValidationMessages"
+    ></plume-form-errors>
   </mat-error>
 </div>

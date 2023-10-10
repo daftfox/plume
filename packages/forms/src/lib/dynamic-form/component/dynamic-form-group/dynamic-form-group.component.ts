@@ -2,35 +2,57 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ComponentRef, createEnvironmentInjector, EnvironmentInjector,
+  ComponentRef,
+  createEnvironmentInjector,
+  EnvironmentInjector,
   Input,
   OnChanges,
-  OnInit, Optional,
+  OnInit,
+  Optional,
   Output,
-  SimpleChanges, SkipSelf, Type,
+  SimpleChanges,
+  SkipSelf,
+  Type,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
-import { BehaviorSubject, iif, Observable, of, ReplaySubject, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  iif,
+  Observable,
+  of,
+  ReplaySubject,
+  Subject,
+} from 'rxjs';
 import {
   AbstractFormQuestion,
   DynamicFormGroup,
-  DynamicFormValues, IDynamicFormElement,
-  isFormGroup, isFormQuestion,
+  DynamicFormValues,
+  IDynamicFormElement,
+  isFormGroup,
+  isFormQuestion,
 } from '../../model';
 import { startWith, switchMap, tap } from 'rxjs/operators';
-import { AbstractControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { AbstractFormGroupComponent } from '../abstract-form-group/abstract-form-group.component';
-import { DynamicFormService, FormComponent } from '../../service/dynamic-form.service';
+import {
+  DynamicFormService,
+  FormComponent,
+} from '../../service/dynamic-form.service';
 import { CommonModule, NgIf } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 
-@Component( {
+@Component({
   selector: 'plume-dynamic-form-group',
   templateUrl: './dynamic-form-group.component.html',
-  styleUrls: [ './dynamic-form-group.component.scss' ],
+  styleUrls: ['./dynamic-form-group.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
@@ -42,7 +64,10 @@ import { MatIconModule } from '@angular/material/icon';
     ReactiveFormsModule,
   ],
 })
-export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractFormGroupComponent implements OnInit, AfterViewInit, OnChanges {
+export class DynamicFormGroupComponent<FV = DynamicFormValues>
+  extends AbstractFormGroupComponent
+  implements OnInit, AfterViewInit, OnChanges
+{
   @Input() rootNode = true;
   @Input() showControls = false;
   @Input() disabled = false;
@@ -55,9 +80,12 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
 
   @Output() formSubmit = new Subject<FV>();
   @Output() formCancel = new Subject<null>();
-  @Output() valueChanges: BehaviorSubject<FV> = new BehaviorSubject<FV>( {} as FV );
+  @Output() valueChanges: BehaviorSubject<FV> = new BehaviorSubject<FV>(
+    {} as FV,
+  );
 
-  @ViewChild('formOutlet', { read: ViewContainerRef }) formOutlet: ViewContainerRef;
+  @ViewChild('formOutlet', { read: ViewContainerRef })
+  formOutlet: ViewContainerRef;
 
   private viewInitialised = new ReplaySubject<boolean>();
   private formInitialised = new Subject<null>();
@@ -71,38 +99,43 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
     @SkipSelf() @Optional() private service: DynamicFormService<FV>,
 
     // Only used by root node form group to create an EnvironmentInjector to be shared with downstream components
-    private injector: EnvironmentInjector
+    private injector: EnvironmentInjector,
   ) {
     super();
 
     // Create new instance of the DynamicFormService. This is only performed by the root node
-    if ( !this.service ) {
-      this.service = new DynamicFormService(this.formInitialised.asObservable());
+    if (!this.service) {
+      this.service = new DynamicFormService(
+        this.formInitialised.asObservable(),
+      );
     }
   }
 
   ngOnInit() {
     // The root node of this form instance shares its EnvironmentInjector to ensure all downstream components use
     // the same instance of DynamicFormService
-    if ( this.rootNode ) {
-      this.childInjector = createEnvironmentInjector([
-        {
-          provide: DynamicFormService,
-          useValue: this.service
-        }
-      ], this.injector);
+    if (this.rootNode) {
+      this.childInjector = createEnvironmentInjector(
+        [
+          {
+            provide: DynamicFormService,
+            useValue: this.service,
+          },
+        ],
+        this.injector,
+      );
     }
 
     this.initialiseFormElements();
 
-    if ( this.displayedElements ) {
-      this.service.setDisplayedElements( this.displayedElements );
+    if (this.displayedElements) {
+      this.service.setDisplayedElements(this.displayedElements);
     }
   }
 
   ngAfterViewInit() {
     // Notify subscribers that the formOutlet has been rendered and made available
-    this.viewInitialised.next( true );
+    this.viewInitialised.next(true);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -122,46 +155,66 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
    * @private
    */
   private initialiseFormElements() {
-    this.viewInitialised.pipe(
-      switchMap( () => iif(
-        () => this.formElements instanceof Observable,
-        this.formElements as Observable<IDynamicFormElement[]>,
-        of(this.formElements as IDynamicFormElement[])
-      )),
-      this.initialiseForm.bind(this)
-    ).subscribe();
+    this.viewInitialised
+      .pipe(
+        switchMap(() =>
+          iif(
+            () => this.formElements instanceof Observable,
+            this.formElements as Observable<IDynamicFormElement[]>,
+            of(this.formElements as IDynamicFormElement[]),
+          ),
+        ),
+        this.initialiseForm.bind(this),
+      )
+      .subscribe();
   }
 
-  private initialiseForm( source: Observable<IDynamicFormElement[]> ): Observable<IDynamicFormElement[]> {
+  private initialiseForm(
+    source: Observable<IDynamicFormElement[]>,
+  ): Observable<IDynamicFormElement[]> {
     return source.pipe(
-      tap( formElements => {
-        if ( !this.form ) {
-          this.form = DynamicFormGroupComponent.createFormGroup( formElements );
-          this.form.valueChanges.pipe(
-            startWith( this.getFormValues( formElements ) ),
-            tap( formValues => this.valueChanges.next( formValues ) ),
-          ).subscribe();
+      tap((formElements) => {
+        if (!this.form) {
+          this.form = DynamicFormGroupComponent.createFormGroup(formElements);
+          this.form.valueChanges
+            .pipe(
+              startWith(this.getFormValues(formElements)),
+              tap((formValues) => this.valueChanges.next(formValues)),
+            )
+            .subscribe();
 
           // Detect changes so our formOutlet ViewContainerRef is rendered, and we can add components to it
           this.cdRef.detectChanges();
         }
 
-        this.service.updateFormElementComponents( this, formElements as IDynamicFormElement[] );
+        this.service.updateFormElementComponents(
+          this,
+          formElements as IDynamicFormElement[],
+        );
       }),
       tap(() => {
         this.cdRef.detectChanges();
         setTimeout(() => this.formInitialised.next(null));
-      })
+      }),
     );
   }
 
-  private getFormValues( formElements: IDynamicFormElement[], accumulator: {[key: string]: unknown} = {} ): FV {
-    return formElements.reduce( ( acc, formElement ) => {
-      if ( isFormQuestion( formElement ) ) {
+  private getFormValues(
+    formElements: IDynamicFormElement[],
+    accumulator: { [key: string]: unknown } = {},
+  ): FV {
+    return formElements.reduce((acc, formElement) => {
+      if (isFormQuestion(formElement)) {
         acc[formElement.key] = formElement.value;
-      } else if ( isFormGroup( formElement )) {
+      } else if (isFormGroup(formElement)) {
         acc[formElement.key] = {};
-        Object.assign( acc[formElement.key], this.getFormValues( formElement.formElements, acc[formElement.key] as {[key: string]: unknown} ));
+        Object.assign(
+          acc[formElement.key],
+          this.getFormValues(
+            formElement.formElements,
+            acc[formElement.key] as { [key: string]: unknown },
+          ),
+        );
       }
 
       return acc;
@@ -173,12 +226,12 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
   }
 
   get pristine(): boolean {
-    if ( !this.form ) return true;
+    if (!this.form) return true;
     return this.form.pristine;
   }
 
   get dirty(): boolean {
-    if ( !this.form ) return false;
+    if (!this.form) return false;
     return this.form.dirty;
   }
 
@@ -193,11 +246,12 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
     this.formCancel.next(null);
   }
 
-  createFormComponent( component: Type<FormComponent> ): ComponentRef<FormComponent> {
-    return this.formOutlet.createComponent(
-      component, {
+  createFormComponent(
+    component: Type<FormComponent>,
+  ): ComponentRef<FormComponent> {
+    return this.formOutlet.createComponent(component, {
       // Pass the current injector scope down to the component to be created
-      injector: this.rootNode ? this.childInjector : this.injector
+      injector: this.rootNode ? this.childInjector : this.injector,
     });
   }
 
@@ -205,14 +259,16 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
    * Map an array of FormQuestion objects to a FormGroup
    * @param formElements
    */
-  static createFormGroup( formElements: IDynamicFormElement[]): FormGroup {
+  static createFormGroup(formElements: IDynamicFormElement[]): FormGroup {
     const group: { [key: string]: AbstractControl } = {};
 
     for (const formElement of formElements) {
       if (formElement instanceof AbstractFormQuestion) {
         group[formElement.key] = formElement.getFormControl();
       } else if (formElement instanceof DynamicFormGroup) {
-        group[formElement.key] = DynamicFormGroupComponent.createFormGroup(formElement.formElements);
+        group[formElement.key] = DynamicFormGroupComponent.createFormGroup(
+          formElement.formElements,
+        );
       }
     }
 

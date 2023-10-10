@@ -5,11 +5,11 @@ export const disableIfTrue: MutatorFn = <T = DynamicFormElementValueType>(
   originKey: string,
   targetKey: string,
   service: DynamicFormService,
-  value: T
+  value: T,
 ) => {
-  const linkedElementControl = service.getFormComponentControl( targetKey );
+  const linkedElementControl = service.getFormComponentControl(targetKey);
 
-  if ( value === true ) {
+  if (value === true) {
     linkedElementControl.enable();
   } else {
     linkedElementControl.disable();

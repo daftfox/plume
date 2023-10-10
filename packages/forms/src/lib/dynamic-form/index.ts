@@ -25,7 +25,7 @@ export * from './model';
 export * from './mutator';
 
 // Services
-export * from './service/dynamic-form.service'
+export * from './service/dynamic-form.service';
 
 // Validators
 export * from './validator';

@@ -13,7 +13,7 @@ export class DynamicTextInput extends DynamicText<string> {
     this.type = options.type || 'text';
     this.icon = options.icon;
 
-    if ( this.value === null ) {
+    if (this.value === null) {
       this.value = '';
     }
   }

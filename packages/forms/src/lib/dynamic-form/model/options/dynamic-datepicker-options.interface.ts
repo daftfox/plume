@@ -3,7 +3,8 @@ import { MatCalendarView } from '@angular/material/datepicker';
 
 export type DatepickerMode = 'month-year' | 'date';
 
-export interface DatepickerFormQuestionOptions extends DynamicFormQuestionOptions<Date> {
+export interface DatepickerFormQuestionOptions
+  extends DynamicFormQuestionOptions<Date> {
   startView?: MatCalendarView;
   mode?: DatepickerMode;
 }

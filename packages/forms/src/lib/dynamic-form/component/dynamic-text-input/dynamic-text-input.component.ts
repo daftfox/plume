@@ -10,12 +10,12 @@ import { NgIf } from '@angular/common';
 import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 import { MatInputModule } from '@angular/material/input';
 
-@Component( {
+@Component({
   selector: 'plume-textbox-form-question',
   templateUrl: './dynamic-text-input.component.html',
   styleUrls: [
     '../abstract-form-question/abstract-form-question.component.scss',
-    './dynamic-text-input.component.scss'
+    './dynamic-text-input.component.scss',
   ],
   encapsulation: ViewEncapsulation.None,
   imports: [
@@ -26,29 +26,38 @@ import { MatInputModule } from '@angular/material/input';
     NgIf,
     ReactiveFormsModule,
     NgxTrimDirectiveModule,
-    MatInputModule
+    MatInputModule,
   ],
-  standalone: true
+  standalone: true,
 })
-export class DynamicTextInputComponent extends AbstractFormQuestionComponent<string> implements OnInit {
+export class DynamicTextInputComponent
+  extends AbstractFormQuestionComponent<string>
+  implements OnInit
+{
   @Input() type: TextBoxType = 'text';
   @Input() icon: string;
   @Input() maxLength: number;
 
   passwordVisible = false;
 
-  constructor( protected override service: DynamicFormService ) {
+  constructor(protected override service: DynamicFormService) {
     super(service);
 
-    this.defaultValidationMessages.set('maxlength', 'The maximum length is {0}, but you entered {1} characters');
-    this.defaultValidationMessages.set('minlength', 'The minimum length is {0}, but you entered {1} characters');
+    this.defaultValidationMessages.set(
+      'maxlength',
+      'The maximum length is {0}, but you entered {1} characters',
+    );
+    this.defaultValidationMessages.set(
+      'minlength',
+      'The minimum length is {0}, but you entered {1} characters',
+    );
   }
 
   override ngOnInit() {
     super.ngOnInit();
 
-    if ( this.maxLength ) {
-      this.control.addValidators([Validators.maxLength(this.maxLength)])
+    if (this.maxLength) {
+      this.control.addValidators([Validators.maxLength(this.maxLength)]);
     }
   }
 

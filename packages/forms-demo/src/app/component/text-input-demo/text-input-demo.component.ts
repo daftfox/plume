@@ -1,6 +1,14 @@
 import { Component } from '@angular/core';
-import { DynamicFormModule, DynamicFormElement, DynamicTextInput, IDynamicFormElement } from '@plume/forms';
-import { AbstractDemoComponent, Example } from '../abstract-demo/abstract-demo.component';
+import {
+  DynamicFormModule,
+  DynamicFormElement,
+  DynamicTextInput,
+  IDynamicFormElement,
+} from '@plume/forms';
+import {
+  AbstractDemoComponent,
+  Example,
+} from '../abstract-demo/abstract-demo.component';
 import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { Validators } from '@angular/forms';
@@ -12,9 +20,17 @@ import { GistComponent } from '../../../shared/component/gist/gist.component';
 @Component({
   standalone: true,
   selector: 'demo-textbox',
-  imports: [ CommonModule, DynamicFormModule, MatExpansionModule, HighlightModule, ObserveVisibilityDirective, FlexLayoutModule, GistComponent ],
+  imports: [
+    CommonModule,
+    DynamicFormModule,
+    MatExpansionModule,
+    HighlightModule,
+    ObserveVisibilityDirective,
+    FlexLayoutModule,
+    GistComponent,
+  ],
   templateUrl: '../abstract-demo/abstract-demo.component.html',
-  styleUrls: [ '../abstract-demo/abstract-demo.component.scss' ],
+  styleUrls: ['../abstract-demo/abstract-demo.component.scss'],
 })
 export class TextInputDemoComponent extends AbstractDemoComponent {
   public override title = 'Text input';
@@ -27,8 +43,8 @@ export class TextInputDemoComponent extends AbstractDemoComponent {
     new DynamicTextInput({
       key: 'keaLikes',
       label: 'What do you like most about the kea?',
-      placeholder: 'What I like about the kea is...'
-    })
+      placeholder: 'What I like about the kea is...',
+    }),
   ];
   disabledTextInput: IDynamicFormElement[] = [
     new DynamicTextInput({
@@ -36,7 +52,7 @@ export class TextInputDemoComponent extends AbstractDemoComponent {
       label: 'Which is the most neurotic bird in your opinion?',
       value: 'Piwakawaka',
       disabled: true,
-    })
+    }),
   ];
   passwordTextInput: IDynamicFormElement[] = [
     new DynamicTextInput({
@@ -51,7 +67,7 @@ export class TextInputDemoComponent extends AbstractDemoComponent {
       key: 'searchBird',
       label: 'Which bird do you want to find?',
       placeholder: 'Search',
-      icon: 'search'
+      icon: 'search',
     }),
   ];
   requiredTextInput: IDynamicFormElement[] = [
@@ -59,22 +75,23 @@ export class TextInputDemoComponent extends AbstractDemoComponent {
       key: 'toutouwaiLookalike',
       label: 'The toutouwai looks a lot like which bird?',
       placeholder: 'The European ...',
-      validators: [Validators.required]
+      validators: [Validators.required],
     }),
   ];
   maxLengthTextInput: IDynamicFormElement[] = [
     new DynamicTextInput({
       key: 'favouriteBird',
       label: 'What is your favourite bird whose name is 4 characters long?',
-      placeholder: 'Enter your favourite bird (it\'s the kiwi, isn\'t it?)',
-      maxLength: 4
+      placeholder: "Enter your favourite bird (it's the kiwi, isn't it?)",
+      maxLength: 4,
     }),
   ];
 
   public override examples: Example[] = [
     {
       heading: 'Basic text input',
-      description: 'A standard text input without bells and whistles, like validation, mutation, or other frills.',
+      description:
+        'A standard text input without bells and whistles, like validation, mutation, or other frills.',
       key: 'basicTextInput',
       panelOpen: false,
       formElements: this.basicTextInput,
@@ -95,12 +112,14 @@ export class FormComponent {
       placeholder: 'What I like about the kea is...'
     })
   ];
-}`
-        }
-      ]
-    }, {
+}`,
+        },
+      ],
+    },
+    {
       heading: 'Password text input',
-      description: 'Text input for passwords. Text typed in a password field is normally hidden from view, unless the user clicks the eye-con, in which case the password will be visible until they toggle visibility once more. Just provide <code>type: \'password\'</code> to the configuration and the rest is taken care of for you.',
+      description:
+        "Text input for passwords. Text typed in a password field is normally hidden from view, unless the user clicks the eye-con, in which case the password will be visible until they toggle visibility once more. Just provide <code>type: 'password'</code> to the configuration and the rest is taken care of for you.",
       key: 'passwordTextInput',
       panelOpen: false,
       formElements: this.passwordTextInput,
@@ -124,12 +143,14 @@ export class FormComponent {
       type: 'password',
     })
   ];
-}`
-        }
-      ]
-    }, {
+}`,
+        },
+      ],
+    },
+    {
       heading: 'Disabled text input',
-      description: 'Sometimes you just need to disable a text input element. If you do, just provide <code>disabled: true</code> to the configuration and Bob\'s your uncle.',
+      description:
+        "Sometimes you just need to disable a text input element. If you do, just provide <code>disabled: true</code> to the configuration and Bob's your uncle.",
       key: 'disabledTextInput',
       panelOpen: false,
       formElements: this.disabledTextInput,
@@ -153,12 +174,14 @@ export class FormComponent {
       disabled: true,
     })
   ];
-}`
-        }
-      ]
-    }, {
+}`,
+        },
+      ],
+    },
+    {
       heading: 'Text input with icon prefix',
-      description: 'Prefixing the text input element with an icon is easy as. Simple pass the name of the icon you wish to display to the <code>icon</code> property. A comprehensive list of available icons can be found <a target="_blank" href="https://jossef.github.io/material-design-icons-iconfont/">here</a>.',
+      description:
+        'Prefixing the text input element with an icon is easy as. Simple pass the name of the icon you wish to display to the <code>icon</code> property. A comprehensive list of available icons can be found <a target="_blank" href="https://jossef.github.io/material-design-icons-iconfont/">here</a>.',
       key: 'iconTextInput',
       panelOpen: false,
       formElements: this.iconTextInput,
@@ -182,12 +205,14 @@ export class FormComponent {
       icon: 'search',
     })
   ];
-}`
-        }
-      ]
-    }, {
+}`,
+        },
+      ],
+    },
+    {
       heading: 'Required text input',
-      description: 'Add validation to your text input by providing the built-in Angular <code>Validators.required</code> validator to the <code>validators</code> property. Of course, you\'re able to add more (custom) validators. Please refer to <a href="validation">validation</a> for more information.',
+      description:
+        'Add validation to your text input by providing the built-in Angular <code>Validators.required</code> validator to the <code>validators</code> property. Of course, you\'re able to add more (custom) validators. Please refer to <a href="validation">validation</a> for more information.',
       key: 'requiredTextInput',
       panelOpen: false,
       formElements: this.requiredTextInput,
@@ -211,12 +236,14 @@ export class FormComponent {
       validators: [Validators.required]
     })
   ];
-}`
-        }
-      ]
-    }, {
+}`,
+        },
+      ],
+    },
+    {
       heading: 'Text input with a maximum length',
-      description: 'It is possible to restrict the number of characters a user is able to enter by providing a <code>maxLength</code> property. The input will display an intuitive hint indicating the total number of characters and the number of characters used, as well as prevent more characters than the maximum length being entered.',
+      description:
+        'It is possible to restrict the number of characters a user is able to enter by providing a <code>maxLength</code> property. The input will display an intuitive hint indicating the total number of characters and the number of characters used, as well as prevent more characters than the maximum length being entered.',
       key: 'maxLengthTextInput',
       panelOpen: false,
       formElements: this.maxLengthTextInput,
@@ -240,10 +267,10 @@ export class FormComponent {
       maxLength: 4
     })
   ];
-}`
-        }
-      ]
-    }
+}`,
+        },
+      ],
+    },
   ];
 
   // new DynamicTextInput({

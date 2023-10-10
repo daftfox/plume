@@ -2,12 +2,12 @@ form {
   div {
     display: flex;
 
-    &[ng-reflect-fx-layout=row] {
+    &[ng-reflect-fx-layout='row'] {
       gap: 1rem;
       align-items: flex-start;
     }
 
-    &[ng-reflect-fx-layout=column] {
+    &[ng-reflect-fx-layout='column'] {
       > plume-dynamic-form-question {
         display: block;
 

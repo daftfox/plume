@@ -3,6 +3,6 @@ import { YearMonthFormatDirective } from './directive/year-month-format/year-mon
 
 @NgModule({
   declarations: [YearMonthFormatDirective],
-  exports: [YearMonthFormatDirective]
+  exports: [YearMonthFormatDirective],
 })
 export class YearMonthFormatModule {}

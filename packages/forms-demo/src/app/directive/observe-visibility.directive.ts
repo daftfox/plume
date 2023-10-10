@@ -1,12 +1,22 @@
-import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { delay, filter, Subject } from 'rxjs';
 
 @Directive({
   selector: '[demoObserveVisibility]',
-  standalone: true
+  standalone: true,
 })
 export class ObserveVisibilityDirective
-  implements OnDestroy, OnInit, AfterViewInit {
+  implements OnDestroy, OnInit, AfterViewInit
+{
   @Input() debounceTime = 0;
   @Input() threshold: number | number[] = 1;
 
@@ -39,7 +49,7 @@ export class ObserveVisibilityDirective
   }
 
   private isVisible(element: HTMLElement) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const observer = new IntersectionObserver(([entry]) => {
         resolve(entry.intersectionRatio === 1);
         observer.disconnect();
@@ -59,7 +69,7 @@ export class ObserveVisibilityDirective
       entry.isIntersecting || entry.intersectionRatio > 0;
 
     this.observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (isIntersecting(entry)) {
           this.subject$.next({ entry, observer });
         }

@@ -14,5 +14,10 @@ export const validateIsAfterOrEqual =
       return null;
     return isAfterOrOn(control.value, control.parent.get(controlKey).value)
       ? null
-      : { dateIsNotOnOrAfter: format(control.parent.get(controlKey).value, 'dd/MM/yyyy') };
+      : {
+          dateIsNotOnOrAfter: format(
+            control.parent.get(controlKey).value,
+            'dd/MM/yyyy',
+          ),
+        };
   };

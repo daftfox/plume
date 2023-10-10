@@ -5,7 +5,12 @@ import { DynamicFormService } from '../service/dynamic-form.service';
  * element's value or state changes.
  */
 export interface MutatorFn {
-  ( originKey: string, targetKey: string, service: DynamicFormService, value?: unknown ): void
+  (
+    originKey: string,
+    targetKey: string,
+    service: DynamicFormService,
+    value?: unknown,
+  ): void;
 }
 
 export interface LinkedElement {

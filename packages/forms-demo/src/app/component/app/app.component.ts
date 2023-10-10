@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import {NavigationEnd, Router, RouterModule} from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { FlexModule } from '@angular/flex-layout';
 import { MatDrawerContent, MatSidenavModule } from '@angular/material/sidenav';
 import { HeaderComponent } from '../header/header.component';
@@ -9,8 +9,14 @@ import { ViewportScroller } from '@angular/common';
 
 @Component({
   standalone: true,
-  imports: [ RouterModule, FlexModule, MatSidenavModule, HeaderComponent, SidebarNavigationComponent ],
-  providers: [ AsideService ],
+  imports: [
+    RouterModule,
+    FlexModule,
+    MatSidenavModule,
+    HeaderComponent,
+    SidebarNavigationComponent,
+  ],
+  providers: [AsideService],
   selector: 'demo-root',
   styleUrls: ['./app.component.scss'],
   template: `
@@ -32,31 +38,31 @@ import { ViewportScroller } from '@angular/common';
     <aside>
       <router-outlet name="aside"></router-outlet>
     </aside>
-  `
+  `,
 })
 export class AppComponent {
-
   @ViewChild('content') content: MatDrawerContent;
 
-  constructor( private router: Router, private asideService: AsideService ) {
-
-    router.events.subscribe(s => {
+  constructor(
+    private router: Router,
+    private asideService: AsideService,
+  ) {
+    router.events.subscribe((s) => {
       if (s instanceof NavigationEnd) {
         const tree = router.parseUrl(router.url);
         if (tree.fragment) {
-          const element = document.querySelector("#" + tree.fragment);
+          const element = document.querySelector('#' + tree.fragment);
           if (element) {
             element.scrollIntoView({
               block: 'start',
-              behavior: 'smooth'
+              behavior: 'smooth',
             });
-          this.asideService.setActiveFragment( tree.fragment );
+            this.asideService.setActiveFragment(tree.fragment);
           }
         } else {
-          this.content.scrollTo({start: 0, top: 0});
+          this.content.scrollTo({ start: 0, top: 0 });
         }
       }
     });
-
   }
 }
