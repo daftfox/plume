@@ -5,10 +5,6 @@ on:
       - main
   pull_request:
 
-env:
-  NX_BASE: ${{ github.event.pull_request.base.sha }}
-  NX_HEAD: ${{ github.sha }}
-
 jobs:
   main:
     name: Nx Cloud - Lint, test and build in parallel
@@ -18,10 +14,36 @@ jobs:
       parallel-commands: |
         npx nx-cloud record -- npx nx format:check
       parallel-commands-on-agents: |
-        npx nx affected -t lint --parallel=3 & npx nx affected -t test --parallel=3 --configuration=ci & npx nx affected -t build --parallel=3
+        npx nx affected -t lint --parallel=3
+        npx nx affected -t test --parallel=3 --configuration=ci
+        npx nx affected -t build --parallel=3
+      artifacts-path: |
+        dist/
+      artifacts-name: dist
 
   agents:
     name: Nx Cloud - Agents
     uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.13.0
     with:
       number-of-agents: 3
+
+  deploy-demo:
+    needs: ['main']
+    runs-on: ubuntu-latest
+    name: Deploy forms-demo to GitHub pages
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist/packages/forms-demo
+      - name: Display structure of downloaded files
+        run: ls -R
+#      - name: Deploy to GitHub Pages
+#        id: deployment
+#        uses: actions/deploy-pages@v2
