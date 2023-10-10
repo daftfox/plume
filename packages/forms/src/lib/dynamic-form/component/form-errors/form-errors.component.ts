@@ -62,7 +62,10 @@ export class FormErrorsComponent {
     return messages;
   }
 
-  formatValidationMessage(message: string, values: string | number | object | []): string {
+  formatValidationMessage(
+    message: string,
+    values: string | number | object | [],
+  ): string {
     let params: string[];
     if (Array.isArray(values)) {
       params = values;
