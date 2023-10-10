@@ -1,8 +1,4 @@
-import {
-  AsyncValidatorFn,
-  FormControl,
-  ValidatorFn,
-} from '@angular/forms';
+import { AsyncValidatorFn, FormControl, ValidatorFn } from '@angular/forms';
 import { SPACER } from './spacer.enum';
 import { DynamicFormElementValueType } from './generic-form-values.interface';
 import { DynamicFormQuestionOptions } from './options';
