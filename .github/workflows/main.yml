@@ -14,11 +14,10 @@ jobs:
       parallel-commands: |
         npx nx-cloud record -- npx nx format:check
       parallel-commands-on-agents: |
-        npx nx affected -t lint --parallel=3
-        npx nx affected -t test --parallel=3 --configuration=ci
         npx nx affected -t build --parallel=3
+        ls -al
       artifacts-path: dist
-      artifacts-name: packages
+      artifacts-name: dist
 
   agents:
     name: Nx Cloud - Agents
@@ -46,3 +45,6 @@ jobs:
 #      - name: Deploy to GitHub Pages
 #        id: deployment
 #        uses: actions/deploy-pages@v2
+
+#        npx nx affected -t lint --parallel=3
+#        npx nx affected -t test --parallel=3 --configuration=ci
