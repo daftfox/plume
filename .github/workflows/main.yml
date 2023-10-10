@@ -39,10 +39,7 @@ jobs:
         with:
           name: dist
       - uses: JS-DevTools/npm-publish@v2
-        if: |
-          if test -d /dist/packages/forms; then
-            exit 1
-          fi
+        if: hashFiles('dist/packages/forms/package.json')
         with:
           package: dist/packages/forms
           token: ${{ secrets.NPM_TOKEN }}
