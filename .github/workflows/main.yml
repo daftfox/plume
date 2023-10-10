@@ -75,7 +75,7 @@ jobs:
         name: Download artifacts
         with:
           name: dist
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v2
         name: Upload GitHub pages artifact
         with:
           name: github-pages
