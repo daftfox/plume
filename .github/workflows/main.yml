@@ -14,7 +14,9 @@ jobs:
       parallel-commands: |
         npx nx-cloud record -- npx nx format:check
       parallel-commands-on-agents: |
-        npx nx affected -t build --parallel=3 && ls -al
+        npx nx affected -t lint --parallel=3
+        npx nx affected -t test --parallel=3 --configuration=ci
+        npx nx affected -t build --parallel=3
       artifacts-path: dist
       artifacts-name: dist
 
@@ -23,6 +25,43 @@ jobs:
     uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.13.0
     with:
       number-of-agents: 3
+
+  publish-forms:
+    needs: ['main']
+    name: Publish forms to NPM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+      - uses: actions/download-artifact@v3
+        name: Download artifacts
+        with:
+          name: dist
+      - uses: JS-DevTools/npm-publish@v2
+        if: |
+          if test -d /dist/packages/forms; then
+            exit 1
+          fi
+        with:
+          package: dist/packages/forms
+          token: ${{ secrets.NPM_TOKEN }}
+
+#  publish-utils:
+#    needs: [ 'main' ]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/setup-node@v3
+#        with:
+#          node-version: "20"
+#      - uses: actions/download-artifact@v3
+#        name: Download artifacts
+#        with:
+#          name: dist
+#      - uses: JS-DevTools/npm-publish@v2
+#        with:
+#          package: dist/packages/utils
+#          token: ${{ secrets.NPM_TOKEN }}
 
   deploy-demo:
     needs: ['main']
@@ -36,14 +75,14 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/download-artifact@v3
+        name: Download artifacts
         with:
           name: dist
+      - uses: actions/upload-pages-artifact@v3
+        name: Upload GitHub pages artifact
+        with:
+          name: github-pages
           path: dist/packages/forms-demo
-      - name: Display structure of downloaded files
-        run: ls -R
-#      - name: Deploy to GitHub Pages
-#        id: deployment
-#        uses: actions/deploy-pages@v2
-
-#  npx nx affected -t lint --parallel=3
-#  npx nx affected -t test --parallel=3 --configuration=ci
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
