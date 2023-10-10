@@ -18,7 +18,7 @@ jobs:
         npx nx affected -t test --parallel=3 --configuration=ci
         npx nx affected -t build --parallel=3
       artifacts-path: dist
-      artifacts-name: dist
+      artifacts-name: packages
 
   agents:
     name: Nx Cloud - Agents
