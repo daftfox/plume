@@ -1,11 +1,5 @@
 import { DynamicFormService } from '../service/dynamic-form.service';
-import { ValidatorFn, Validators } from '@angular/forms';
-
-export const isAngularValidator = (
-  validator: ValidatorFn | PlumeValidatorFn,
-): validator is ValidatorFn => {
-  return Object.prototype.hasOwnProperty.call(Validators, validator.name);
-};
+import { ValidatorFn } from '@angular/forms';
 
 export interface PlumeValidatorFn {
   (service: DynamicFormService): ValidatorFn;
