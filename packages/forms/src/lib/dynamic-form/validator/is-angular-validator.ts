@@ -1,5 +1,5 @@
 import { ValidatorFn, Validators } from '@angular/forms';
-import { PlumeValidatorFn } from '@plume/forms';
+import { PlumeValidatorFn } from './plume-validator-fn.interface';
 
 export const isAngularValidator = (
   validator: ValidatorFn | PlumeValidatorFn,
