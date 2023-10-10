@@ -5,10 +5,6 @@ on:
       - main
   pull_request:
 
-env:
-  NX_BASE: ${{ github.event.pull_request.base.sha }}
-  NX_HEAD: ${{ github.sha }}
-
 jobs:
   main:
     name: Nx Cloud - Lint, test and build in parallel
