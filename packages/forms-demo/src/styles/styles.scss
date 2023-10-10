@@ -1,17 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100');
-
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 a {
-  color: mat.get-color-from-palette(mat.$deep-orange-palette, 300);
+  color: mat.get-color-from-palette(mat.$teal-palette, 300);
 }
 
 p {
   code {
-    color: mat.get-color-from-palette(mat.$deep-orange-palette, 300);
+    color: mat.get-color-from-palette(mat.$teal-palette, 300);
   }
 }
 //

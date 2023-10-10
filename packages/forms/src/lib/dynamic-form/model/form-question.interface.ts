@@ -8,7 +8,7 @@ import {
 import { DynamicFormElement } from '../component/abstract-form-group/abstract-form-group.component';
 import { AbstractFormQuestionComponent } from '../component/abstract-form-question/abstract-form-question.component';
 import { IDynamicFormElement } from './dynamic-form-element.interface';
-import { MutatorFn } from './abstract-form-question';
+import { PlumeValidatorFn } from '../validator';
 
 export const isFormQuestion = ( element: DynamicFormElement ): element is IFormQuestion => {
   return 'validators' in element;
@@ -22,10 +22,9 @@ export interface IFormQuestion<T = DynamicFormElementValueType>
   /**
    * Validator functions pertaining to this form question specifically. E.g. Validators.required, Validators.maxLength(10), etc.
    */
-  validators: ValidatorFn | ValidatorFn[];
+  validators: ValidatorFn | PlumeValidatorFn | (ValidatorFn | PlumeValidatorFn)[];
   asyncValidators: AsyncValidatorFn | AsyncValidatorFn[];
   linkedElements: LinkedElement[];
-  mutators: MutatorFn[];
 
   /**
    * Whether the form question is enabled or disabled. Defaults to true

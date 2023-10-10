@@ -33,22 +33,24 @@ import {DynamicDatepickerComponent} from "./component/dynamic-datepicker/dynamic
 
 @NgModule({
   declarations: [
-    DynamicCheckboxComponent,
+    // DynamicCheckboxComponent,
     DynamicDatepickerComponent,
     // DynamicSelectComponent,
     // DynamicFormGroupComponent,
     DynamicFormHintComponent,
     DynamicRadioButtonComponent,
     // DynamicTextAreaComponent,
-    DynamicTextInputComponent,
+    // DynamicTextInputComponent,
     DynamicToggleComponent,
   ],
   imports: [
     CommonModule,
     DynamicButtonComponent,
+    DynamicCheckboxComponent,
     DynamicFormGroupComponent,
     DynamicSelectComponent,
     DynamicTextAreaComponent,
+    DynamicTextInputComponent,
     FlexLayoutModule,
     FormsModule,
     FormErrorsComponent,

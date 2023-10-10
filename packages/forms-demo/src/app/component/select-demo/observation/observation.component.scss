@@ -1,6 +1,11 @@
 mat-card {
   width: 350px;
 
+  .refresh-indicator {
+    width: 100%;
+    height: 128px;
+  }
+
   img {
     margin-top: 1rem;
     margin-bottom: 1rem;

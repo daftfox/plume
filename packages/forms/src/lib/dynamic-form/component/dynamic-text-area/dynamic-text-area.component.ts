@@ -1,5 +1,5 @@
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
-import { Component, Inject, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { DynamicFormService } from '../../service/dynamic-form.service';
 import { FormErrorsComponent } from '../form-errors/form-errors.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';

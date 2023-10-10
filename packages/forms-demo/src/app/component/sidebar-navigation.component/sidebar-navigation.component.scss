@@ -13,7 +13,7 @@ mat-list-item {
 
   &.active {
     font-weight: bold;
-    background-color: mat.get-color-from-palette(mat.$deep-orange-palette, 900);
+    background-color: mat.get-color-from-palette(mat.$teal-palette, 500);
   }
 
   > mat-icon {

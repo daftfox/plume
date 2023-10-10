@@ -8,16 +8,16 @@ html {
 
 $demo-theme-light: mat.define-light-theme((
   color: (
-    primary: mat.define-palette(mat.$deep-orange-palette, 500),
-    accent: mat.define-palette(mat.$deep-orange-palette, A100, A200, A400)
+    primary: mat.define-palette(mat.$teal-palette, 500),
+    accent: mat.define-palette(mat.$teal-palette, A100, A200, A400)
   ),
   density: 0
 ));
 
 $demo-theme-dark: mat.define-dark-theme((
   color: (
-    primary: mat.define-palette(mat.$deep-orange-palette, 500),
-    accent: mat.define-palette(mat.$deep-orange-palette, A100, A200, A400)
+    primary: mat.define-palette(mat.$teal-palette, 500),
+    accent: mat.define-palette(mat.$teal-palette, A100, A200, A400)
   ),
   density: 0
 ));

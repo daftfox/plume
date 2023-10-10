@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {distinctUntilChanged, map, takeUntil, tap} from 'rxjs/operators';
 import { SelectOption, SelectOptionGroup, SelectOptionValueType } from '../../model';
@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormErrorsComponent } from '../form-errors/form-errors.component';
+import { FlexModule } from '@angular/flex-layout';
 
 @Component({
   selector: 'plume-select-form-question',
@@ -34,6 +35,7 @@ import { FormErrorsComponent } from '../form-errors/form-errors.component';
     MatSelectModule,
     NgForOf,
     NgxMatSelectSearchModule,
+    FlexModule,
   ]
 })
 export class DynamicSelectComponent<T = SelectOptionValueType>
@@ -52,7 +54,7 @@ extends AbstractReactiveFormQuestionComponent<
   filterControl = new FormControl<T>(null);
   allSelected = false;
 
-  constructor( protected override service: DynamicFormService) {
+  constructor( protected override service: DynamicFormService ) {
     super(service);
 
     this.defaultValidationMessages.set('required', 'Please select an option');

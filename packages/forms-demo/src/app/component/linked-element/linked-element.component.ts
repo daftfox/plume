@@ -2,11 +2,11 @@ import {Component} from "@angular/core";
 import {AbstractDemoComponent} from "../abstract-demo/abstract-demo.component";
 import {RouterLink} from "@angular/router";
 import {
+  disableIfTrue,
   DynamicFormModule,
   DynamicSelect,
   DynamicToggle,
-  toggleOtherControlDisabled
-} from "@plume/forms";
+} from '@plume/forms';
 import {MatTableModule} from "@angular/material/table";
 import { GistComponent } from '../../../shared/component/gist/gist.component';
 
@@ -36,8 +36,7 @@ export class LinkedElementComponent extends AbstractDemoComponent {
       key: 'enableBirdOfTheYear',
       label: 'Enable bird of the year element',
       value: true,
-      linkedElements: [{ key: 'birdOfTheYear', label: 'Bird of the year' }],
-      mutators: [toggleOtherControlDisabled]
+      linkedElements: [{ key: 'birdOfTheYear', mutators: [disableIfTrue] }],
     }),
     new DynamicSelect<string>({
       key: 'birdOfTheYear',

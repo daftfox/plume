@@ -1,32 +1,27 @@
-import { Directive, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Directive, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Subject, merge, Observable } from 'rxjs';
-import { AsyncValidatorFn, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { AsyncValidatorFn, FormControl, ValidatorFn } from '@angular/forms';
 import { filter, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import {
   DynamicFormElementValueType,
   LinkedElement,
-  MutatorFn
 } from '../../model';
 import { DynamicFormService } from '../../service/dynamic-form.service';
+import { isAngularValidator, PlumeValidatorFn } from '../../validator';
 
 @Directive()
 export abstract class AbstractFormQuestionComponent<T = DynamicFormElementValueType> implements OnInit, OnDestroy, OnChanges {
-  @Input() form: FormGroup;
   @Input() key: string;
   @Input() label: string;
   @Input() placeholder: string;
-  @Input() validators: ValidatorFn | ValidatorFn[] = [];
+  @Input() validators: ValidatorFn | PlumeValidatorFn | (ValidatorFn | PlumeValidatorFn)[] = [];
   @Input() asyncValidators: AsyncValidatorFn | AsyncValidatorFn[] = [];
   @Input() value: T;
   @Input() disabled = false;
   @Input() linkedElements: LinkedElement[] = [];
-  @Input() mutators: MutatorFn[] = [];
 
   @Input() formInitialised: Observable<null>;
   @Input() additionalValidationMessages: Map<string, string>;
-
-  @Output() clearArguments = new Subject<string>();
-  @Output() refreshLinkedQuestion = new Subject<{key: string, args: Map<string, unknown>}>();
 
   defaultValidationMessages = new Map<string, string>([
     [ 'required', 'Required' ],
@@ -43,6 +38,14 @@ export abstract class AbstractFormQuestionComponent<T = DynamicFormElementValueT
   }
 
   ngOnInit() {
+    if ( Array.isArray( this.validators ) ) {
+      this.validators
+        .filter( (validator) => !isAngularValidator(validator))
+        .forEach( (validator) => this.control.addValidators((validator as PlumeValidatorFn)(this.service)))
+    } else if (!isAngularValidator(this.validators)) {
+      this.control.addValidators((this.validators as PlumeValidatorFn)(this.service))
+    }
+
     if ( this.additionalValidationMessages ) {
       this.defaultValidationMessages = new Map([
         ...this.defaultValidationMessages,
@@ -52,17 +55,17 @@ export abstract class AbstractFormQuestionComponent<T = DynamicFormElementValueT
 
     this.formInitialised.pipe(
       switchMap(() =>
-        merge(this.control.valueChanges, this.control.statusChanges)
-          .pipe(
-            startWith(this.control.value),
-            takeUntil(this.unsubscribe),
-            // update value and validity of linked questions on status - and value changes
-            tap( this.updateLinkedElementsValueAndValidity.bind(this) ),
-            // run mutators for value changes only
-            filter((event) => !['VALID', 'INVALID', 'PENDING', 'DISABLED'].includes(event)),
-            tap( this.executeMutators.bind( this ) ),
-            tap( this.refreshLinkedElementsData.bind( this ) ),
-          )
+        merge(
+          this.control.valueChanges.pipe(startWith(this.control.value)),
+          this.control.statusChanges
+        ).pipe(
+          takeUntil(this.unsubscribe),
+          // update value and validity of linked questions on status - and value changes
+          tap( this.updateLinkedElementsValueAndValidity.bind(this) ),
+          // run mutators for value changes only
+          filter((event) => !['VALID', 'INVALID', 'PENDING', 'DISABLED'].includes(event)),
+          tap( this.executeLinkedElementsMutators.bind( this ) ),
+        )
       )
     ).subscribe();
 
@@ -82,31 +85,12 @@ export abstract class AbstractFormQuestionComponent<T = DynamicFormElementValueT
   }
 
   private updateLinkedElementsValueAndValidity() {
-    // if ( !this.form ) return; @TODO required?
-    this.linkedElements
-      .filter(({ key }) => key !== this.key)
-      .forEach(({ key }) => this.service.updateFormControl( key ));
+    this.linkedElements.forEach(({ key }) => this.service.updateFormControl( key ));
   }
 
-  private refreshLinkedElementsData( value: T ) {
-    this.linkedElements
-      .forEach(({ key, refreshOnValueChange, clearAccumulatedArgumentsOnValueChange }) => {
-        if ( key === this.key ) return;
-        if ( clearAccumulatedArgumentsOnValueChange ) {
-          this.clearArguments.next(key);
-        }
-
-        if ( refreshOnValueChange) {
-          this.refreshLinkedQuestion.next({key, args: new Map([[this.key, value]])});
-        }
-      });
-  }
-
-  private executeMutators( value: T ) {
-    this.mutators.forEach((mutator) => mutator(
-      this.linkedElements.filter( ({key}) => key !== this.key ),
-      this.form,
-      value
-    ));
+  private executeLinkedElementsMutators( value: T ) {
+    this.linkedElements.forEach( linkedElement => {
+      linkedElement.mutators.forEach( mutatorFn => mutatorFn( this.key, linkedElement.key, this.service, value ));
+    });
   }
 }

@@ -69,9 +69,9 @@ export class FormErrorsComponent {
       params = [values];
     }
 
-    return message.replace(/{(\d+)}/g, ( match, index ) => {
+    return message ? message.replace(/{(\d+)}/g, ( match, index ) => {
       return params[index] !== null ? params[ index ] : match;
-    });
+    }) : 'Invalid';
   }
 
   /**

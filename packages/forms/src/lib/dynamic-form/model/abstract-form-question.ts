@@ -1,4 +1,4 @@
-import { AsyncValidatorFn, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { AsyncValidatorFn, FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { SPACER } from './spacer.enum';
 import { DynamicFormElementValueType } from './generic-form-values.interface';
 import { DynamicFormQuestionOptions } from './options';
@@ -9,8 +9,7 @@ import {
 } from '../component/abstract-reactive-form-question/abstract-reactive-form-question.component';
 import { AbstractFormQuestionComponent } from '../component/abstract-form-question/abstract-form-question.component';
 import { Type } from '@angular/core';
-
-export type MutatorFn = <T = DynamicFormElementValueType>( linkedElements: LinkedElement[], form: FormGroup, value?: T) => void;
+import { isAngularValidator, PlumeValidatorFn } from '../validator';
 
 /**
  * Abstract class that forms the basis for all dynamic form questions.
@@ -46,7 +45,7 @@ export abstract class AbstractFormQuestion<T = DynamicFormElementValueType> impl
   /**
    * Validator functions pertaining to this form question specifically. E.g. Validators.required, Validators.maxLength(10), etc.
    */
-  validators: ValidatorFn | ValidatorFn[];
+  validators: ValidatorFn | PlumeValidatorFn | (ValidatorFn | PlumeValidatorFn)[];
   asyncValidators: AsyncValidatorFn | AsyncValidatorFn[];
 
   /**
@@ -54,12 +53,6 @@ export abstract class AbstractFormQuestion<T = DynamicFormElementValueType> impl
    * or state changes.
    */
   linkedElements: LinkedElement[];
-
-  /**
-   * Mutators are lambdas that are executed serially in order to change a linked element's state or value when this
-   * element's value or state changes.
-   */
-  mutators: MutatorFn[];
 
   /**
    * Whether the form question is enabled or disabled. Defaults to true
@@ -90,7 +83,6 @@ export abstract class AbstractFormQuestion<T = DynamicFormElementValueType> impl
     this.spacer = typeof options.spacer === 'number' ? options.spacer : null;
     this.disabled = options.disabled === null ? false : options.disabled;
     this.linkedElements = options.linkedElements || [];
-    this.mutators = options.mutators || [];
     this.additionalValidationMessages = options.additionalValidationMessages;
   }
 
@@ -98,8 +90,21 @@ export abstract class AbstractFormQuestion<T = DynamicFormElementValueType> impl
     const { value, disabled, validators, asyncValidators } = this;
     return new FormControl<T>(
       { value, disabled },
-      validators,
+      this.getBuiltInValidators(validators),
       asyncValidators,
     );
   };
+
+  private getBuiltInValidators(
+    validators: ValidatorFn | PlumeValidatorFn | (ValidatorFn | PlumeValidatorFn)[]
+  ): ValidatorFn | ValidatorFn[] {
+    if ( Array.isArray(validators) ) {
+      return (validators as (ValidatorFn | PlumeValidatorFn)[])
+        .filter( (validator: ValidatorFn | PlumeValidatorFn ) => isAngularValidator(validator) ) as ValidatorFn[];
+    } else if ( isAngularValidator(validators) ) {
+      return validators as ValidatorFn;
+    } else {
+      return [];
+    }
+  }
 }

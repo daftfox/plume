@@ -1,26 +1,31 @@
 <div class="observation">
   <mat-card>
-    <ng-container *ngIf="observation | async as obs; else noObservation">
-      <mat-card-header>
-        <mat-card-subtitle>{{obs.sciName}}</mat-card-subtitle>
-        <mat-card-title>{{ obs.comName }}</mat-card-title>
-      </mat-card-header>
-      <img mat-card-image [src]="obs.url" [alt]="obs.comName">
-      <mat-card-content>
-        <dl>
-          <dt>Observation date:</dt>
-          <dd>{{ obs.obsDt | date: 'dd/MM/yyyy'}}</dd>
-          <dt>Location:</dt>
-          <dd>{{ obs.locName }}</dd>
-        </dl>
-      </mat-card-content>
-      <mat-card-footer>
-        <mat-progress-bar *ngIf="(dataSource.refreshing | async) === true" mode="indeterminate"></mat-progress-bar>
-      </mat-card-footer>
+    <ng-container *ngIf="(dataSource.refreshing | async) === false; else refreshing">
+      <ng-container *ngIf="observation | async as obs; else noObservation">
+        <mat-card-header>
+          <mat-card-subtitle>{{obs.sciName}}</mat-card-subtitle>
+          <mat-card-title>{{ obs.comName }}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image [src]="obs.url || '/assets/tui.svg'" [alt]="obs.comName">
+        <mat-card-content>
+          <dl>
+            <dt>Observation date:</dt>
+            <dd>{{ obs.obsDt | date: 'dd/MM/yyyy'}}</dd>
+            <dt>Location:</dt>
+            <dd>{{ obs.locName }}</dd>
+          </dl>
+        </mat-card-content>
+      </ng-container>
     </ng-container>
   </mat-card>
 </div>
 
 <ng-template #noObservation>
   <mat-card-content>Please select a species</mat-card-content>
+</ng-template>
+
+<ng-template #refreshing>
+  <div class="refresh-indicator" fxLayout fxLayoutAlign="center center">
+    <mat-progress-spinner mode="indeterminate" diameter="64"></mat-progress-spinner>
+  </div>
 </ng-template>

@@ -60,6 +60,7 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
   @ViewChild('formOutlet', { read: ViewContainerRef }) formOutlet: ViewContainerRef;
 
   private viewInitialised = new ReplaySubject<boolean>();
+  private formInitialised = new Subject<null>();
 
   childInjector: EnvironmentInjector;
 
@@ -76,7 +77,7 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
 
     // Create new instance of the DynamicFormService. This is only performed by the root node
     if ( !this.service ) {
-      this.service = new DynamicFormService(this);
+      this.service = new DynamicFormService(this.formInitialised.asObservable());
     }
   }
 
@@ -145,8 +146,12 @@ export class DynamicFormGroupComponent<FV = DynamicFormValues> extends AbstractF
           this.cdRef.detectChanges();
         }
 
-        this.service.updateFormElementComponents( this, formElements as IDynamicFormElement[], this.cdRef );
+        this.service.updateFormElementComponents( this, formElements as IDynamicFormElement[] );
       }),
+      tap(() => {
+        this.cdRef.detectChanges();
+        setTimeout(() => this.formInitialised.next(null));
+      })
     );
   }
 

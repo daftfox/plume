@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of, switchMap, take } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { sortItems } from '@plume/utils';
 import { MockObservation } from '../model/mock-observation';
+import { PexelsService } from './pexels.service';
 
 @Injectable()
 export class MockBirdService {
-  constructor( private http: HttpClient ) {}
+  constructor( private http: HttpClient, private pexels: PexelsService ) {}
+
   getByRegion( region: string ): Observable<MockObservation[]> {
     const headers = new HttpHeaders({'x-ebirdapitoken': 'rlh3p7u0s6tf'});
 
@@ -28,6 +30,13 @@ export class MockBirdService {
   getByObservationId( region: string, observationId: string ): Observable<MockObservation> {
     return this.getByRegion( region ).pipe(
       map( ( response: MockObservation[] ) => response.find(({obsId}) => obsId === observationId )),
+      switchMap( observation =>
+        observation !== undefined ?
+          this.pexels.getImageUrl(observation.comName).pipe(
+            take(1),
+            map( url => ({ ...observation, url: url} as MockObservation))
+          ) : of(null)
+      )
     );
   }
 }

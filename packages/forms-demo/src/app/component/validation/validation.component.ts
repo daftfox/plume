@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ObserveVisibilityDirective } from '../../directive/observe-visibility.directive';
-import { DynamicCheckbox, DynamicFormModule, DynamicTextInput } from '@plume/forms';
+import { DynamicCheckbox, DynamicFormModule, DynamicFormService, DynamicTextInput, PlumeValidatorFn } from '@plume/forms';
 import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { GistComponent } from '../../../shared/component/gist/gist.component';
@@ -19,12 +19,12 @@ export class ValidationComponent {
   basicValidationPanelOpen = false;
   basicValidation = [
     new DynamicCheckbox({
-      key: 'important',
+      key: 'areGannetsDope',
       label: 'Gannets are dope',
       validators: [Validators.requiredTrue],
     }),
     new DynamicCheckbox({
-      key: 'stillImportant',
+      key: 'areGannetsStillDope',
       label: 'Gannets are still dope',
       validators: [Validators.requiredTrue],
       additionalValidationMessages: new Map([['required', 'Still required, mate']])
@@ -47,14 +47,14 @@ export class ValidationComponent {
 export class FormComponent {
   formElements = [
     new DynamicCheckbox({
-      key: 'important',
+      key: 'areGannetsDope',
       label: 'Gannets are dope',
 
       // Synchronously check if the checkbox is selected using OOB Angular validator
       validators: [ Validators.requiredTrue ],
     }),
     new DynamicCheckbox({
-      key: 'stillImportant',
+      key: 'areGannetsStillDope',
       label: 'Gannets are still dope',
       validators: [Validators.requiredTrue],
 
@@ -78,7 +78,7 @@ export class FormComponent {
     new DynamicTextInput({
       key: 'flightless',
       label: `Please don't enter the word 'flying'. It offends the penguins.`,
-      validators: [this.customValidator('flying')],
+      validators: [this.forbiddenValue('flying')],
       additionalValidationMessages: new Map([['forbiddenValue', 'You offended the penguins']])
     })
   ];
@@ -105,10 +105,55 @@ export class FormComponent {
     })
   ];
 
-  private customValidator( forbiddenValue: string ): ValidatorFn {
-    return ( control: AbstractControl ): ValidationErrors | null => {
-      return control.value && control.value.toLowerCase() === forbiddenValue.toLowerCase() ? { forbiddenValue } : null;
+  private customValidator( forbiddenValue: string ): PlumeValidatorFn  {
+    return ( service: DynamicFormService ): ValidatorFn =>
+    ( control: AbstractControl ): ValidationErrors | null =>
+      control.value &&
+      control.value.toLowerCase() === forbiddenValue.toLowerCase() ?
+        { forbiddenValue }
+        : null;
+  }
+}`
     }
+  ];
+
+  customValidatorMessagePanelOpen = false;
+  customValidatorMessage = [
+    new DynamicTextInput({
+      key: 'leopardSeal',
+      label: `The penguins also REALLY don't like the 'leopard seal'.`,
+      validators: [this.forbiddenValue('leopard seal')],
+      additionalValidationMessages: new Map([['forbiddenValue', 'The {0} scared off the penguins!']])
+    })
+  ];
+  customValidatorMessageFileGists = [
+    {
+      name: 'form.component.ts',
+      code: `@Component({
+  standalone: true,
+  selector: 'app-form',
+  imports: [ CommonModule, DynamicFormModule ],
+  template: \`<plume-dynamic-form-group [formElements]="formElements"></plume-dynamic-form-group>\`,
+})
+export class FormComponent {
+  formElements = [
+    new DynamicTextInput({
+      key: 'flightless',
+      label: \`The penguins also REALLY don't like the 'leopard seal'.\`,
+      validators: [this.forbiddenValue('leopard seal')],
+
+      // The additional information returned by the custom ValidatorFn is inserted in place of {0}
+      additionalValidationMessages: new Map([['forbiddenValue', 'The {0} scared off the penguins!']])
+    })
+  ];
+
+  private customValidator( forbiddenValue: string ): PlumeValidatorFn  {
+    return ( service: DynamicFormService ): ValidatorFn =>
+    ( control: AbstractControl ): ValidationErrors | null =>
+      control.value &&
+      control.value.toLowerCase() === forbiddenValue.toLowerCase() ?
+        { forbiddenValue }
+        : null;
   }
 }`
     }
@@ -117,14 +162,11 @@ export class FormComponent {
   display = true;
   displayedElements = new Subject<string[]>();
 
-  togglePenguins() {
-    this.display = !this.display;
-    this.displayedElements.next( this.display ? ['flightless'] : [] );
-  }
-
-  private customValidator( forbiddenValue: string ): ValidatorFn {
-    return ( control: AbstractControl ): ValidationErrors | null => {
-      return control.value && control.value.toLowerCase() === forbiddenValue.toLowerCase() ? { forbiddenValue } : null;
-    }
+  private forbiddenValue( forbiddenValue: string ): PlumeValidatorFn  {
+    return ( service: DynamicFormService ): ValidatorFn => ( control: AbstractControl ): ValidationErrors | null =>
+      control.value &&
+      control.value.toLowerCase() === forbiddenValue.toLowerCase() ?
+        { forbiddenValue }
+        : null;
   }
 }

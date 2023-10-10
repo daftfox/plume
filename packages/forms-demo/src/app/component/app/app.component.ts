@@ -5,6 +5,7 @@ import { MatDrawerContent, MatSidenavModule } from '@angular/material/sidenav';
 import { HeaderComponent } from '../header/header.component';
 import { SidebarNavigationComponent } from '../sidebar-navigation.component/sidebar-navigation.component';
 import { AsideService } from '../../service/aside.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -49,8 +50,7 @@ export class AppComponent {
               block: 'start',
               behavior: 'smooth'
             });
-            this.asideService.setActiveFragment( tree.fragment );
-            console.log(tree.fragment);
+          this.asideService.setActiveFragment( tree.fragment );
           }
         } else {
           this.content.scrollTo({start: 0, top: 0});

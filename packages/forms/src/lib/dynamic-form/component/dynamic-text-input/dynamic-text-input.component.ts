@@ -1,10 +1,16 @@
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
-import { Component, Inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { TextBoxType } from '../../model/options';
-import { Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DynamicFormService } from '../../service/dynamic-form.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { FormErrorsComponent } from '../form-errors/form-errors.component';
+import { NgIf } from '@angular/common';
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
+import { MatInputModule } from '@angular/material/input';
 
-@Component({
+@Component( {
   selector: 'plume-textbox-form-question',
   templateUrl: './dynamic-text-input.component.html',
   styleUrls: [
@@ -12,6 +18,17 @@ import { DynamicFormService } from '../../service/dynamic-form.service';
     './dynamic-text-input.component.scss'
   ],
   encapsulation: ViewEncapsulation.None,
+  imports: [
+    FormErrorsComponent,
+    FormsModule,
+    MatFormFieldModule,
+    MatIconModule,
+    NgIf,
+    ReactiveFormsModule,
+    NgxTrimDirectiveModule,
+    MatInputModule
+  ],
+  standalone: true
 })
 export class DynamicTextInputComponent extends AbstractFormQuestionComponent<string> implements OnInit {
   @Input() type: TextBoxType = 'text';
