@@ -1,8 +1,8 @@
-@import "highlight.js/scss/base16/material-darker";
+@import 'highlight.js/scss/base16/material-darker';
 
-slf-gist {
+plume-gist {
   display: block;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 $header-font-color: #1c1c1c !default;
@@ -15,7 +15,7 @@ $line-number-color: #5b5b5b !default;
 
   .header {
     position: absolute;
-    top: calc(-.9rem - 2px);
+    top: calc(-0.9rem - 2px);
     left: 0;
     right: 0;
     height: 1rem;
@@ -37,12 +37,38 @@ $line-number-color: #5b5b5b !default;
 
     &.yosemite {
       background: #f6f6f6; /* Old browsers */
-      background: -moz-linear-gradient(top,  #f6f6f6 0%, #dadada 100%); /* FF3.6+ */
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f6f6f6), color-stop(100%,#dadada)); /* Chrome,Safari4+ */
-      background: -webkit-linear-gradient(top,  #f6f6f6 0%,#dadada 100%); /* Chrome10+,Safari5.1+ */
-      background: -o-linear-gradient(top,  #f6f6f6 0%,#dadada 100%); /* Opera 11.10+ */
-      background: -ms-linear-gradient(top,  #f6f6f6 0%,#dadada 100%); /* IE10+ */
-      background: linear-gradient(to bottom,  #f6f6f6 0%,#dadada 100%); /* W3C */
+      background: -moz-linear-gradient(
+        top,
+        #f6f6f6 0%,
+        #dadada 100%
+      ); /* FF3.6+ */
+      background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0%, #f6f6f6),
+        color-stop(100%, #dadada)
+      ); /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(
+        top,
+        #f6f6f6 0%,
+        #dadada 100%
+      ); /* Chrome10+,Safari5.1+ */
+      background: -o-linear-gradient(
+        top,
+        #f6f6f6 0%,
+        #dadada 100%
+      ); /* Opera 11.10+ */
+      background: -ms-linear-gradient(
+        top,
+        #f6f6f6 0%,
+        #dadada 100%
+      ); /* IE10+ */
+      background: linear-gradient(
+        to bottom,
+        #f6f6f6 0%,
+        #dadada 100%
+      ); /* W3C */
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f6f6', endColorstr='#dadada',GradientType=0 ); /* IE6-9 */
       border: 1px solid #d8d8d8;
       border-bottom: 1px solid #b4b4b4;
@@ -61,18 +87,18 @@ $line-number-color: #5b5b5b !default;
       margin: 0 4px 0 0;
 
       &.red {
-        background: #FF6057;
-        border: 1px solid #E14640;
+        background: #ff6057;
+        border: 1px solid #e14640;
       }
 
       &.amber {
-        background: #FFBD2E;
-        border: 1px solid #DFA123;
+        background: #ffbd2e;
+        border: 1px solid #dfa123;
       }
 
       &.green {
-        background: #27C93F;
-        border: 1px solid #1DAD2B;
+        background: #27c93f;
+        border: 1px solid #1dad2b;
       }
     }
   }
@@ -95,9 +121,10 @@ $line-number-color: #5b5b5b !default;
     }
 
     .mat-mdc-tab-labels {
-      gap: .1rem;
+      gap: 0.1rem;
 
-      .mdc-tab__ripple, .mat-ripple {
+      .mdc-tab__ripple,
+      .mat-ripple {
         display: none;
       }
 
@@ -106,11 +133,11 @@ $line-number-color: #5b5b5b !default;
       }
     }
 
-    div[role="tab"] {
-      box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
-      0px 1px 1px 0px rgba(0, 0, 0, 0.14),
-      0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-
+    div[role='tab'] {
+      box-shadow:
+        0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+        0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+        0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 
       height: 1.8rem;
       flex-grow: 0 !important;
@@ -153,7 +180,6 @@ $line-number-color: #5b5b5b !default;
         padding: 0;
 
         &.hljs {
-
           .hljs-ln {
             padding: 8px 0;
 

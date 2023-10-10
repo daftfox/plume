@@ -1,17 +1,43 @@
 <h1 demoObserveVisibility>Validation</h1>
-<p>One of the most important aspects of forms is the validation of user input. Plume makes it easy to use <a href="https://angular.io/api/forms/Validators" target="_blank">out-of-the-box Angular validators</a> as well as <a href="https://angular.io/guide/form-validation#defining-custom-validators" target="_blank">custom validators</a> following the same patterns.</p>
+<p>
+  One of the most important aspects of forms is the validation of user input.
+  Plume makes it easy to use
+  <a href="https://angular.io/api/forms/Validators" target="_blank"
+    >built-in Angular validators</a
+  >
+  as well as
+  <a
+    href="https://angular.io/guide/form-validation#defining-custom-validators"
+    target="_blank"
+    >custom validators</a
+  >
+  following the same patterns.
+</p>
 
 <article>
-  <h2>Out of the box validators</h2>
+  <h2>Angular built-in validators</h2>
   <div fxLayout>
-    <p fxFlex="60">Developers can use the validators supplied by the Angular framework for the most basic validation. Simply pass them to the form element you want validated. Validation error messages will be displayed automatically when validation fails. Sensible messages for default validators have been supplied, but can be overridden.</p>
+    <p fxFlex="60">
+      Developers can use the validators supplied by the Angular framework for
+      the most basic validation. Simply pass them to the form element you want
+      validated. Validation error messages will be displayed automatically when
+      validation fails. Sensible messages for default validators have been
+      supplied, but can be overridden.
+    </p>
   </div>
-  <plume-dynamic-form-group [formElements]="basicValidation"></plume-dynamic-form-group>
+  <plume-dynamic-form-group
+    [formElements]="basicValidation"
+  ></plume-dynamic-form-group>
 
   <mat-accordion>
-    <mat-expansion-panel (opened)="basicValidationPanelOpen = true" (closed)="basicValidationPanelOpen = false">
+    <mat-expansion-panel
+      (opened)="basicValidationPanelOpen = true"
+      (closed)="basicValidationPanelOpen = false"
+    >
       <mat-expansion-panel-header>
-        {{ basicValidationPanelOpen ? 'Hide code example' : 'Show code example' }}
+        {{
+          basicValidationPanelOpen ? 'Hide code example' : 'Show code example'
+        }}
       </mat-expansion-panel-header>
 
       <demo-gist [fileGists]="basicValidationFileGists"></demo-gist>
@@ -19,21 +45,80 @@
   </mat-accordion>
 </article>
 
-<article>
-  <h2>Custom validators</h2>
-  <div fxLayout>
-    <p fxFlex="60">You will frequently find yourself needing slightly more advanced validators. Validation error messages for these validators will have to supplied manually.</p>
+<article fxLayout="column" fxLayoutGap="3rem">
+  <div>
+    <h2>Custom validators</h2>
+    <div fxLayout>
+      <p fxFlex="60">
+        You will frequently find yourself needing slightly more advanced
+        validators. In this case you can create a custom validator function
+        implementing the <code>PlumeValidationFn</code> interface. This higher
+        order function is supplied with an instance of the
+        <code>DynamicFormService</code> which offers you far more control over
+        your form.
+      </p>
+    </div>
+    <plume-dynamic-form-group
+      [formElements]="customValidation"
+      [displayedElements]="displayedElements"
+    ></plume-dynamic-form-group>
+
+    <mat-accordion>
+      <mat-expansion-panel
+        (opened)="customValidationPanelOpen = true"
+        (closed)="customValidationPanelOpen = false"
+      >
+        <mat-expansion-panel-header>
+          {{
+            customValidationPanelOpen
+              ? 'Hide code example'
+              : 'Show code example'
+          }}
+        </mat-expansion-panel-header>
+
+        <demo-gist [fileGists]="customValidationFileGists"></demo-gist>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
-  <plume-dynamic-form-group [formElements]="customValidation"></plume-dynamic-form-group>
 
-  <mat-accordion>
-    <mat-expansion-panel (opened)="customValidationPanelOpen = true" (closed)="customValidationPanelOpen = false">
-      <mat-expansion-panel-header>
-        {{ customValidationPanelOpen ? 'Hide code example' : 'Show code example' }}
-      </mat-expansion-panel-header>
+  <div>
+    <h2>Custom validation messages</h2>
+    <div fxLayout>
+      <p fxFlex="60">
+        When providing custom validation messages it's possible to add
+        placeholders to be substituted with further details by the validation
+        function. These placeholders are noted as
+        <code>&#123;0&#125;, &#123;1&#125;, &#123;2&#125;</code> etc.
+      </p>
+    </div>
 
-      <demo-gist [fileGists]="customValidationFileGists"></demo-gist>
-    </mat-expansion-panel>
-  </mat-accordion>
+    <plume-dynamic-form-group
+      [formElements]="customValidatorMessage"
+      [displayedElements]="displayedElements"
+    ></plume-dynamic-form-group>
+
+    <mat-accordion>
+      <mat-expansion-panel
+        (opened)="customValidatorMessagePanelOpen = true"
+        (closed)="customValidatorMessagePanelOpen = false"
+      >
+        <mat-expansion-panel-header>
+          {{
+            customValidatorMessagePanelOpen
+              ? 'Hide code example'
+              : 'Show code example'
+          }}
+        </mat-expansion-panel-header>
+
+        <demo-gist [fileGists]="customValidatorMessageFileGists"></demo-gist>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 </article>
 
+<article>
+  <h2>Available validators</h2>
+  <ul>
+    <li>isAfterOrEqual()</li>
+  </ul>
+</article>

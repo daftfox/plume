@@ -11,7 +11,7 @@ import { NgFor, NgIf } from '@angular/common';
   templateUrl: './form-errors.component.html',
   styleUrls: ['./form-errors.component.scss'],
   standalone: true,
-  imports: [ NgFor, NgIf ],
+  imports: [NgFor, NgIf],
 })
 export class FormErrorsComponent {
   /**
@@ -37,7 +37,7 @@ export class FormErrorsComponent {
    *
    * Wild card character '{n}' will be replaced with the ValidationErrors value for the given key.
    */
-  @Input() messages: any = {};
+  @Input() messages: string[] = [];
 
   errorMessage?: string = null;
 
@@ -49,29 +49,34 @@ export class FormErrorsComponent {
   get errorMessages(): string[] {
     const messages: string[] = [];
 
-    if ( !this.control ) return [];
+    if (!this.control) return [];
 
     for (const propertyName in this.control.errors) {
       messages.push(
-        this.formatValidationMessage( this.validationMessages.get(propertyName), this.control.errors[propertyName])
+        this.formatValidationMessage(
+          this.validationMessages.get(propertyName),
+          this.control.errors[propertyName],
+        ),
       );
     }
     return messages;
   }
 
-  formatValidationMessage( message: string, values: any ): string {
+  formatValidationMessage(message: string, values: string | number | object | []): string {
     let params: string[];
-    if ( Array.isArray( values ) ) {
+    if (Array.isArray(values)) {
       params = values;
-    } else if ( typeof values === 'object' ) {
+    } else if (typeof values === 'object') {
       params = Object.values(values);
     } else {
-      params = [values];
+      params = [typeof values === 'number' ? values.toString(10) : values];
     }
 
-    return message.replace(/{(\d+)}/g, ( match, index ) => {
-      return params[index] !== null ? params[ index ] : match;
-    });
+    return message
+      ? message.replace(/{(\d+)}/g, (match, index) => {
+          return params[index] !== null ? params[index] : match;
+        })
+      : 'Invalid';
   }
 
   /**
@@ -82,7 +87,12 @@ export class FormErrorsComponent {
   get formattedErrors(): string {
     const formattedMessages: string[] = [];
     this.errorMessages.forEach((message: string, index: number) => {
-      if (index !== 0 && message !== '' && (message.length < 2 || message.charAt(1) !== message.charAt(1).toUpperCase())) {
+      if (
+        index !== 0 &&
+        message !== '' &&
+        (message.length < 2 ||
+          message.charAt(1) !== message.charAt(1).toUpperCase())
+      ) {
         // lowercase the first character, leave the first message as-is
         message = message.charAt(0).toLowerCase() + message.substr(1);
       }

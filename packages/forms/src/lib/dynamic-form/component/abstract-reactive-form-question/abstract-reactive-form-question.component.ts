@@ -1,13 +1,20 @@
 import { Directive, Input, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { AbstractObservableDataSource, DynamicFormElementValueType } from '../../model';
-import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
 import {
-  initialiseReactiveFormElement
-} from '../abstract-reactive-form-element/abstract-reactive-form-element.component';
+  AbstractObservableDataSource,
+  DynamicFormElementValueType,
+} from '../../model';
+import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
+import { initialiseReactiveFormElement } from '../abstract-reactive-form-element/abstract-reactive-form-element.component';
 
 @Directive()
-export abstract class AbstractReactiveFormQuestionComponent<DT, VT = DynamicFormElementValueType> extends AbstractFormQuestionComponent<VT | VT[]> implements OnInit {
+export abstract class AbstractReactiveFormQuestionComponent<
+    DT,
+    VT = DynamicFormElementValueType,
+  >
+  extends AbstractFormQuestionComponent<VT | VT[]>
+  implements OnInit
+{
   /**
    * Observable data source that is used to provide data to display
    */
@@ -29,7 +36,7 @@ export abstract class AbstractReactiveFormQuestionComponent<DT, VT = DynamicForm
       this.clear,
       this.unsubscribe,
       this.dataSourceArguments,
-      this.dataSource
+      this.dataSource,
     );
   }
 
@@ -39,15 +46,15 @@ export abstract class AbstractReactiveFormQuestionComponent<DT, VT = DynamicForm
    *
    * @param {Map<string, any>} args
    */
-  refresh( args?: Map<string, unknown> ) {
-    this.dataSourceArguments.next( args );
+  refresh(args?: Map<string, unknown>) {
+    this.dataSourceArguments.next(args);
   }
 
   /**
    * Instruct the component to clear its accumulated arguments, provided it was accumulating them in the first place..
    */
   clearArgs() {
-    if ( !this.accumulateArguments ) return;
+    if (!this.accumulateArguments) return;
     this.clear.next(null);
   }
 }

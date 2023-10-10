@@ -18,7 +18,10 @@ export class DynamicFormGroup implements IFormGroup {
     this.formElements = options.formElements;
 
     this.label = options.label;
-    this.disabled = options.disabled === undefined || options.disabled === null ? false : options.disabled
+    this.disabled =
+      options.disabled === undefined || options.disabled === null
+        ? false
+        : options.disabled;
     this.spacer = options.spacer;
     this.direction = options.direction;
   }

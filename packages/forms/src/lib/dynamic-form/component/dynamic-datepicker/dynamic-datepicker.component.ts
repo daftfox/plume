@@ -6,8 +6,10 @@ import { DatepickerMode } from '../../model/options';
 @Component({
   selector: 'plume-datepicker-form-question',
   templateUrl: './dynamic-datepicker.component.html',
-  styleUrls: ['../abstract-form-question/abstract-form-question.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: [
+    '../abstract-form-question/abstract-form-question.component.scss',
+  ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class DynamicDatepickerComponent extends AbstractFormQuestionComponent<Date> {
   @ViewChild('datePicker') datePicker: MatDatepicker<Date>;

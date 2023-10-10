@@ -13,8 +13,8 @@
     }
 
     .mdc-checkbox__background {
-      border-color: map-get(mat.$deep-orange-palette, 500)!important;
-      background-color: map-get(mat.$deep-orange-palette, 500)!important;
+      border-color: map-get(mat.$deep-orange-palette, 500) !important;
+      background-color: map-get(mat.$deep-orange-palette, 500) !important;
     }
   }
 }

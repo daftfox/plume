@@ -6,9 +6,15 @@
     [formControl]="control"
     [placeholder]="placeholder"
     [id]="key"
-    trim="blur"></textarea>
-  <mat-hint>{{ control.value ? control.value.length : 0 }}/{{ maxLength }}</mat-hint>
+    trim="blur"
+  ></textarea>
+  <mat-hint
+    >{{ control.value ? control.value.length : 0 }}/{{ maxLength }}</mat-hint
+  >
   <mat-error>
-    <plume-form-errors [control]="control" [validationMessages]="defaultValidationMessages"></plume-form-errors>
+    <plume-form-errors
+      [control]="control"
+      [validationMessages]="defaultValidationMessages"
+    ></plume-form-errors>
   </mat-error>
 </mat-form-field>

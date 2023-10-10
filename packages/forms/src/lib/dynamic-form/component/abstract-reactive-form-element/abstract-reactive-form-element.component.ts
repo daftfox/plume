@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { BehaviorSubject, iif, Observable, scan, Subject, switchMap, take } from 'rxjs';
+import { BehaviorSubject, iif, scan, Subject, switchMap } from 'rxjs';
 import { AbstractObservableDataSource } from '../../model';
 import { OnInit } from '@angular/core';
 import { takeUntil, tap } from 'rxjs/operators';
@@ -9,31 +9,32 @@ export const initialiseReactiveFormElement = (
   clear: BehaviorSubject<null>,
   unsubscribe: Subject<null>,
   dataSourceArguments: Subject<Map<string, unknown>>,
-  dataSource: AbstractObservableDataSource<unknown>
+  dataSource: AbstractObservableDataSource<unknown>,
 ) => {
   iif(
     () => accumulateArguments,
     // Accumulate arguments provided until cleared
     clear.pipe(
-      takeUntil( unsubscribe ),
-      switchMap(() => dataSourceArguments.pipe(
-        scan(( accumulator, args: Map<string, unknown> ) => {
+      takeUntil(unsubscribe),
+      switchMap(() =>
+        dataSourceArguments.pipe(
+          scan((accumulator, args: Map<string, unknown>) => {
             args.forEach((value, key) => accumulator.set(key, value));
-            return accumulator
-          }, new Map<string, unknown>()
+            return accumulator;
+          }, new Map<string, unknown>()),
+          tap((args) => dataSource.refresh(args)),
         ),
-        tap( args => dataSource.refresh( args ) )
-      ))
+      ),
     ),
     // Refresh with new arguments
-    dataSourceArguments.pipe(
-      tap( args => dataSource.refresh( args ) )
-    )
+    dataSourceArguments.pipe(tap((args) => dataSource.refresh(args))),
   ).subscribe();
-}
+};
 
 @Directive()
-export abstract class AbstractReactiveFormElementComponent<DT> implements OnInit {
+export abstract class AbstractReactiveFormElementComponent<DT>
+  implements OnInit
+{
   @Input() key: string;
 
   /**
@@ -57,7 +58,7 @@ export abstract class AbstractReactiveFormElementComponent<DT> implements OnInit
       this.clear,
       this.unsubscribe,
       this.dataSourceArguments,
-      this.dataSource
+      this.dataSource,
     );
   }
 
@@ -67,15 +68,15 @@ export abstract class AbstractReactiveFormElementComponent<DT> implements OnInit
    *
    * @param {Map<string, any>} args
    */
-  refresh( args?: Map<string, unknown> ) {
-    this.dataSourceArguments.next( args );
+  refresh(args?: Map<string, unknown>) {
+    this.dataSourceArguments.next(args);
   }
 
   /**
    * Instruct the component to clear its accumulated arguments, provided it was accumulating them in the first place.
    */
   clearArgs() {
-    if ( !this.accumulateArguments ) return;
+    if (!this.accumulateArguments) return;
     this.clear.next(null);
   }
 }

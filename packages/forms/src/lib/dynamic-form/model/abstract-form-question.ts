@@ -1,16 +1,17 @@
-import { AsyncValidatorFn, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import {
+  AsyncValidatorFn,
+  FormControl,
+  ValidatorFn,
+} from '@angular/forms';
 import { SPACER } from './spacer.enum';
 import { DynamicFormElementValueType } from './generic-form-values.interface';
 import { DynamicFormQuestionOptions } from './options';
 import { LinkedElement } from './linked-element.interface';
 import { IFormQuestion } from './form-question.interface';
-import {
-  AbstractReactiveFormQuestionComponent
-} from '../component/abstract-reactive-form-question/abstract-reactive-form-question.component';
+import { AbstractReactiveFormQuestionComponent } from '../component/abstract-reactive-form-question/abstract-reactive-form-question.component';
 import { AbstractFormQuestionComponent } from '../component/abstract-form-question/abstract-form-question.component';
 import { Type } from '@angular/core';
-
-export type MutatorFn = <T = DynamicFormElementValueType>( linkedElements: LinkedElement[], form: FormGroup, value?: T) => void;
+import { isAngularValidator, PlumeValidatorFn } from '../validator';
 
 /**
  * Abstract class that forms the basis for all dynamic form questions.
@@ -25,13 +26,18 @@ export type MutatorFn = <T = DynamicFormElementValueType>( linkedElements: Linke
  *   component = CustomFormComponent;
  * }
  */
-export abstract class AbstractFormQuestion<T = DynamicFormElementValueType> implements IFormQuestion<T> {
+export abstract class AbstractFormQuestion<T = DynamicFormElementValueType>
+  implements IFormQuestion<T>
+{
   key: string;
 
   /**
    * Refers to the component class to use when dynamically building up the form.
    */
-  abstract component: Type<AbstractFormQuestionComponent | AbstractReactiveFormQuestionComponent<unknown>>;
+  abstract component: Type<
+    | AbstractFormQuestionComponent
+    | AbstractReactiveFormQuestionComponent<unknown>
+  >;
 
   /**
    * String to be displayed as the form component's label.
@@ -46,7 +52,10 @@ export abstract class AbstractFormQuestion<T = DynamicFormElementValueType> impl
   /**
    * Validator functions pertaining to this form question specifically. E.g. Validators.required, Validators.maxLength(10), etc.
    */
-  validators: ValidatorFn | ValidatorFn[];
+  validators:
+    | ValidatorFn
+    | PlumeValidatorFn
+    | (ValidatorFn | PlumeValidatorFn)[];
   asyncValidators: AsyncValidatorFn | AsyncValidatorFn[];
 
   /**
@@ -54,12 +63,6 @@ export abstract class AbstractFormQuestion<T = DynamicFormElementValueType> impl
    * or state changes.
    */
   linkedElements: LinkedElement[];
-
-  /**
-   * Mutators are lambdas that are executed serially in order to change a linked element's state or value when this
-   * element's value or state changes.
-   */
-  mutators: MutatorFn[];
 
   /**
    * Whether the form question is enabled or disabled. Defaults to true
@@ -80,8 +83,11 @@ export abstract class AbstractFormQuestion<T = DynamicFormElementValueType> impl
 
   additionalValidationMessages?: Map<string, string>;
 
-  protected constructor( options: DynamicFormQuestionOptions<T> ) {
-    this.value = options.value !== undefined && options.value !== null ? options.value : null;
+  protected constructor(options: DynamicFormQuestionOptions<T>) {
+    this.value =
+      options.value !== undefined && options.value !== null
+        ? options.value
+        : null;
     this.key = options.key || '';
     this.label = options.label || '';
     this.placeholder = options.placeholder || '';
@@ -90,7 +96,6 @@ export abstract class AbstractFormQuestion<T = DynamicFormElementValueType> impl
     this.spacer = typeof options.spacer === 'number' ? options.spacer : null;
     this.disabled = options.disabled === null ? false : options.disabled;
     this.linkedElements = options.linkedElements || [];
-    this.mutators = options.mutators || [];
     this.additionalValidationMessages = options.additionalValidationMessages;
   }
 
@@ -98,8 +103,26 @@ export abstract class AbstractFormQuestion<T = DynamicFormElementValueType> impl
     const { value, disabled, validators, asyncValidators } = this;
     return new FormControl<T>(
       { value, disabled },
-      validators,
+      this.getBuiltInValidators(validators),
       asyncValidators,
     );
-  };
+  }
+
+  private getBuiltInValidators(
+    validators:
+      | ValidatorFn
+      | PlumeValidatorFn
+      | (ValidatorFn | PlumeValidatorFn)[],
+  ): ValidatorFn | ValidatorFn[] {
+    if (Array.isArray(validators)) {
+      return (validators as (ValidatorFn | PlumeValidatorFn)[]).filter(
+        (validator: ValidatorFn | PlumeValidatorFn) =>
+          isAngularValidator(validator),
+      ) as ValidatorFn[];
+    } else if (isAngularValidator(validators)) {
+      return validators as ValidatorFn;
+    } else {
+      return [];
+    }
+  }
 }

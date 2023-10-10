@@ -8,9 +8,9 @@ export class DynamicButton implements IFormAction {
   icon?: string;
   color?: ThemePalette;
   raised: boolean;
-  action: ( args?: unknown ) => void;
+  action: (args?: unknown) => void;
 
-  constructor( options: DynamicFormButtonOptions ) {
+  constructor(options: DynamicFormButtonOptions) {
     this.key = options.key;
     this.action = options.action;
     this.label = options.label;

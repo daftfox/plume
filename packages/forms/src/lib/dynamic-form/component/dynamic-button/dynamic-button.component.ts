@@ -8,13 +8,13 @@ import { ThemePalette } from '@angular/material/core';
 @Component({
   standalone: true,
   selector: 'plume-button',
-  imports: [ MatButtonModule, NgIf, MatIconModule, NgTemplateOutlet, FlexModule ],
-  templateUrl: './dynamic-button.component.html'
+  imports: [MatButtonModule, NgIf, MatIconModule, NgTemplateOutlet, FlexModule],
+  templateUrl: './dynamic-button.component.html',
 })
 export class DynamicButtonComponent {
   @Input() raised: boolean;
   @Input() color: ThemePalette;
   @Input() label: string;
   @Input() icon: string;
-  @Input() action: ( args?: any ) => void;
+  @Input() action: (args?: unknown) => void;
 }

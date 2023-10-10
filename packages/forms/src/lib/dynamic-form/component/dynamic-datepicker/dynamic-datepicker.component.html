@@ -1,17 +1,13 @@
 <ng-container *ngIf="mode === 'month-year'">
   <mat-form-field plumeYearMonthFormat>
     <mat-label>{{ label || placeholder }}</mat-label>
-    <input
-      matInput
-      [formControl]="control"
-      [matDatepicker]="datePicker" />
-    <mat-datepicker-toggle
-      matSuffix
-      [for]="datePicker"></mat-datepicker-toggle>
+    <input matInput [formControl]="control" [matDatepicker]="datePicker" />
+    <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
     <mat-datepicker
       #datePicker
       [startView]="startView"
-      (monthSelected)="setMonthAndYear($event)"></mat-datepicker>
+      (monthSelected)="setMonthAndYear($event)"
+    ></mat-datepicker>
     <mat-error>
       <plume-form-errors [control]="control"></plume-form-errors>
     </mat-error>
@@ -21,19 +17,18 @@
 <ng-container *ngIf="mode !== 'month-year'">
   <mat-form-field>
     <mat-label>{{ label || placeholder }}</mat-label>
-    <input
-      matInput
-      [formControl]="control"
-      [matDatepicker]="datePicker" />
-    <mat-datepicker-toggle
-      matSuffix
-      [for]="datePicker"></mat-datepicker-toggle>
+    <input matInput [formControl]="control" [matDatepicker]="datePicker" />
+    <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
     <mat-datepicker
       #datePicker
       [startView]="startView"
-      (monthSelected)="setMonthAndYear($event)"></mat-datepicker>
+      (monthSelected)="setMonthAndYear($event)"
+    ></mat-datepicker>
     <mat-error>
-      <plume-form-errors [control]="control" [validationMessages]="defaultValidationMessages"></plume-form-errors>
+      <plume-form-errors
+        [control]="control"
+        [validationMessages]="defaultValidationMessages"
+      ></plume-form-errors>
     </mat-error>
   </mat-form-field>
 </ng-container>

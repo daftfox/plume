@@ -11,9 +11,7 @@
     "noFallthroughCasesInSwitch": true
   },
   "files": [],
-  "include": [
-    "src/shims/*.d.ts"
-  ],
+  "include": ["src/shims/*.d.ts"],
   "references": [
     {
       "path": "./tsconfig.lib.json"

@@ -6,5 +6,5 @@ export interface DynamicFormButtonOptions {
   label?: string;
   color?: ThemePalette;
   raised?: boolean;
-  action: ( args?: any ) => void
+  action: (args?: unknown) => void;
 }

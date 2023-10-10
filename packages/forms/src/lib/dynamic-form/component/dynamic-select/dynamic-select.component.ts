@@ -1,24 +1,55 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import {distinctUntilChanged, map, takeUntil, tap} from 'rxjs/operators';
-import { SelectOption, SelectOptionGroup, SelectOptionValueType } from '../../model';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { distinctUntilChanged, map, takeUntil, tap } from 'rxjs/operators';
+import {
+  SelectOption,
+  SelectOptionGroup,
+  SelectOptionValueType,
+} from '../../model';
 import { startWith, combineLatest, Observable, iif } from 'rxjs';
 import { filterItems } from '@plume/utils';
-import {
-  AbstractReactiveFormQuestionComponent
-} from '../abstract-reactive-form-question/abstract-reactive-form-question.component';
+import { AbstractReactiveFormQuestionComponent } from '../abstract-reactive-form-question/abstract-reactive-form-question.component';
+import { DynamicFormService } from '../../service/dynamic-form.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormErrorsComponent } from '../form-errors/form-errors.component';
+import { FlexModule } from '@angular/flex-layout';
 
 @Component({
   selector: 'plume-select-form-question',
   templateUrl: './dynamic-select.component.html',
-  styleUrls: ['../abstract-form-question/abstract-form-question.component.scss', './dynamic-select.component.scss'],
+  styleUrls: [
+    '../abstract-form-question/abstract-form-question.component.scss',
+    './dynamic-select.component.scss',
+  ],
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [
+    AsyncPipe,
+    FormErrorsComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    NgForOf,
+    NgxMatSelectSearchModule,
+    FlexModule,
+  ],
 })
 export class DynamicSelectComponent<T = SelectOptionValueType>
-extends AbstractReactiveFormQuestionComponent<
-  (SelectOption<T> | SelectOptionGroup<T>)[],
-  SelectOptionValueType
-> implements OnInit {
+  extends AbstractReactiveFormQuestionComponent<
+    (SelectOption<T> | SelectOptionGroup<T>)[],
+    SelectOptionValueType
+  >
+  implements OnInit
+{
   @Input() noEntriesFoundLabel = 'No entries found';
   @Input() allowMultiple = false;
   @Input() nullable = false;
@@ -30,8 +61,8 @@ extends AbstractReactiveFormQuestionComponent<
   filterControl = new FormControl<T>(null);
   allSelected = false;
 
-  constructor() {
-    super();
+  constructor(protected override service: DynamicFormService) {
+    super(service);
 
     this.defaultValidationMessages.set('required', 'Please select an option');
   }
@@ -43,75 +74,97 @@ extends AbstractReactiveFormQuestionComponent<
 
   initSelectOptions() {
     if (this.dataSource) {
-
       // Disable the select element when new data is being fetched
-      this.dataSource.refreshing.pipe(
-        tap( isRefreshing => {
-          if ( isRefreshing ) {
-            this.control.disable();
-          } else {
-            this.control.enable();
-          }
-        })
-      ).subscribe();
+      this.dataSource.refreshing
+        .pipe(
+          tap((isRefreshing) => {
+            if (isRefreshing) {
+              this.control.disable();
+            } else {
+              this.control.enable();
+            }
+          }),
+        )
+        .subscribe();
 
       const dataSource = iif(
         () => this.useFilter,
         // Combine the data source with the filter control's valueChanges if filter is enabled
         combineLatest([
-          this.dataSource.connect().pipe(
-            this.resetValueOnDataSourceEmit.bind(this),
+          this.dataSource
+            .connect()
+            .pipe(this.resetValueOnDataSourceEmit.bind(this)),
+          this.filterControl.valueChanges.pipe(
+            startWith(this.filterControl.value),
           ),
-          this.filterControl.valueChanges.pipe(startWith(this.filterControl.value))
         ]).pipe(
           takeUntil(this.unsubscribe),
-          map(([options, filterValue]: [(SelectOption<T> | SelectOptionGroup<T>)[], T]) => this.filterOptions(options, filterValue)),
+          map(
+            ([options, filterValue]: [
+              (SelectOption<T> | SelectOptionGroup<T>)[],
+              T,
+            ]) => this.filterOptions(options, filterValue),
+          ),
         ),
 
         // Or use the data source as is if the filter is not enabled
-        this.dataSource.connect().pipe(
-          this.resetValueOnDataSourceEmit.bind(this)
-        )
+        this.dataSource
+          .connect()
+          .pipe(this.resetValueOnDataSourceEmit.bind(this)),
       );
 
       // Subscribe to data source emits
-      dataSource.pipe(
-        tap((options: (SelectOption<T> | SelectOptionGroup<T>)[]) => this.displayedOptions = options)
-      ).subscribe();
+      dataSource
+        .pipe(
+          tap(
+            (options: (SelectOption<T> | SelectOptionGroup<T>)[]) =>
+              (this.displayedOptions = options),
+          ),
+        )
+        .subscribe();
     } else {
-      if ( this.useFilter ) {
-
+      if (this.useFilter) {
         // Subscribe to the filter
-        this.filterControl.valueChanges.pipe(
-          startWith(this.filterControl.value),
-          takeUntil(this.unsubscribe),
+        this.filterControl.valueChanges
+          .pipe(
+            startWith(this.filterControl.value),
+            takeUntil(this.unsubscribe),
 
-          // Filter the displayed options whenever the filter control value changes
-          map((filterValue: T) => this.filterOptions(this.options, filterValue)),
-          tap( filteredOptions => this.displayedOptions = filteredOptions)
-        ).subscribe();
+            // Filter the displayed options whenever the filter control value changes
+            map((filterValue: T) =>
+              this.filterOptions(this.options, filterValue),
+            ),
+            tap((filteredOptions) => (this.displayedOptions = filteredOptions)),
+          )
+          .subscribe();
       } else {
-
         // Static list of options
         this.displayedOptions = this.options;
       }
     }
   }
 
-  filterOptions(options: (SelectOption<T> | SelectOptionGroup<T>)[], filterValue: T): (SelectOption<T> | SelectOptionGroup<T>)[] {
+  filterOptions(
+    options: (SelectOption<T> | SelectOptionGroup<T>)[],
+    filterValue: T,
+  ): (SelectOption<T> | SelectOptionGroup<T>)[] {
     if (this.isGrouped(options)) {
       // We've asserted that the options are of type SelectOptionGroup[]
       return (options as SelectOptionGroup<T>[])
         .map((group) => {
           return {
             label: group.label,
-            options: !this.valueIsEmpty(filterValue) ? filterItems(group.options, { label: filterValue }) : group.options,
+            options: !this.valueIsEmpty(filterValue)
+              ? filterItems(group.options, { label: filterValue })
+              : group.options,
           };
         })
         .filter((group) => group.options.length > 0);
     } else {
       // We've asserted that the options are of type SelectOption[]
-      return !this.valueIsEmpty(filterValue) ? filterItems(options as SelectOption<T>[], { label: filterValue }) : options as SelectOption<T>[];
+      return !this.valueIsEmpty(filterValue)
+        ? filterItems(options as SelectOption<T>[], { label: filterValue })
+        : (options as SelectOption<T>[]);
     }
   }
 
@@ -120,7 +173,11 @@ extends AbstractReactiveFormQuestionComponent<
   }
 
   isGrouped(options: (SelectOption<T> | SelectOptionGroup<T>)[]): boolean {
-    return Array.isArray(options) && options[0] && Object.prototype.hasOwnProperty.call(options[0], 'options');
+    return (
+      Array.isArray(options) &&
+      options[0] &&
+      Object.prototype.hasOwnProperty.call(options[0], 'options')
+    );
   }
 
   toggleOne() {
@@ -148,23 +205,31 @@ extends AbstractReactiveFormQuestionComponent<
 
   toggleAll() {
     if (this.allSelected) {
-      this.control.patchValue([...this.displayedOptions.map((item) => {
-        if ( this.isGrouped(this.displayedOptions) ) {
-          return (item as SelectOptionGroup).options.map( option => option.value);
-        } else {
-          return (item as SelectOption).value;
-        }
-      })]);
+      this.control.patchValue([
+        ...this.displayedOptions.map((item) => {
+          if (this.isGrouped(this.displayedOptions)) {
+            return (item as SelectOptionGroup).options.map(
+              (option) => option.value,
+            );
+          } else {
+            return (item as SelectOption).value;
+          }
+        }),
+      ]);
     } else {
       this.control.patchValue([]);
     }
   }
 
-  asSelectOptionArray( selectOptions: (SelectOption<T> | SelectOptionGroup<T>)[] ): SelectOption<T>[] {
+  asSelectOptionArray(
+    selectOptions: (SelectOption<T> | SelectOptionGroup<T>)[],
+  ): SelectOption<T>[] {
     return selectOptions as SelectOption<T>[];
   }
 
-  asSelectOptionGroupArray( selectOptionGroups: (SelectOption<T> | SelectOptionGroup<T>)[] ): SelectOptionGroup<T>[] {
+  asSelectOptionGroupArray(
+    selectOptionGroups: (SelectOption<T> | SelectOptionGroup<T>)[],
+  ): SelectOptionGroup<T>[] {
     return selectOptionGroups as SelectOptionGroup<T>[];
   }
 
@@ -176,36 +241,46 @@ extends AbstractReactiveFormQuestionComponent<
    * @param { Observable<SelectOption<T>[] | SelectOptionGroup<T>[]> } source
    * @private
    */
-  private resetValueOnDataSourceEmit( source: Observable<(SelectOption<T>| SelectOptionGroup<T>)[]>) {
+  private resetValueOnDataSourceEmit(
+    source: Observable<(SelectOption<T> | SelectOptionGroup<T>)[]>,
+  ) {
     return source.pipe(
       distinctUntilChanged(),
       // Reset the control's value if the data source has emitted a new value
-      tap(( newOptions ) => {
-        if ( ( this.allowMultiple && this.control.value && this.control.value.length ) ) {
-
+      tap((newOptions) => {
+        if (
+          this.allowMultiple &&
+          this.control.value &&
+          this.control.value.length
+        ) {
           // Control value is an array
-          const existingValues = this.control.value.filter( ( value: T ) => {
-            return this.flattenOptions( newOptions ).find( ( option: SelectOption<T> ) => option.value === value )
+          const existingValues = this.control.value.filter((value: T) => {
+            return this.flattenOptions(newOptions).find(
+              (option: SelectOption<T>) => option.value === value,
+            );
           });
 
           this.control.setValue(existingValues);
-        } else if ( this.control.value ) {
-
+        } else if (this.control.value) {
           // Control value contains a single value
-          if ( !this.flattenOptions( newOptions ).length ) {
+          if (!this.flattenOptions(newOptions).length) {
             this.control.setValue(this.allowMultiple ? [] : null);
           }
         }
       }),
-    )
+    );
   }
 
-  private flattenOptions( options: (SelectOption<T> | SelectOptionGroup<T>)[] ): SelectOption<T>[] {
+  private flattenOptions(
+    options: (SelectOption<T> | SelectOptionGroup<T>)[],
+  ): SelectOption<T>[] {
     const flattenedOptions: SelectOption<T>[] = [];
-    if ( this.isGrouped( options ) ) {
-      options.forEach( group => flattenedOptions.push( ...(group as SelectOptionGroup<T>).options ) );
+    if (this.isGrouped(options)) {
+      options.forEach((group) =>
+        flattenedOptions.push(...(group as SelectOptionGroup<T>).options),
+      );
     } else {
-      flattenedOptions.push( ...(options as SelectOption<T>[]) );
+      flattenedOptions.push(...(options as SelectOption<T>[]));
     }
 
     return flattenedOptions;

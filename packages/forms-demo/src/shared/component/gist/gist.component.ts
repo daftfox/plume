@@ -8,19 +8,13 @@ export interface FileGist {
   code: string;
 }
 
-@Component( {
+@Component({
   standalone: true,
   selector: 'demo-gist',
   templateUrl: './gist.component.html',
-  styleUrls: [
-    './gist.component.scss'
-  ],
-  imports: [
-    HighlightModule,
-    MatTabsModule,
-    NgForOf
-  ],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./gist.component.scss'],
+  imports: [HighlightModule, MatTabsModule, NgForOf],
+  encapsulation: ViewEncapsulation.None,
 })
 export class GistComponent {
   @Input() fileGists: FileGist[];

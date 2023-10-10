@@ -16,14 +16,19 @@ export const validateIsAtLeastOneSet =
           !control.parent.get(key) || // other control doesn't exist
           control.parent.get(key).value === null || // other control value is null
           control.value === null || // current control value is null
-          (Array.isArray(control.parent.get(key).value) && control.parent.get(key).value.length === 0)
+          (Array.isArray(control.parent.get(key).value) &&
+            control.parent.get(key).value.length === 0)
         ),
       };
     });
 
     return controlValidity.filter(({ valid }) => valid).length >= 1
       ? null
-      : { atLeastOneMustBeSet: formatSummary(controls.map(({ label }) => label)) };
+      : {
+          atLeastOneMustBeSet: formatSummary(
+            controls.map(({ label }) => label),
+          ),
+        };
   };
 
 const formatSummary = (strings: string[]) => {
