@@ -91,7 +91,7 @@ jobs:
           name: dist
       - name: Set base href
         run: |
-          sed -i.bak 's/base href="\/"/base href="\/plume"/' packages/forms-demo/index.html
+          sed -i.bak 's/base href="\/"/base href="\/plume\/"/' packages/forms-demo/index.html
       - name: Compress artifact
         run: |
           cp -r packages/forms-demo ./_site
