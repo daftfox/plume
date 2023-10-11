@@ -40,7 +40,7 @@ jobs:
         with:
           name: dist
       - uses: JS-DevTools/npm-publish@v2
-        if: ${{ hashFiles('dist/packages/forms/') != '' }}
+#        if: ${{ hashFiles('dist/packages/forms/') != '' }}
         with:
           package: dist/packages/forms
           token: ${{ secrets.NPM_TOKEN }}
@@ -81,7 +81,8 @@ jobs:
         name: Compress artifact
         with:
           command: c
-          cwd: dist/packages/forms-demo
+          files: ./forms-demo
+          cwd: dist/packages/
           outPath: github-pages.tar.gz
       - uses: actions/upload-pages-artifact@v2
         name: Upload GitHub pages artifact
