@@ -82,6 +82,9 @@ jobs:
         name: Download artifacts
         with:
           name: dist
+      - name: Set base href
+        run: |
+          sed -i s/<base href="/">/<base href="/plume">/ packages/forms-demo/index.html
       - name: Compress artifact
         run: |
           cp -r packages/forms-demo ./_site
