@@ -39,6 +39,12 @@ jobs:
         name: Download artifacts
         with:
           name: dist
+      - name: log files
+        run: |
+          ls -al
+          ls -al dist
+          ls -al dist/packages
+          ls -al dist/packages/forms
       - uses: JS-DevTools/npm-publish@v2
         #        if: ${{ hashFiles('dist/packages/forms/') != '' }}
         with:
@@ -77,6 +83,12 @@ jobs:
         name: Download artifacts
         with:
           name: dist
+      - name: log files
+        run: |
+          ls -al
+          ls -al dist
+          ls -al dist/packages
+          ls -al dist/packages/forms
       - uses: a7ul/tar-action@v1.1.0
         name: Compress artifact
         with:
