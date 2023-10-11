@@ -6,6 +6,10 @@ on:
     tags-ignore:
       - '**'
 
+env:
+  AUTHOR_NAME: github
+  AUTHOR_EMAIL: ci@github.com
+
 jobs:
   main:
     name: Nx Cloud - Lint, test and build in parallel
@@ -48,6 +52,8 @@ jobs:
           token: ${{ secrets.NPM_TOKEN }}
       - name: Bump version
         run: |
+          git config --global user.name "${{env.AUTHOR_NAME}}"
+          git config --global user.email "${{env.AUTHOR_EMAIL}}"
           cd packages/forms
           yarn version --patch
 
@@ -71,6 +77,8 @@ jobs:
           token: ${{ secrets.NPM_TOKEN }}
       - name: Bump version
         run: |
+          git config --global user.name "${{env.AUTHOR_NAME}}"
+          git config --global user.email "${{env.AUTHOR_EMAIL}}"
           cd packages/utils
           yarn version --patch
 
