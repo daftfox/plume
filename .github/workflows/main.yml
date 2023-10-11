@@ -84,7 +84,8 @@ jobs:
           name: dist
       - name: Compress artifact
         run: |
-          tar -czvf github-pages.tar.gz packages/forms-demo/*
+          cp -r packages/forms-demo ./_site
+          tar -czvf github-pages.tar.gz ./_site
       - uses: actions/upload-pages-artifact@v2
         name: Upload GitHub pages artifact
       - name: Deploy to GitHub Pages
