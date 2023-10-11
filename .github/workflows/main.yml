@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    tags-ignore:
+      - '**'
 
 jobs:
   main:
@@ -30,6 +32,7 @@ jobs:
     name: Publish forms package to NPM
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         name: Setup Node.js
         with:
@@ -38,11 +41,15 @@ jobs:
         name: Download artifacts
         with:
           name: dist
+          path: dist
       - uses: JS-DevTools/npm-publish@v2
         with:
-          package: packages/forms
+          package: dist/packages/forms
           token: ${{ secrets.NPM_TOKEN }}
-          dry-run: true
+      - name: Bump version
+        run: |
+          cd packages/forms
+          yarn version --patch
 
   publish-utils:
     needs: ['main']
@@ -57,11 +64,15 @@ jobs:
         name: Download artifacts
         with:
           name: dist
+          path: dist
       - uses: JS-DevTools/npm-publish@v2
         with:
-          package: packages/utils
+          package: dist/packages/utils
           token: ${{ secrets.NPM_TOKEN }}
-          dry-run: true
+      - name: Bump version
+        run: |
+          cd packages/utils
+          yarn version --patch
 
   deploy-demo:
     needs: ['main']
@@ -80,7 +91,7 @@ jobs:
           name: dist
       - name: Set base href
         run: |
-          sed 's/base href="\/"/base href="\/plume"/' packages/forms-demo/index.html
+          sed -i.bak 's/base href="\/"/base href="\/plume"/' packages/forms-demo/index.html
       - name: Compress artifact
         run: |
           cp -r packages/forms-demo ./_site
