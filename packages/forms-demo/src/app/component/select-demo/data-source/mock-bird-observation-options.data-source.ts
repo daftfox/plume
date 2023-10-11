@@ -1,4 +1,4 @@
-import { AbstractObservableDataSource, SelectOption } from '@plume/forms';
+import { AbstractObservableDataSource, SelectOption } from '@plume-org/forms';
 import {
   BehaviorSubject,
   map,

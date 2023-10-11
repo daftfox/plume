@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DynamicFormModule } from '@plume/forms';
+import { DynamicFormModule } from '@plume-org/forms';
 import {
   AbstractDemoComponent,
   Example,

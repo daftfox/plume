@@ -1,4 +1,4 @@
-import { AbstractObservableDataSource } from '@plume/forms';
+import { AbstractObservableDataSource } from '@plume-org/forms';
 import { Observable, ReplaySubject, Subject, takeUntil, tap } from 'rxjs';
 import { MockBirdService } from '../service/mock-bird.service';
 import { MockObservation } from '../model/mock-observation';

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DynamicFormModule, IDynamicFormElement } from '@plume/forms';
+import { DynamicFormModule, IDynamicFormElement } from '@plume-org/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';

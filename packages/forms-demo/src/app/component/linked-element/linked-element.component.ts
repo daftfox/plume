@@ -6,7 +6,7 @@ import {
   DynamicFormModule,
   DynamicSelect,
   DynamicToggle,
-} from '@plume/forms';
+} from '@plume-org/forms';
 import { MatTableModule } from '@angular/material/table';
 import { GistComponent } from '../../../shared/component/gist/gist.component';
 

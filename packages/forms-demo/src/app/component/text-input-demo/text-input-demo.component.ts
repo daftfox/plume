@@ -3,7 +3,7 @@ import {
   DynamicFormModule,
   DynamicTextInput,
   IDynamicFormElement,
-} from '@plume/forms';
+} from '@plume-org/forms';
 import {
   AbstractDemoComponent,
   Example,

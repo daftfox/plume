@@ -6,7 +6,7 @@ import {
   DynamicFormService,
   DynamicTextInput,
   PlumeValidatorFn,
-} from '@plume/forms';
+} from '@plume-org/forms';
 import {
   AbstractControl,
   ValidationErrors,

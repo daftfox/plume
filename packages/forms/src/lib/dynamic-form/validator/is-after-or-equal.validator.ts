@@ -1,6 +1,6 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { format } from 'date-fns';
-import { isAfterOrOn } from '@plume/utils';
+import { isAfterOrOn } from '@plume-org/utils';
 
 export const validateIsAfterOrEqual =
   (controlKey: string): ValidatorFn =>

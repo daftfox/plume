@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map, Observable, of, switchMap, take } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { sortItems } from '@plume/utils';
+import { sortItems } from '@plume-org/utils';
 import { MockObservation } from '../model/mock-observation';
 import { PexelsService } from './pexels.service';
 

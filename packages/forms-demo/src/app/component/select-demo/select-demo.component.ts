@@ -6,7 +6,7 @@ import {
   DynamicSelect,
   IDynamicFormElement,
   refreshDataSource,
-} from '@plume/forms';
+} from '@plume-org/forms';
 import {
   AbstractDemoComponent,
   Example,

@@ -7,7 +7,7 @@ import {
   SelectOptionValueType,
 } from '../../model';
 import { startWith, combineLatest, Observable, iif } from 'rxjs';
-import { filterItems } from '@plume/utils';
+import { filterItems } from '@plume-org/utils';
 import { AbstractReactiveFormQuestionComponent } from '../abstract-reactive-form-question/abstract-reactive-form-question.component';
 import { DynamicFormService } from '../../service/dynamic-form.service';
 import { MatFormFieldModule } from '@angular/material/form-field';

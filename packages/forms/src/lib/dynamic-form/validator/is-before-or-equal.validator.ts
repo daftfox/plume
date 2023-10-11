@@ -1,6 +1,6 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { format } from 'date-fns';
-import { isBeforeOrOn } from '@plume/utils';
+import { isBeforeOrOn } from '@plume-org/utils';
 
 export const validateIsBeforeOrEqual =
   (controlKey: string): ValidatorFn =>

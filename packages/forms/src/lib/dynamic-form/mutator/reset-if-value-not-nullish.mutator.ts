@@ -1,6 +1,6 @@
 import { DynamicFormElementValueType, MutatorFn } from '../model';
 import { DynamicFormService } from '../service/dynamic-form.service';
-import { isNullish } from '@plume/utils';
+import { isNullish } from '@plume-org/utils';
 
 export const resetIfValueNotNullishMutator: MutatorFn = <
   T = DynamicFormElementValueType,

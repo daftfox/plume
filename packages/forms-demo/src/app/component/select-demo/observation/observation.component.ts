@@ -1,7 +1,7 @@
 import {
   AbstractReactiveFormElementComponent,
   AbstractReactiveFormOutput,
-} from '@plume/forms';
+} from '@plume-org/forms';
 import { MockObservation } from '../model/mock-observation';
 import { Component, OnInit } from '@angular/core';
 import { AsyncPipe, DatePipe, NgIf } from '@angular/common';

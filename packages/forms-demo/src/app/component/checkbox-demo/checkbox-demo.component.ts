@@ -4,7 +4,7 @@ import {
   DynamicCheckbox,
   DynamicFormGroup,
   DynamicFormModule,
-} from '@plume/forms';
+} from '@plume-org/forms';
 import {
   AbstractDemoComponent,
   Example,

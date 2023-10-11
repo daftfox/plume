@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@plume/forms": ["packages/forms/src/index.ts"],
-      "@plume/utils": ["packages/utils/src/index.ts"]
+      "@plume-org/forms": ["packages/forms/src/index.ts"],
+      "@plume-org/utils": ["packages/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
