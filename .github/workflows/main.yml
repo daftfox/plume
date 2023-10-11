@@ -39,15 +39,15 @@ jobs:
         name: Download artifacts
         with:
           name: dist
-      - name: log files
-        run: |
-          ls -al
-          ls -al packages
-          ls -al packages/forms
+      #      - name: log files
+      #        run: |
+      #          ls -al
+      #          ls -al packages
+      #          ls -al packages/forms
       - uses: JS-DevTools/npm-publish@v2
-        #        if: ${{ hashFiles('dist/packages/forms/') != '' }}
+        if: ${{ hashFiles('packages/forms/') != '' }}
         with:
-          package: dist/packages/forms
+          package: packages/forms
           token: ${{ secrets.NPM_TOKEN }}
           dry-run: true
 
@@ -82,13 +82,9 @@ jobs:
         name: Download artifacts
         with:
           name: dist
-      - uses: a7ul/tar-action@v1.1.0
-        name: Compress artifact
-        with:
-          command: c
-          files: ./forms-demo
-          cwd: dist/packages/
-          outPath: github-pages.tar.gz
+      - name: Compress artifact
+        run: |
+          tar -czvf github-pages.tar.gz packages/forms-demo/*
       - uses: actions/upload-pages-artifact@v2
         name: Upload GitHub pages artifact
       - name: Deploy to GitHub Pages
