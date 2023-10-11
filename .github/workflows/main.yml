@@ -35,6 +35,8 @@ jobs:
     needs: ['main']
     name: Publish forms package to NPM
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
@@ -62,6 +64,8 @@ jobs:
     needs: ['main']
     name: Publish utils package to NPM
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
