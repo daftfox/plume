@@ -56,12 +56,14 @@ jobs:
           git config --global user.email "${{env.AUTHOR_EMAIL}}"
           cd packages/forms
           yarn version --patch
+          git push
 
   publish-utils:
     needs: ['main']
     name: Publish utils package to NPM
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         name: Setup Node.js
         with:
@@ -77,11 +79,11 @@ jobs:
           token: ${{ secrets.NPM_TOKEN }}
       - name: Bump version
         run: |
-          ls -al
           git config --global user.name "${{env.AUTHOR_NAME}}"
           git config --global user.email "${{env.AUTHOR_EMAIL}}"
           cd packages/utils
           yarn version --patch
+          git push
 
   deploy-demo:
     needs: ['main']
