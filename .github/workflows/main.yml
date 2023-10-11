@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
 
 jobs:
   main:
@@ -28,7 +27,7 @@ jobs:
 
   publish-forms:
     needs: ['main']
-    name: Publish forms to NPM
+    name: Publish forms package to NPM
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-node@v3
@@ -39,33 +38,30 @@ jobs:
         name: Download artifacts
         with:
           name: dist
-      #      - name: log files
-      #        run: |
-      #          ls -al
-      #          ls -al packages
-      #          ls -al packages/forms
       - uses: JS-DevTools/npm-publish@v2
-        if: ${{ hashFiles('packages/forms/') != '' }}
         with:
           package: packages/forms
           token: ${{ secrets.NPM_TOKEN }}
           dry-run: true
 
-  #  publish-utils:
-  #    needs: [ 'main' ]
-  #    runs-on: ubuntu-latest
-  #    steps:
-  #      - uses: actions/setup-node@v3
-  #        with:
-  #          node-version: "20"
-  #      - uses: actions/download-artifact@v3
-  #        name: Download artifacts
-  #        with:
-  #          name: dist
-  #      - uses: JS-DevTools/npm-publish@v2
-  #        with:
-  #          package: dist/packages/utils
-  #          token: ${{ secrets.NPM_TOKEN }}
+  publish-utils:
+    needs: ['main']
+    name: Publish utils package to NPM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        name: Setup Node.js
+        with:
+          node-version: '20'
+      - uses: actions/download-artifact@v3
+        name: Download artifacts
+        with:
+          name: dist
+      - uses: JS-DevTools/npm-publish@v2
+        with:
+          package: packages/utils
+          token: ${{ secrets.NPM_TOKEN }}
+          dry-run: true
 
   deploy-demo:
     needs: ['main']
