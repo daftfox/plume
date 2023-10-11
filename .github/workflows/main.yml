@@ -40,7 +40,7 @@ jobs:
         with:
           name: dist
       - uses: JS-DevTools/npm-publish@v2
-#        if: ${{ hashFiles('dist/packages/forms/') != '' }}
+        #        if: ${{ hashFiles('dist/packages/forms/') != '' }}
         with:
           package: dist/packages/forms
           token: ${{ secrets.NPM_TOKEN }}
