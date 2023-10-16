@@ -1,13 +1,14 @@
-import { DynamicFormElementValueType } from '../model';
+import { DynamicFormElementValueType } from '../model/generic-form-values.interface';
+import { MutatorFn } from '../model/mutator-function.interface';
 import { DynamicFormService } from '../service/dynamic-form.service';
 
 export const displayIfValueEquals =
-  <AT = DynamicFormElementValueType>(assertValue: AT) =>
-  <T extends AT>(
+  (assertValue: DynamicFormElementValueType): MutatorFn =>
+  (
     originKey: string,
     targetKey: string,
     service: DynamicFormService,
-    value: T,
+    value: DynamicFormElementValueType,
   ) => {
     if (value === assertValue) {
       service.setElementVisibility(targetKey, true);

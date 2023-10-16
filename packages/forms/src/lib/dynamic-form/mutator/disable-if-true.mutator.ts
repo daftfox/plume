@@ -1,11 +1,12 @@
-import { DynamicFormElementValueType, MutatorFn } from '../model';
+import { DynamicFormElementValueType } from '../model/generic-form-values.interface';
+import { MutatorFn } from '../model/mutator-function.interface';
 import { DynamicFormService } from '../service/dynamic-form.service';
 
-export const disableIfTrue: MutatorFn = <T = DynamicFormElementValueType>(
+export const disableIfTrue: MutatorFn = (
   originKey: string,
   targetKey: string,
   service: DynamicFormService,
-  value: T,
+  value: DynamicFormElementValueType,
 ) => {
   const linkedElementControl = service.getFormComponentControl(targetKey);
 

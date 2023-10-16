@@ -1,4 +1,4 @@
-import { DynamicFormElement } from '../component/abstract-form-group/abstract-form-group.component';
+import { DynamicFormElement } from './dynamic-form-element.type';
 
 export const isFormAction = (
   element: DynamicFormElement,

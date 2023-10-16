@@ -3,10 +3,10 @@ import { SPACER } from './spacer.enum';
 import { DynamicFormElementValueType } from './generic-form-values.interface';
 import { LinkedElement } from './linked-element.interface';
 import { AbstractReactiveFormQuestionComponent } from '../component/abstract-reactive-form-question/abstract-reactive-form-question.component';
-import { DynamicFormElement } from '../component/abstract-form-group/abstract-form-group.component';
 import { AbstractFormQuestionComponent } from '../component/abstract-form-question/abstract-form-question.component';
 import { IDynamicFormElement } from './dynamic-form-element.interface';
 import { PlumeValidatorFn } from '../validator';
+import { DynamicFormElement } from './dynamic-form-element.type';
 
 export const isFormQuestion = (
   element: DynamicFormElement,

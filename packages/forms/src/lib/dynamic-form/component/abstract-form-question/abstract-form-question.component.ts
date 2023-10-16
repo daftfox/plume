@@ -9,13 +9,14 @@ import {
 import { Subject, merge, Observable } from 'rxjs';
 import { AsyncValidatorFn, FormControl, ValidatorFn } from '@angular/forms';
 import { filter, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { DynamicFormElementValueType, LinkedElement } from '../../model';
+import { DynamicFormElementValueType } from '../../model/generic-form-values.interface';
+import { LinkedElement } from '../../model/linked-element.interface';
 import { DynamicFormService } from '../../service/dynamic-form.service';
 import { isAngularValidator, PlumeValidatorFn } from '../../validator';
 
 @Directive()
 export abstract class AbstractFormQuestionComponent<
-    T = DynamicFormElementValueType,
+    T extends DynamicFormElementValueType = DynamicFormElementValueType,
   >
   implements OnInit, OnDestroy, OnChanges
 {
@@ -27,7 +28,7 @@ export abstract class AbstractFormQuestionComponent<
     | PlumeValidatorFn
     | (ValidatorFn | PlumeValidatorFn)[] = [];
   @Input() asyncValidators: AsyncValidatorFn | AsyncValidatorFn[] = [];
-  @Input() value: T;
+  @Input() value: T | T[];
   @Input() disabled = false;
   @Input() linkedElements: LinkedElement[] = [];
 

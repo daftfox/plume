@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { distinctUntilChanged, map, takeUntil, tap } from 'rxjs/operators';
+import { SelectOptionGroup } from '../../model/select-option-group.interface';
 import {
   SelectOption,
-  SelectOptionGroup,
   SelectOptionValueType,
-} from '../../model';
+} from '../../model/select-option.interface';
 import { startWith, combineLatest, Observable, iif } from 'rxjs';
 import { filterItems } from '@plume-org/utils';
 import { AbstractReactiveFormQuestionComponent } from '../abstract-reactive-form-question/abstract-reactive-form-question.component';
@@ -134,7 +134,10 @@ export class DynamicSelectComponent<T = SelectOptionValueType>
             map((filterValue: T) =>
               this.filterOptions(this.options, filterValue),
             ),
-            tap((filteredOptions) => (this.displayedOptions = filteredOptions)),
+            tap(
+              (filteredOptions: (SelectOption<T> | SelectOptionGroup<T>)[]) =>
+                (this.displayedOptions = filteredOptions),
+            ),
           )
           .subscribe();
       } else {

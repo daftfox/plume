@@ -1,36 +1,19 @@
 import { ComponentRef, Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { DynamicFormGroupComponent } from '../component/dynamic-form-group/dynamic-form-group.component';
-import { AbstractFormGroupComponent } from '../component/abstract-form-group/abstract-form-group.component';
-import { AbstractFormQuestionComponent } from '../component/abstract-form-question/abstract-form-question.component';
-import { AbstractReactiveFormQuestionComponent } from '../component/abstract-reactive-form-question/abstract-reactive-form-question.component';
-import { AbstractReactiveFormElementComponent } from '../component/abstract-reactive-form-element/abstract-reactive-form-element.component';
-import {
-  isFormAction,
-  isFormGroup,
-  isFormQuestion,
-  DynamicFormGroup,
-  DynamicFormValues,
-  IDynamicFormElement,
-} from '../model';
+import { isFormAction } from '../model/form-action.interface';
+import { isFormGroup } from '../model/form-group.interface';
+import { isFormQuestion } from '../model/form-question.interface';
+import { DynamicFormGroup } from '../model/dynamic-form-group';
+import { IDynamicFormElement } from '../model/dynamic-form-element.interface';
+import { FormComponent } from '../model/form-component.interface';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
-export type FormComponent =
-  | AbstractFormGroupComponent
-  | AbstractFormQuestionComponent
-  | AbstractReactiveFormQuestionComponent<unknown>
-  | AbstractReactiveFormElementComponent<unknown>;
-
-interface FormComponentModel<FV = DynamicFormValues> {
-  componentRef: ComponentRef<FormComponent>;
-  parent: DynamicFormGroupComponent<FV>;
-  control: AbstractControl;
-}
+import { AbstractFormGroupComponent } from '../component/abstract-form-group/abstract-form-group.component';
+import { FormComponentModel } from '../model/form-component-model.interface';
 
 @Injectable()
-export class DynamicFormService<FV = DynamicFormValues> {
-  private formComponentRefs: Map<string, FormComponentModel<FV>> = new Map();
+export class DynamicFormService {
+  private formComponentRefs: Map<string, FormComponentModel> = new Map();
 
   constructor(private formInitialised: Observable<null>) {}
 
@@ -59,12 +42,12 @@ export class DynamicFormService<FV = DynamicFormValues> {
 
   private addFormComponentRef(
     key: string,
-    formComponentModel: FormComponentModel<FV>,
+    formComponentModel: FormComponentModel,
   ) {
     this.formComponentRefs.set(key, formComponentModel);
   }
 
-  private getFormComponentModel(key: string): FormComponentModel<FV> {
+  private getFormComponentModel(key: string): FormComponentModel {
     return this.formComponentRefs.get(key);
   }
 
@@ -81,7 +64,9 @@ export class DynamicFormService<FV = DynamicFormValues> {
   }
 
   destroyFormComponent(key: string) {
-    this.getFormComponentRef(key).destroy();
+    const formComponentModel = this.getFormComponentModel(key);
+    formComponentModel.parent.removeFormControlFromForm(key);
+    formComponentModel.componentRef.destroy();
     this.deleteFormComponentRef(key);
   }
 
@@ -98,16 +83,41 @@ export class DynamicFormService<FV = DynamicFormValues> {
     }
   }
 
+  addFormElementsToFormGroup(
+    formElements: IDynamicFormElement[],
+    formGroupKey: string,
+  ) {
+    const formGroup = this.getFormComponentRef(formGroupKey)
+      .instance as AbstractFormGroupComponent;
+    formElements.forEach((formElement) =>
+      formGroup.appendFormControlToForm(formElement),
+    );
+    this.updateFormElementComponents(formGroup, formElements);
+  }
+
+  removeFormElementsFromFormGroup(
+    formElements: IDynamicFormElement[],
+    formGroupKey: string,
+  ) {
+    const formGroup = this.getFormComponentRef(formGroupKey)
+      .instance as AbstractFormGroupComponent;
+    formElements.forEach(({ key }) => {
+      const formComponentModel = this.getFormComponentModel(key);
+      if (formComponentModel && formComponentModel.parent === formGroup) {
+        this.destroyFormComponent(key);
+      }
+    });
+  }
+
   /**
    * Parses formGroupComponent element declarations and either adds them to the formGroupComponent or updates their respective components when they
    * have already been added.
-   * @param {FormGroup} formGroupComponent
+   * @param {AbstractFormGroupComponent} formGroupComponent
    * @param {IDynamicFormElement[]} formElements
-   * @param {ChangeDetectorRef} changeDetectorRef
    * @private
    */
   updateFormElementComponents(
-    formGroupComponent: DynamicFormGroupComponent<FV>,
+    formGroupComponent: AbstractFormGroupComponent,
     formElements: IDynamicFormElement[],
   ) {
     if (!formElements) {
@@ -124,52 +134,47 @@ export class DynamicFormService<FV = DynamicFormValues> {
 
       // If we don't have a reference to the component, it means we haven't instantiated one yet
       if (!formComponentModel) {
-        formComponentModel = {
-          componentRef: formGroupComponent.createFormComponent(
-            formElement.component,
-          ),
-          parent: formGroupComponent,
-          control: formGroupComponent.form.get(formElement.key),
-        };
+        formComponentModel = this.createNewFormComponent(
+          formElement,
+          formGroupComponent,
+        );
 
         this.addFormComponentRef(formElement.key, formComponentModel);
-        // this.subscribeToFormComponentOutputs( formComponentModel.componentRef.instance );
+        this.setFormComponentInputs(formComponentModel, formElement);
+        formComponentModel.componentRef.changeDetectorRef.detectChanges();
       }
-
-      this.setFormComponentInputs(formComponentModel, formElement);
     }
 
-    // @FIXME does not work because the formElements provided by each formGroup differ from group to group
-    // // Verify that no formGroupComponent elements have been removed since the last time we parsed them
-    // const missingKeys = this.getFormComponentKeys().filter( key => !formElementKeys.includes( key ));
-    // if ( missingKeys.length ) {
-    //   // Keys were present in the formComponentRef map, but not in the latest set of formGroupComponent elements provided
-    //   missingKeys.forEach( missingKey => {
-    //     // Remove component
-    //     this.destroyFormComponent( missingKey );
-    //   });
-    // }
+    // Verify that no formGroupComponent elements have been removed since the last time we parsed them
+    const missingKeys = this.getFormComponentKeys().filter(
+      (key) => !formElementKeys.includes(key),
+    );
+    if (missingKeys.length) {
+      // Keys were present in the formComponentRef map, but not in the latest set of formGroupComponent elements provided
+      missingKeys
+        .filter(
+          (missingKey) =>
+            this.getFormComponentModel(missingKey).parent ===
+            formGroupComponent,
+        )
+        .forEach((missingKey) => {
+          // Remove component
+          this.destroyFormComponent(missingKey);
+        });
+    }
   }
 
-  // private subscribeToFormComponentOutputs(
-  //   formComponent: FormComponent
-  // ) {
-  //   if ( formComponent instanceof AbstractFormQuestionComponent ) {
-  //     formComponent.refreshLinkedQuestion.pipe(
-  //       tap( this.refreshLinkedQuestion.bind( this ) )
-  //     ).subscribe();
-  //
-  //     formComponent.clearArguments.pipe(
-  //       tap( this.clearArguments.bind( this ) )
-  //     ).subscribe();
-  //   }
-  // }
-
-  private clearArguments<T = unknown>(key: string) {
-    const linkedQuestion = this.getFormComponentRef(key);
-    (
-      linkedQuestion.instance as AbstractReactiveFormQuestionComponent<T>
-    ).clearArgs();
+  private createNewFormComponent(
+    formElement: IDynamicFormElement,
+    formGroupComponent: AbstractFormGroupComponent,
+  ): FormComponentModel {
+    return {
+      componentRef: formGroupComponent.createFormComponent(
+        formElement.component,
+      ),
+      parent: formGroupComponent,
+      control: formGroupComponent.form.get(formElement.key),
+    };
   }
 
   private deleteFormComponentRef(key: string) {
@@ -177,7 +182,7 @@ export class DynamicFormService<FV = DynamicFormValues> {
   }
 
   private setFormComponentInputs(
-    { componentRef, parent }: FormComponentModel<FV>,
+    { componentRef, parent }: FormComponentModel,
     formElement: IDynamicFormElement,
   ) {
     componentRef.setInput('key', formElement.key);
@@ -270,7 +275,6 @@ export class DynamicFormService<FV = DynamicFormValues> {
 
     // form group
     if (isFormGroup(formElement)) {
-      componentRef.setInput('rootNode', false);
       componentRef.setInput(
         'formElements',
         (formElement as DynamicFormGroup).formElements,

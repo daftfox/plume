@@ -1,9 +1,7 @@
-import {
-  AbstractFormGroupComponent,
-  DynamicFormElement,
-} from '../component/abstract-form-group/abstract-form-group.component';
+import { AbstractFormGroupComponent } from '../component/abstract-form-group/abstract-form-group.component';
 import { IDynamicFormElement } from './dynamic-form-element.interface';
 import { SPACER } from './spacer.enum';
+import { DynamicFormElement } from './dynamic-form-element.type';
 
 export const isFormGroup = (
   element: DynamicFormElement,

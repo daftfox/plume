@@ -1,13 +1,14 @@
 import { DynamicFormService } from '../service/dynamic-form.service';
-import { DynamicFormElementValueType, MutatorFn } from '../model';
+import { DynamicFormElementValueType } from '../model/generic-form-values.interface';
 import { AbstractReactiveFormQuestionComponent } from '../component/abstract-reactive-form-question/abstract-reactive-form-question.component';
 import { AbstractReactiveFormElementComponent } from '../component/abstract-reactive-form-element/abstract-reactive-form-element.component';
+import { MutatorFn } from '../model/mutator-function.interface';
 
-export const clearArguments: MutatorFn = <T = DynamicFormElementValueType>(
+export const clearArguments: MutatorFn = (
   originKey: string,
   targetKey: string,
   service: DynamicFormService,
-  _value?: T,
+  _value?: DynamicFormElementValueType,
 ) => {
   const linkedElement = service.getFormComponent(targetKey);
 

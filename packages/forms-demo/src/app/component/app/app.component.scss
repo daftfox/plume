@@ -2,7 +2,9 @@ mat-drawer-container {
   height: calc(100vh - 64px);
 
   mat-drawer {
-    display: none;
+    //demo-sidebar-navigation {
+    padding-top: 1rem;
+    //}
   }
 
   mat-drawer-content {

@@ -1,18 +1,16 @@
 import { Directive, Input, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import {
-  AbstractObservableDataSource,
-  DynamicFormElementValueType,
-} from '../../model';
+import { AbstractObservableDataSource } from '../../model/abstract-observable-data-source';
+import { DynamicFormElementValueType } from '../../model/generic-form-values.interface';
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
 import { initialiseReactiveFormElement } from '../abstract-reactive-form-element/abstract-reactive-form-element.component';
 
 @Directive()
 export abstract class AbstractReactiveFormQuestionComponent<
     DT,
-    VT = DynamicFormElementValueType,
+    VT extends DynamicFormElementValueType = DynamicFormElementValueType,
   >
-  extends AbstractFormQuestionComponent<VT | VT[]>
+  extends AbstractFormQuestionComponent<VT>
   implements OnInit
 {
   /**

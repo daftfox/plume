@@ -1,9 +1,10 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { format } from 'date-fns';
+import { isAfterOrOn } from '@plume-org/utils';
 import { DynamicFormService } from '../service/dynamic-form.service';
-import { take, tap } from 'rxjs/operators';
 import { PlumeValidatorFn } from './plume-validator-fn.interface';
 
-export const validateTest =
+export const validateIsAfterOrOn =
   (targetKey: string): PlumeValidatorFn =>
   (service: DynamicFormService): ValidatorFn =>
   (originControl: AbstractControl): ValidationErrors | null => {
@@ -14,15 +15,9 @@ export const validateTest =
       return null;
     }
 
-    targetControl.statusChanges
-      .pipe(
-        take(1),
-        // Update the origin control's validity when the target control's validity is updated
-        tap(() => {
-          originControl.updateValueAndValidity();
-        }),
-      )
-      .subscribe();
-
-    return !targetControl.value ? { wat: true } : null;
+    return isAfterOrOn(originControl.value, targetControl.value)
+      ? null
+      : {
+          dateIsNotOnOrAfter: format(targetControl.value, 'dd/MM/yyyy'),
+        };
   };
