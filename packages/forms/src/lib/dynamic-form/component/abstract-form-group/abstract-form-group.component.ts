@@ -14,19 +14,20 @@ import {
 } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, iif, Observable, of, Subject } from 'rxjs';
-import { AbstractFormQuestion } from '../../model/abstract-form-question';
-import { isFormGroup } from '../../model/form-group.interface';
-import { isFormQuestion } from '../../model/form-question.interface';
-import { IDynamicFormElement } from '../../model/dynamic-form-element.interface';
-import { FormComponent } from '../../model/form-component.interface';
-import { DynamicFormGroup } from '../../model/dynamic-form-group';
-import { DynamicFormValues } from '../../model/generic-form-values.interface';
 import { DynamicFormService } from '../../service/dynamic-form.service';
 import { startWith, tap } from 'rxjs/operators';
+import { isFormGroup, isFormQuestion } from '../../util';
+import {
+  AbstractFormQuestion,
+  DynamicFormValues,
+  FormComponent,
+  IDynamicFormElement,
+  IFormGroupComponent,
+} from '../../model';
 
 @Directive()
 export abstract class AbstractFormGroupComponent
-  implements OnInit, AfterViewInit, OnDestroy
+  implements OnInit, AfterViewInit, OnDestroy, IFormGroupComponent
 {
   @Input() form: FormGroup;
   @Input() key: string;
@@ -99,12 +100,12 @@ export abstract class AbstractFormGroupComponent
     return this.valueChanges.asObservable();
   }
 
-  get pristine(): boolean {
+  get isPristine(): boolean {
     if (!this.form) return true;
     return this.form.pristine;
   }
 
-  get dirty(): boolean {
+  get isDirty(): boolean {
     if (!this.form) return false;
     return this.form.dirty;
   }
@@ -200,11 +201,11 @@ export abstract class AbstractFormGroupComponent
     formElement: IDynamicFormElement,
   ): AbstractControl {
     let formControl: AbstractControl;
-    if (formElement instanceof AbstractFormQuestion) {
+    if (isFormQuestion(formElement)) {
       formControl = AbstractFormGroupComponent.createFormElement(
         formElement as AbstractFormQuestion,
       );
-    } else if (formElement instanceof DynamicFormGroup) {
+    } else if (isFormGroup(formElement)) {
       formControl = AbstractFormGroupComponent.createFormGroup(
         formElement.formElements,
       );
@@ -221,11 +222,11 @@ export abstract class AbstractFormGroupComponent
     const group: { [key: string]: AbstractControl } = {};
 
     for (const formElement of formElements) {
-      if (formElement instanceof AbstractFormQuestion) {
+      if (isFormQuestion(formElement)) {
         group[formElement.key] = AbstractFormGroupComponent.createFormElement(
           formElement as AbstractFormQuestion,
         );
-      } else if (formElement instanceof DynamicFormGroup) {
+      } else if (isFormGroup(formElement)) {
         group[formElement.key] = AbstractFormGroupComponent.createFormGroup(
           formElement.formElements,
         );

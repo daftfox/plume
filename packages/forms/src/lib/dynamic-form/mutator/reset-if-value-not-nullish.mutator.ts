@@ -1,12 +1,11 @@
-import { DynamicFormElementValueType } from '../model/generic-form-values.interface';
-import { MutatorFn } from '../model/mutator-function.interface';
-import { DynamicFormService } from '../service/dynamic-form.service';
+import { DynamicFormElementValueType, MutatorFn } from '../model';
+import { IDynamicFormService } from '../model/service/dynamic-form.service.interface';
 import { isNullish } from '@plume-org/utils';
 
 export const resetIfValueNotNullishMutator: MutatorFn = (
   originKey: string,
   targetKey: string,
-  service: DynamicFormService,
+  service: IDynamicFormService,
   value?: DynamicFormElementValueType,
 ) => {
   const linkedElement = service.getFormComponentControl(targetKey);

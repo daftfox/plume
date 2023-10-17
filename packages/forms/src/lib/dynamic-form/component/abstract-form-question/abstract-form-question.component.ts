@@ -9,16 +9,17 @@ import {
 import { Subject, merge, Observable } from 'rxjs';
 import { AsyncValidatorFn, FormControl, ValidatorFn } from '@angular/forms';
 import { filter, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { DynamicFormElementValueType } from '../../model/generic-form-values.interface';
-import { LinkedElement } from '../../model/linked-element.interface';
-import { DynamicFormService } from '../../service/dynamic-form.service';
 import { isAngularValidator, PlumeValidatorFn } from '../../validator';
+import { LinkedElement } from '../../model/declaration/linked-element.interface';
+import { DynamicFormElementValueType } from '../../model/dynamic-form-values.interface';
+import { IDynamicFormService } from '../../model/service/dynamic-form.service.interface';
+import { IFormQuestionComponent } from '../../model/component/form-question.component.interface';
 
 @Directive()
 export abstract class AbstractFormQuestionComponent<
     T extends DynamicFormElementValueType = DynamicFormElementValueType,
   >
-  implements OnInit, OnDestroy, OnChanges
+  implements OnInit, OnDestroy, OnChanges, IFormQuestionComponent
 {
   @Input() key: string;
   @Input() label: string;
@@ -41,7 +42,7 @@ export abstract class AbstractFormQuestionComponent<
 
   protected unsubscribe = new Subject<null>();
 
-  constructor(protected service: DynamicFormService) {}
+  constructor(protected service: IDynamicFormService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (

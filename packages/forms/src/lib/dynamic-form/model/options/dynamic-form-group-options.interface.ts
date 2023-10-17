@@ -1,6 +1,6 @@
-import { SPACER } from '../spacer.enum';
-import { IDynamicFormElement } from '../dynamic-form-element.interface';
-import { DIRECTION } from '../form-group.interface';
+import { SPACER } from '../declaration/spacer.enum';
+import { IDynamicFormElement } from '../declaration/dynamic-form-element.interface';
+import { DIRECTION } from '@plume-org/forms';
 
 export interface DynamicFormGroupOptions {
   key: string;

@@ -1,6 +1,6 @@
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { TextBoxType } from '../../model/options';
+import { TextBoxType } from '../../model';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DynamicFormService } from '../../service/dynamic-form.service';
 import { MatFormFieldModule } from '@angular/material/form-field';

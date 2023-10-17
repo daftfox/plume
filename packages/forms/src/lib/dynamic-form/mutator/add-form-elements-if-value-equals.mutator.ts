@@ -1,8 +1,11 @@
-import { DynamicFormElementValueType, IDynamicFormElement } from '../model';
-import { DynamicFormService } from '../service/dynamic-form.service';
-import { MutatorFn } from '../model/mutator-function.interface';
+import {
+  DynamicFormElementValueType,
+  IDynamicFormElement,
+  MutatorFn,
+  IDynamicFormService,
+} from '../model';
 
-export const addFormElementsToFormGroupIfValueEquals =
+export const addFormElementsIfValueEquals =
   (
     assertValue: DynamicFormElementValueType,
     formElements: IDynamicFormElement[],
@@ -11,7 +14,7 @@ export const addFormElementsToFormGroupIfValueEquals =
   (
     originKey: string,
     targetKey: string,
-    service: DynamicFormService,
+    service: IDynamicFormService,
     value: DynamicFormElementValueType,
   ) => {
     if (value === assertValue) {

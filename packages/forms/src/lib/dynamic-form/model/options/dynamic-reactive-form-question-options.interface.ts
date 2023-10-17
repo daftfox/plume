@@ -1,5 +1,5 @@
 import { DynamicFormQuestionOptions } from './dynamic-form-question-options.interface';
-import { DynamicFormElementValueType } from '../generic-form-values.interface';
+import { DynamicFormElementValueType } from '../dynamic-form-values.interface';
 import { AbstractObservableDataSource } from '../abstract-observable-data-source';
 
 export interface DynamicReactiveFormQuestionOptions<

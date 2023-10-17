@@ -4,14 +4,13 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { PlumeValidatorFn } from './plume-validator-fn.interface';
-import { isAngularValidator } from './is-angular-validator';
-import { DynamicFormService } from '../service/dynamic-form.service';
 import { take, tap } from 'rxjs/operators';
+import { IDynamicFormService } from '../model/service/dynamic-form.service.interface';
+import { isAngularValidator, PlumeValidatorFn } from './';
 
 const mockValidator =
   (targetKey: string): PlumeValidatorFn =>
-  (service: DynamicFormService): ValidatorFn =>
+  (service: IDynamicFormService): ValidatorFn =>
   (originControl: AbstractControl): ValidationErrors | null => {
     let targetControl: AbstractControl;
     try {

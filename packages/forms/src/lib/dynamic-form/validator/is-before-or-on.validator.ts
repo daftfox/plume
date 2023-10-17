@@ -1,12 +1,12 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { format } from 'date-fns';
 import { isBeforeOrOn } from '@plume-org/utils';
-import { DynamicFormService } from '../service/dynamic-form.service';
-import { PlumeValidatorFn } from './plume-validator-fn.interface';
+import { IDynamicFormService } from '../model/service/dynamic-form.service.interface';
+import { PlumeValidatorFn } from './plume-validator-function.interface';
 
 export const validateIsBeforeOrOn =
   (targetKey: string): PlumeValidatorFn =>
-  (service: DynamicFormService): ValidatorFn =>
+  (service: IDynamicFormService): ValidatorFn =>
   (originControl: AbstractControl): ValidationErrors | null => {
     let targetControl: AbstractControl;
     try {

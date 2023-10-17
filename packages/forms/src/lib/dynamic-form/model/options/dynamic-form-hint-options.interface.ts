@@ -1,4 +1,4 @@
-import { SPACER } from '../spacer.enum';
+import { SPACER } from '../declaration/spacer.enum';
 
 export interface DynamicFormHintOptions {
   key: string;

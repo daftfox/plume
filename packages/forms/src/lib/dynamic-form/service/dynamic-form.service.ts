@@ -1,18 +1,18 @@
 import { ComponentRef, Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { isFormAction } from '../model/form-action.interface';
-import { isFormGroup } from '../model/form-group.interface';
-import { isFormQuestion } from '../model/form-question.interface';
-import { DynamicFormGroup } from '../model/dynamic-form-group';
-import { IDynamicFormElement } from '../model/dynamic-form-element.interface';
-import { FormComponent } from '../model/form-component.interface';
+import {
+  FormComponent,
+  FormComponentModel,
+  IDynamicFormElement,
+  IDynamicFormService,
+  IFormGroupComponent,
+} from '../model';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AbstractFormGroupComponent } from '../component/abstract-form-group/abstract-form-group.component';
-import { FormComponentModel } from '../model/form-component-model.interface';
+import { isFormAction, isFormGroup, isFormQuestion } from '../util';
 
 @Injectable()
-export class DynamicFormService {
+export class DynamicFormService implements IDynamicFormService {
   private formComponentRefs: Map<string, FormComponentModel> = new Map();
 
   constructor(private formInitialised: Observable<null>) {}
@@ -88,7 +88,7 @@ export class DynamicFormService {
     formGroupKey: string,
   ) {
     const formGroup = this.getFormComponentRef(formGroupKey)
-      .instance as AbstractFormGroupComponent;
+      .instance as IFormGroupComponent;
     formElements.forEach((formElement) =>
       formGroup.appendFormControlToForm(formElement),
     );
@@ -100,7 +100,7 @@ export class DynamicFormService {
     formGroupKey: string,
   ) {
     const formGroup = this.getFormComponentRef(formGroupKey)
-      .instance as AbstractFormGroupComponent;
+      .instance as IFormGroupComponent;
     formElements.forEach(({ key }) => {
       const formComponentModel = this.getFormComponentModel(key);
       if (formComponentModel && formComponentModel.parent === formGroup) {
@@ -117,7 +117,7 @@ export class DynamicFormService {
    * @private
    */
   updateFormElementComponents(
-    formGroupComponent: AbstractFormGroupComponent,
+    formGroupComponent: IFormGroupComponent,
     formElements: IDynamicFormElement[],
   ) {
     if (!formElements) {
@@ -166,7 +166,7 @@ export class DynamicFormService {
 
   private createNewFormComponent(
     formElement: IDynamicFormElement,
-    formGroupComponent: AbstractFormGroupComponent,
+    formGroupComponent: IFormGroupComponent,
   ): FormComponentModel {
     return {
       componentRef: formGroupComponent.createFormComponent(
@@ -275,14 +275,15 @@ export class DynamicFormService {
 
     // form group
     if (isFormGroup(formElement)) {
-      componentRef.setInput(
-        'formElements',
-        (formElement as DynamicFormGroup).formElements,
-      );
-      componentRef.setInput(
-        'direction',
-        (formElement as DynamicFormGroup).direction,
-      );
+      // @fixme
+      //   componentRef.setInput(
+      //     'formElements',
+      //     (formElement as DynamicFormGroup).formElements,
+      //   );
+      //   componentRef.setInput(
+      //     'direction',
+      //     (formElement as DynamicFormGroup).direction,
+      //   );
 
       // provide form group
       componentRef.setInput('form', parent.form.get(formElement.key));

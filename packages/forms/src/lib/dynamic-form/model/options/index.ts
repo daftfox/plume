@@ -5,6 +5,8 @@ export * from './dynamic-form-group-options.interface';
 export * from './dynamic-form-hint-options.interface';
 export * from './dynamic-form-question-options.interface';
 export * from './dynamic-radio-button-options.interface';
+export * from './dynamic-reactive-form-element-options.interface';
+export * from './dynamic-reactive-form-question-options.interface';
 export * from './dynamic-select-options.interface';
 export * from './dynamic-text-area-options.interface';
 export * from './dynamic-text-input-options.interface';

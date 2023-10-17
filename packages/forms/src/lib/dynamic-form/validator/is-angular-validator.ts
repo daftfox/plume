@@ -1,5 +1,5 @@
 import { ValidatorFn, Validators } from '@angular/forms';
-import { PlumeValidatorFn } from './plume-validator-fn.interface';
+import { PlumeValidatorFn } from './plume-validator-function.interface';
 
 /**
  * Checks whether the given validator reference is also found in Angular's Validator class

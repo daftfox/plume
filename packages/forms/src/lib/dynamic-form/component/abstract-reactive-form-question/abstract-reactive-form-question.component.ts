@@ -1,9 +1,10 @@
 import { Directive, Input, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { AbstractObservableDataSource } from '../../model/abstract-observable-data-source';
-import { DynamicFormElementValueType } from '../../model/generic-form-values.interface';
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
-import { initialiseReactiveFormElement } from '../abstract-reactive-form-element/abstract-reactive-form-element.component';
+import { initialiseReactiveFormElement } from '../abstract-reactive-form-element/initialise-reactive-form-element';
+import { AbstractObservableDataSource } from '../../model/abstract-observable-data-source';
+import { DynamicFormElementValueType } from '../../model/dynamic-form-values.interface';
+import { IReactiveFormQuestionComponent } from '../../model/component/reactive-form-question.component.interface';
 
 @Directive()
 export abstract class AbstractReactiveFormQuestionComponent<
@@ -11,7 +12,7 @@ export abstract class AbstractReactiveFormQuestionComponent<
     VT extends DynamicFormElementValueType = DynamicFormElementValueType,
   >
   extends AbstractFormQuestionComponent<VT>
-  implements OnInit
+  implements OnInit, IReactiveFormQuestionComponent
 {
   /**
    * Observable data source that is used to provide data to display

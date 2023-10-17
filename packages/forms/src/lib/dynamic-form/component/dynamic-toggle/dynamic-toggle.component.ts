@@ -1,5 +1,6 @@
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
 import { Component } from '@angular/core';
+import { DynamicFormService } from '../../service/dynamic-form.service';
 
 @Component({
   selector: 'plume-toggle-form-question',
@@ -8,4 +9,8 @@ import { Component } from '@angular/core';
     '../abstract-form-question/abstract-form-question.component.scss',
   ],
 })
-export class DynamicToggleComponent extends AbstractFormQuestionComponent<boolean> {}
+export class DynamicToggleComponent extends AbstractFormQuestionComponent<boolean> {
+  constructor(protected override service: DynamicFormService) {
+    super(service);
+  }
+}

@@ -4,6 +4,7 @@ import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { FlexModule } from '@angular/flex-layout';
 import { ThemePalette } from '@angular/material/core';
+import { IFormActionComponent } from '../../model';
 
 @Component({
   standalone: true,
@@ -11,7 +12,8 @@ import { ThemePalette } from '@angular/material/core';
   imports: [MatButtonModule, NgIf, MatIconModule, NgTemplateOutlet, FlexModule],
   templateUrl: './dynamic-button.component.html',
 })
-export class DynamicButtonComponent {
+export class DynamicButtonComponent implements IFormActionComponent {
+  @Input() key: string;
   @Input() raised: boolean;
   @Input() color: ThemePalette;
   @Input() label: string;

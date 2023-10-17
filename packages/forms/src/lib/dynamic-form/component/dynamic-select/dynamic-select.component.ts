@@ -1,14 +1,8 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { distinctUntilChanged, map, takeUntil, tap } from 'rxjs/operators';
-import { SelectOptionGroup } from '../../model/select-option-group.interface';
-import {
-  SelectOption,
-  SelectOptionValueType,
-} from '../../model/select-option.interface';
 import { startWith, combineLatest, Observable, iif } from 'rxjs';
 import { filterItems } from '@plume-org/utils';
-import { AbstractReactiveFormQuestionComponent } from '../abstract-reactive-form-question/abstract-reactive-form-question.component';
 import { DynamicFormService } from '../../service/dynamic-form.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
@@ -18,6 +12,12 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormErrorsComponent } from '../form-errors/form-errors.component';
 import { FlexModule } from '@angular/flex-layout';
+import {
+  SelectOption,
+  SelectOptionGroup,
+  SelectOptionValueType,
+} from '../../model';
+import { AbstractReactiveFormQuestionComponent } from '../abstract-reactive-form-question/abstract-reactive-form-question.component';
 
 @Component({
   selector: 'plume-select-form-question',

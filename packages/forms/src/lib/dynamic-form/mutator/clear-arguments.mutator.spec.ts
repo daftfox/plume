@@ -1,12 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentRef } from '@angular/core';
 import { clearArguments } from './clear-arguments.mutator';
-import { mockDynamicFormService } from '../../../../mock/component/dynamic-form.service.mock';
-import { FormControl } from '@angular/forms';
 import { MockReactiveFormQuestionComponent } from '../../../../mock/component/reactive-form-question.component.mock';
 import { MockFormQuestionComponent } from '../../../../mock/component/form-question.component.mock';
 import { MockObservableDataSource } from '../../../../mock/component/observable-data-source.mock';
-import { AbstractFormGroupComponent } from '../component/abstract-form-group/abstract-form-group.component';
+import { DynamicFormService } from '../service/dynamic-form.service';
+import { IDynamicFormService } from '../model/service/dynamic-form.service.interface';
+import { FormComponent } from '../model/form-component.type';
+
+const formComponents = new Map<string, FormComponent>();
+const mockDynamicFormService = {
+  getFormComponent(key: string): FormComponent {
+    return formComponents.get(key);
+  },
+} as IDynamicFormService;
 
 describe('clearArguments', () => {
   const reactiveFormQuestionKey = 'mockReactiveFormQuestionComponent';
@@ -33,20 +40,11 @@ describe('clearArguments', () => {
     formQuestionComponent = formQuestionComponentFixture.componentRef;
     mockDataSource = new MockObservableDataSource();
     reactiveFormQuestionComponent.setInput('dataSource', mockDataSource);
-    mockDynamicFormService['addFormComponentRef'](reactiveFormQuestionKey, {
-      componentRef: reactiveFormQuestionComponent,
-      parent: {} as AbstractFormGroupComponent,
-      control: new FormControl('test'),
-    });
-    mockDynamicFormService['addFormComponentRef'](formQuestionKey, {
-      componentRef: formQuestionComponent,
-      parent: {} as AbstractFormGroupComponent,
-      control: new FormControl('test'),
-    });
-  });
-
-  it('should create component', () => {
-    expect(reactiveFormQuestionComponent).toBeTruthy();
+    formComponents.set(
+      reactiveFormQuestionKey,
+      reactiveFormQuestionComponent.instance,
+    );
+    formComponents.set(formQuestionKey, formQuestionComponent.instance);
   });
 
   it("should clear the component's arguments", () => {
@@ -68,7 +66,7 @@ describe('clearArguments', () => {
       ),
     ).toThrowError(
       new Error(
-        `Linked element ${formQuestionKey} does not extend AbstractReactiveFormQuestionComponent or AbstractReactiveFormElementComponent.`,
+        `Unable to clear arguments. Linked element ${formQuestionKey} does not extend AbstractReactiveFormQuestionComponent or AbstractReactiveFormElementComponent.`,
       ),
     );
   });

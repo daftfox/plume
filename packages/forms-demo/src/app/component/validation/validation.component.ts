@@ -3,7 +3,6 @@ import { ObserveVisibilityDirective } from '../../directive/observe-visibility.d
 import {
   DynamicCheckbox,
   DynamicFormModule,
-  DynamicFormService,
   DynamicTextInput,
   PlumeValidatorFn,
 } from '@plume-org/forms';
@@ -18,6 +17,7 @@ import { GistComponent } from '../../../shared/component/gist/gist.component';
 import { FlexModule } from '@angular/flex-layout';
 import { Subject } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
+import { IDynamicFormService } from '../../../../../forms/src/lib/dynamic-form/model/service/dynamic-form.service.interface';
 
 @Component({
   selector: 'demo-validation',
@@ -187,7 +187,7 @@ export class FormComponent {
   displayedElements = new Subject<string[]>();
 
   private forbiddenValue(forbiddenValue: string): PlumeValidatorFn {
-    return (_service: DynamicFormService): ValidatorFn =>
+    return (_service: IDynamicFormService): ValidatorFn =>
       (control: AbstractControl): ValidationErrors | null =>
         control.value &&
         control.value.toLowerCase() === forbiddenValue.toLowerCase()

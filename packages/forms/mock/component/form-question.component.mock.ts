@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AbstractFormQuestionComponent, DynamicFormService } from '../../src';
-import { mockDynamicFormService } from './dynamic-form.service.mock';
+import { DynamicFormService } from '../../src/lib/dynamic-form/service/dynamic-form.service';
+import { AbstractFormQuestionComponent } from '../../src/lib/dynamic-form/component/abstract-form-question/abstract-form-question.component';
 
 @Component({
   selector: 'plume-mock-form-question-component',
@@ -9,8 +9,12 @@ import { mockDynamicFormService } from './dynamic-form.service.mock';
   providers: [
     {
       provide: DynamicFormService,
-      useValue: mockDynamicFormService,
+      useValue: {},
     },
   ],
 })
-export class MockFormQuestionComponent extends AbstractFormQuestionComponent {}
+export class MockFormQuestionComponent extends AbstractFormQuestionComponent {
+  constructor(protected override service: DynamicFormService) {
+    super(service);
+  }
+}

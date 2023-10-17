@@ -1,25 +1,23 @@
-import { DynamicFormService } from '../service/dynamic-form.service';
-import { DynamicFormElementValueType } from '../model/generic-form-values.interface';
-import { AbstractReactiveFormQuestionComponent } from '../component/abstract-reactive-form-question/abstract-reactive-form-question.component';
-import { AbstractReactiveFormElementComponent } from '../component/abstract-reactive-form-element/abstract-reactive-form-element.component';
-import { MutatorFn } from '../model/mutator-function.interface';
+import {
+  DynamicFormElementValueType,
+  IDynamicFormService,
+  IReactiveFormElementComponent,
+  MutatorFn,
+} from '../model';
 
 export const clearArguments: MutatorFn = (
   originKey: string,
   targetKey: string,
-  service: DynamicFormService,
+  service: IDynamicFormService,
   _value?: DynamicFormElementValueType,
 ) => {
   const linkedElement = service.getFormComponent(targetKey);
 
-  if (
-    !(linkedElement instanceof AbstractReactiveFormElementComponent) &&
-    !(linkedElement instanceof AbstractReactiveFormQuestionComponent)
-  ) {
+  if (!Object.prototype.hasOwnProperty.call(linkedElement, 'dataSource')) {
     throw new Error(
-      `Linked element ${targetKey} does not extend AbstractReactiveFormQuestionComponent or AbstractReactiveFormElementComponent.`,
+      `Unable to clear arguments. Linked element ${targetKey} does not extend AbstractReactiveFormQuestionComponent or AbstractReactiveFormElementComponent.`,
     );
   }
 
-  (linkedElement as AbstractReactiveFormElementComponent<unknown>).clearArgs();
+  (linkedElement as IReactiveFormElementComponent).clearArgs();
 };
