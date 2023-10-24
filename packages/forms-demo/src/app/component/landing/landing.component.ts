@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  FileGist,
-  GistComponent,
-} from '../../../shared/component/gist/gist.component';
+import { GistComponent } from '../../../shared/component/gist/gist.component';
 
 @Component({
   standalone: true,
