@@ -8,29 +8,17 @@ import {
   IFormGroupComponent,
 } from '../model';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { isFormAction, isFormGroup, isFormQuestion } from '../util';
+import { AbstractFormGroupComponent } from '../component/abstract-form-group/abstract-form-group.component';
+import { isFormGroup } from '../util';
 
 @Injectable()
 export class DynamicFormService implements IDynamicFormService {
   private formComponentRefs: Map<string, FormComponentModel> = new Map();
 
-  constructor(private formInitialised: Observable<null>) {}
+  constructor(public formInitialised: Observable<null>) {}
 
   getFormComponentKeys(): string[] {
     return Array.from(this.formComponentRefs.keys());
-  }
-
-  setDisplayedElements(displayedElements: Observable<string[]>) {
-    displayedElements
-      .pipe(
-        tap((displayedElements) => {
-          this.getFormComponentKeys().forEach((key) => {
-            this.setElementVisibility(key, !displayedElements.includes(key));
-          });
-        }),
-      )
-      .subscribe();
   }
 
   updateFormControl(key: string) {
@@ -40,7 +28,7 @@ export class DynamicFormService implements IDynamicFormService {
     }
   }
 
-  private addFormComponentRef(
+  private addFormComponentModel(
     key: string,
     formComponentModel: FormComponentModel,
   ) {
@@ -51,16 +39,19 @@ export class DynamicFormService implements IDynamicFormService {
     return this.formComponentRefs.get(key);
   }
 
-  private getFormComponentRef(key: string): ComponentRef<FormComponent> {
-    return this.getFormComponentModel(key).componentRef;
+  private getFormComponentRef(key: string): ComponentRef<FormComponent> | null {
+    const formComponentModel = this.getFormComponentModel(key);
+    return formComponentModel ? formComponentModel.componentRef : null;
   }
 
-  getFormComponent(key: string): FormComponent {
-    return this.getFormComponentRef(key).instance;
+  getFormComponent(key: string): FormComponent | null {
+    const formComponentRef = this.getFormComponentRef(key);
+    return formComponentRef ? formComponentRef.instance : null;
   }
 
-  getFormComponentControl(key: string): AbstractControl {
-    return this.getFormComponentModel(key).control;
+  getFormComponentControl(key: string): AbstractControl | null {
+    const formComponentModel = this.getFormComponentModel(key);
+    return formComponentModel ? formComponentModel.control : null;
   }
 
   destroyFormComponent(key: string) {
@@ -120,10 +111,6 @@ export class DynamicFormService implements IDynamicFormService {
     formGroupComponent: IFormGroupComponent,
     formElements: IDynamicFormElement[],
   ) {
-    if (!formElements) {
-      return;
-    }
-
     // We should keep track of keys to see if a formerly present component should be removed now
     const formElementKeys: string[] = [];
 
@@ -139,7 +126,7 @@ export class DynamicFormService implements IDynamicFormService {
           formGroupComponent,
         );
 
-        this.addFormComponentRef(formElement.key, formComponentModel);
+        this.addFormComponentModel(formElement.key, formComponentModel);
         this.setFormComponentInputs(formComponentModel, formElement);
         formComponentModel.componentRef.changeDetectorRef.detectChanges();
       }
@@ -185,106 +172,15 @@ export class DynamicFormService implements IDynamicFormService {
     { componentRef, parent }: FormComponentModel,
     formElement: IDynamicFormElement,
   ) {
-    componentRef.setInput('key', formElement.key);
-
-    // this is an element implementing the IFormQuestion interface
-    if (isFormQuestion(formElement)) {
-      componentRef.setInput('formInitialised', this.formInitialised);
-      componentRef.setInput('validators', formElement.validators);
-      componentRef.setInput('asyncValidators', formElement.asyncValidators);
-      componentRef.setInput('label', formElement.label);
-      componentRef.setInput('value', formElement.value);
-      componentRef.setInput('disabled', formElement.disabled);
-      componentRef.setInput('linkedElements', formElement.linkedElements);
-
-      if ('maxLength' in formElement) {
-        componentRef.setInput('maxLength', formElement['maxLength']);
-      }
-      if ('additionalValidationMessages' in formElement) {
-        componentRef.setInput(
-          'additionalValidationMessages',
-          formElement['additionalValidationMessages'],
-        );
-      }
-      if ('type' in formElement) {
-        componentRef.setInput('type', formElement['type']);
-      }
-      if ('icon' in formElement) {
-        componentRef.setInput('icon', formElement['icon']);
-      }
-      if ('rows' in formElement) {
-        componentRef.setInput('rows', formElement['rows']);
-      }
-
-      if ('allowMultiple' in formElement) {
-        componentRef.setInput('allowMultiple', formElement['allowMultiple']);
-      }
-      if ('nullable' in formElement) {
-        componentRef.setInput('nullable', formElement['nullable']);
-      }
-      if ('useSelectAll' in formElement) {
-        componentRef.setInput('useSelectAll', formElement['useSelectAll']);
-      }
-      if ('noEntriesFoundLabel' in formElement) {
-        componentRef.setInput(
-          'noEntriesFoundLabel',
-          formElement['noEntriesFoundLabel'],
-        );
-      }
-      if ('useFilter' in formElement) {
-        componentRef.setInput('useFilter', formElement['useFilter']);
-      }
-      if ('options' in formElement) {
-        componentRef.setInput('options', formElement['options']);
-      }
-
-      if ('startView' in formElement) {
-        componentRef.setInput('startView', formElement['startView']);
-      }
-      if ('mode' in formElement) {
-        componentRef.setInput('mode', formElement['mode']);
-      }
-    }
-
-    // this is an element implementing the IReactiveFormElement interface
-
-    if ('dataSource' in formElement) {
-      componentRef.setInput('dataSource', formElement['dataSource']);
-    }
-    if ('accumulateArguments' in formElement) {
+    formElement.inputKeys.forEach((inputKey) => {
       componentRef.setInput(
-        'accumulateArguments',
-        formElement['accumulateArguments'],
+        inputKey,
+        formElement[inputKey as keyof IDynamicFormElement],
       );
-    }
-
-    // this is an element implementing the IFormAction interface
-    if (isFormAction(formElement)) {
-      componentRef.setInput('action', formElement.action);
-
-      if ('color' in formElement) {
-        componentRef.setInput('color', formElement['color']);
-      }
-      if ('icon' in formElement) {
-        componentRef.setInput('icon', formElement['icon']);
-      }
-      if ('raised' in formElement) {
-        componentRef.setInput('raised', formElement['raised']);
-      }
-    }
+    });
 
     // form group
     if (isFormGroup(formElement)) {
-      // @fixme
-      //   componentRef.setInput(
-      //     'formElements',
-      //     (formElement as DynamicFormGroup).formElements,
-      //   );
-      //   componentRef.setInput(
-      //     'direction',
-      //     (formElement as DynamicFormGroup).direction,
-      //   );
-
       // provide form group
       componentRef.setInput('form', parent.form.get(formElement.key));
     }

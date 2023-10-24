@@ -2,7 +2,7 @@ import { BehaviorSubject, iif, scan, Subject, switchMap } from 'rxjs';
 import { AbstractObservableDataSource } from '../../model/abstract-observable-data-source';
 import { takeUntil, tap } from 'rxjs/operators';
 
-export const initialiseReactiveFormElement = (
+export const initialiseReactiveRefresh = (
   accumulateArguments: boolean,
   clear: BehaviorSubject<null>,
   unsubscribe: Subject<null>,

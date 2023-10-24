@@ -14,6 +14,7 @@ export abstract class AbstractReactiveFormQuestion<
   abstract override component: Type<IReactiveFormQuestionComponent>;
   protected constructor(options: DynamicReactiveFormQuestionOptions<DT, VT>) {
     super(options);
+    this.inputKeys.push('dataSource', 'accumulateArguments');
 
     this.dataSource = options.dataSource;
     this.accumulateArguments = options.accumulateArguments || false;

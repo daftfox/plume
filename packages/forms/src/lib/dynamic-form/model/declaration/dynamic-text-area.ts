@@ -8,6 +8,7 @@ export class DynamicTextArea extends DynamicText<string> {
 
   constructor(options: DynamicTextAreaOptions) {
     super(options);
+    this.inputKeys.push('rows');
 
     this.rows = options.rows || 10;
 

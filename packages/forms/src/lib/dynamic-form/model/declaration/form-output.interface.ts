@@ -1,5 +1,3 @@
 import { IDynamicFormElement } from '../';
 
-export interface IFormOutput extends IDynamicFormElement {
-  key: string;
-}
+export type IFormOutput = IDynamicFormElement;

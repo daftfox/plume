@@ -33,6 +33,18 @@ export abstract class AbstractFormQuestion<T = DynamicFormElementValueType>
    */
   abstract component: Type<IFormQuestionComponent>;
 
+  inputKeys = [
+    'key',
+    'value',
+    'label',
+    'placeholder',
+    'validators',
+    'asyncValidators',
+    'linkedElements',
+    'disabled',
+    'additionalValidationMessages',
+  ];
+
   /**
    * String to be displayed as the form component's label.
    */
@@ -70,11 +82,6 @@ export abstract class AbstractFormQuestion<T = DynamicFormElementValueType>
    */
   value?: T;
 
-  /**
-   * Display a spacer above OR below this form question.
-   */
-  spacer?: SPACER;
-
   additionalValidationMessages?: Map<string, string>;
 
   protected constructor(options: DynamicFormQuestionOptions<T>) {
@@ -87,7 +94,6 @@ export abstract class AbstractFormQuestion<T = DynamicFormElementValueType>
     this.placeholder = options.placeholder || '';
     this.validators = options.validators || [];
     this.asyncValidators = options.asyncValidators || [];
-    this.spacer = typeof options.spacer === 'number' ? options.spacer : null;
     this.disabled = options.disabled === null ? false : options.disabled;
     this.linkedElements = options.linkedElements || [];
     this.additionalValidationMessages = options.additionalValidationMessages;

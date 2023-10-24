@@ -9,6 +9,7 @@ export class DynamicRadioButton extends AbstractFormQuestion<string> {
 
   constructor(options: DynamicRadioButtonOptions<string>) {
     super(options);
+    this.inputKeys.push('options');
 
     this.options = options.options;
   }

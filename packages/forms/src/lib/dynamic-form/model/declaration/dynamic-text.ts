@@ -9,6 +9,7 @@ export abstract class DynamicText<
 
   protected constructor(options: DynamicTextOptions<T>) {
     super(options);
+    this.inputKeys.push('maxLength');
 
     this.maxLength = options.maxLength;
 

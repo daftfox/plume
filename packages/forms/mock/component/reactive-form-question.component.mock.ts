@@ -6,12 +6,6 @@ import { AbstractReactiveFormQuestionComponent } from '../../src/lib/dynamic-for
   selector: 'plume-mock-reactive-form-question',
   template: '<span>test</span>',
   standalone: true,
-  providers: [
-    {
-      provide: DynamicFormService,
-      useValue: {},
-    },
-  ],
 })
 export class MockReactiveFormQuestionComponent extends AbstractReactiveFormQuestionComponent<
   string,

@@ -3,8 +3,8 @@ import { AbstractControl } from '@angular/forms';
 import { IDynamicFormElement, IFormGroupComponent, FormComponent } from '../';
 
 export interface IDynamicFormService {
+  formInitialised: Observable<null>;
   getFormComponentKeys(): string[];
-  setDisplayedElements(displayedElements: Observable<string[]>): void;
   updateFormControl(key: string): void;
   getFormComponent(key: string): FormComponent;
   getFormComponentControl(key: string): AbstractControl;

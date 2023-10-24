@@ -9,6 +9,7 @@ export class DynamicTextInput extends DynamicText<string> {
 
   constructor(options: DynamicTextInputOptions<string>) {
     super(options);
+    this.inputKeys.push('type', 'icon');
 
     this.type = options.type || 'text';
     this.icon = options.icon;

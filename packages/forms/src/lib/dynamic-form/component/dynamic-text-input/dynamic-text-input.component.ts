@@ -11,7 +11,7 @@ import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
-  selector: 'plume-textbox-form-question',
+  selector: 'plume-text-input-form-question',
   templateUrl: './dynamic-text-input.component.html',
   styleUrls: [
     '../abstract-form-question/abstract-form-question.component.scss',

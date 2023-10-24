@@ -10,6 +10,7 @@ export class DynamicButton implements IFormAction {
   raised: boolean;
   action: (args?: unknown) => void;
   component = DynamicButtonComponent;
+  inputKeys = ['key', 'action', 'label', 'icon', 'color', 'raised'];
 
   constructor(options: DynamicFormButtonOptions) {
     this.key = options.key;

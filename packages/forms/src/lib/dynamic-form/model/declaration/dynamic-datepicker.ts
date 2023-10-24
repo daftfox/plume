@@ -10,6 +10,7 @@ export class DynamicDatepicker extends AbstractFormQuestion<Date> {
 
   constructor(options: DatepickerFormQuestionOptions) {
     super(options);
+    this.inputKeys.push('startView', 'mode');
 
     this.startView = options.startView || 'month';
     this.mode = options.mode || 'date';

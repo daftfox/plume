@@ -10,7 +10,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AbstractFormGroupComponent } from '../abstract-form-group/abstract-form-group.component';
 import { CommonModule, NgIf } from '@angular/common';
@@ -47,7 +47,6 @@ export class DynamicFormGroupComponent
   @Input() submitButtonBadgeLabel: string | number;
   @Input() cancelButtonLabel = 'Cancel';
   @Input() direction: 'column' | 'row' = 'column';
-  @Input() displayedElements?: Observable<string[]>;
 
   @Output() formSubmit = new Subject();
   @Output() formCancel = new Subject<null>();
@@ -70,10 +69,6 @@ export class DynamicFormGroupComponent
 
   override ngOnInit() {
     super.ngOnInit();
-
-    if (this.displayedElements) {
-      this.service.setDisplayedElements(this.displayedElements);
-    }
   }
 
   /**

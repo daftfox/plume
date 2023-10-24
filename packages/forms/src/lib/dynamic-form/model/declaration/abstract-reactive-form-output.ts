@@ -13,6 +13,7 @@ export abstract class AbstractReactiveFormOutput<DT>
   dataSource: AbstractObservableDataSource<DT>;
   key: string;
   accumulateArguments: boolean;
+  inputKeys = ['key', 'dataSource', 'accumulateArguments'];
 
   constructor(options: DynamicReactiveFormElementOptions<DT>) {
     this.key = options.key;

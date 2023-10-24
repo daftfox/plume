@@ -6,12 +6,6 @@ import { AbstractFormQuestionComponent } from '../../src/lib/dynamic-form/compon
   selector: 'plume-mock-form-question-component',
   template: '<span>test</span>',
   standalone: true,
-  providers: [
-    {
-      provide: DynamicFormService,
-      useValue: {},
-    },
-  ],
 })
 export class MockFormQuestionComponent extends AbstractFormQuestionComponent {
   constructor(protected override service: DynamicFormService) {

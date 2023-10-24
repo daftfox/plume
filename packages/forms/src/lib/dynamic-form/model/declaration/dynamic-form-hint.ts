@@ -7,6 +7,7 @@ export class DynamicFormHint implements IFormOutput {
   heading?: string;
   spacer?: SPACER;
   component = DynamicFormHintComponent;
+  inputKeys: ['key', 'hint', 'heading', 'spacer'];
 
   constructor(options: DynamicFormHintOptions) {
     this.key = options.key;

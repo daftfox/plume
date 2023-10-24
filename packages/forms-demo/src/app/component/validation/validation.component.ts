@@ -4,6 +4,7 @@ import {
   DynamicCheckbox,
   DynamicFormModule,
   DynamicTextInput,
+  IDynamicFormService,
   PlumeValidatorFn,
 } from '@plume-org/forms';
 import {
@@ -15,9 +16,7 @@ import {
 import { MatExpansionModule } from '@angular/material/expansion';
 import { GistComponent } from '../../../shared/component/gist/gist.component';
 import { FlexModule } from '@angular/flex-layout';
-import { Subject } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
-import { IDynamicFormService } from '../../../../../forms/src/lib/dynamic-form/model/service/dynamic-form.service.interface';
 
 @Component({
   selector: 'demo-validation',
@@ -182,9 +181,6 @@ export class FormComponent {
 }`,
     },
   ];
-
-  display = true;
-  displayedElements = new Subject<string[]>();
 
   private forbiddenValue(forbiddenValue: string): PlumeValidatorFn {
     return (_service: IDynamicFormService): ValidatorFn =>

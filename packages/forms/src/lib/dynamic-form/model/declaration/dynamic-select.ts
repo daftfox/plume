@@ -23,6 +23,14 @@ export class DynamicSelect<
 
   constructor(options: DynamicSelectOptions<T>) {
     super(options);
+    this.inputKeys.push(
+      'options',
+      'allowMultiple',
+      'nullable',
+      'useSelectAll',
+      'useFilter',
+      'noEntriesFoundLabel',
+    );
 
     if (options.useSelectAll && !options.allowMultiple) {
       throw new Error(

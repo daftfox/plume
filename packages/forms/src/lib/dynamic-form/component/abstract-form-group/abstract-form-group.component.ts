@@ -77,23 +77,19 @@ export abstract class AbstractFormGroupComponent
 
   ngAfterViewInit() {
     // Notify subscribers that the formOutlet has been rendered and made available
-    this.initialiseFormElements();
+    this.subscribeToFormElements();
   }
 
   ngOnDestroy() {
     this.unsubscribe.next(null);
   }
 
-  get group(): FormGroup | undefined {
-    return this.form.get(this.key) as FormGroup;
-  }
-
   get isValid(): boolean {
-    return this.group.valid || this.group.disabled;
+    return this.form.valid || this.form.disabled;
   }
 
   get isDisabled(): boolean {
-    return this.group.disabled;
+    return this.form.disabled;
   }
 
   get value(): Observable<DynamicFormValues> {
@@ -101,12 +97,10 @@ export abstract class AbstractFormGroupComponent
   }
 
   get isPristine(): boolean {
-    if (!this.form) return true;
     return this.form.pristine;
   }
 
   get isDirty(): boolean {
-    if (!this.form) return false;
     return this.form.dirty;
   }
 
@@ -118,7 +112,7 @@ export abstract class AbstractFormGroupComponent
    * ngOnChanges life cycle hook.
    * @private
    */
-  protected initialiseFormElements() {
+  private subscribeToFormElements() {
     iif(
       () => this.formElements instanceof Observable,
       this.formElements as Observable<IDynamicFormElement[]>,

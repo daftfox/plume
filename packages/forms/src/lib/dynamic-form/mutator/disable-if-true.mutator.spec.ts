@@ -34,7 +34,7 @@ describe('clearArguments', () => {
   });
 
   it('should enable the control if value equals false', () => {
-    const spy = jest.spyOn(mockFormControl, 'disable');
+    const spy = jest.spyOn(mockFormControl, 'enable');
     disableIfTrue(
       'originComponent',
       mockFormControlKey,

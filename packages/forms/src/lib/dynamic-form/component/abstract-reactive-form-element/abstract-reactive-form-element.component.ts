@@ -5,7 +5,7 @@ import {
   AbstractObservableDataSource,
   IReactiveFormElementComponent,
 } from '../../model';
-import { initialiseReactiveFormElement } from './initialise-reactive-form-element';
+import { initialiseReactiveRefresh } from './initialise-reactive-refresh';
 
 @Directive()
 export abstract class AbstractReactiveFormElementComponent<DT>
@@ -29,7 +29,7 @@ export abstract class AbstractReactiveFormElementComponent<DT>
   protected unsubscribe = new Subject<null>();
 
   ngOnInit() {
-    initialiseReactiveFormElement(
+    initialiseReactiveRefresh(
       this.accumulateArguments,
       this.clear,
       this.unsubscribe,

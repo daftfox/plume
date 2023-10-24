@@ -3,17 +3,16 @@ import {
   DIRECTION,
   IDynamicFormElement,
   IFormGroup,
-  SPACER,
 } from '../';
 import { DynamicFormGroupComponent } from '../../component/dynamic-form-group/dynamic-form-group.component';
 
 export class DynamicFormGroup implements IFormGroup {
   component = DynamicFormGroupComponent;
+  inputKeys = ['key', 'formElements', 'label', 'disabled', 'direction'];
   key: string;
   formElements: IDynamicFormElement[];
   disabled = false;
   label?: string;
-  spacer?: SPACER;
   direction: DIRECTION;
 
   constructor(options: DynamicFormGroupOptions) {
@@ -25,7 +24,6 @@ export class DynamicFormGroup implements IFormGroup {
       options.disabled === undefined || options.disabled === null
         ? false
         : options.disabled;
-    this.spacer = options.spacer;
     this.direction = options.direction;
   }
 }

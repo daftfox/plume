@@ -6,7 +6,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { Subject, merge, Observable } from 'rxjs';
+import { Subject, merge } from 'rxjs';
 import { AsyncValidatorFn, FormControl, ValidatorFn } from '@angular/forms';
 import { filter, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { isAngularValidator, PlumeValidatorFn } from '../../validator';
@@ -32,8 +32,6 @@ export abstract class AbstractFormQuestionComponent<
   @Input() value: T | T[];
   @Input() disabled = false;
   @Input() linkedElements: LinkedElement[] = [];
-
-  @Input() formInitialised: Observable<null>;
   @Input() additionalValidationMessages: Map<string, string>;
 
   defaultValidationMessages = new Map<string, string>([
@@ -75,7 +73,7 @@ export abstract class AbstractFormQuestionComponent<
       ]);
     }
 
-    this.formInitialised
+    this.service.formInitialised
       .pipe(
         switchMap(() =>
           merge(
@@ -95,8 +93,6 @@ export abstract class AbstractFormQuestionComponent<
         ),
       )
       .subscribe();
-
-    this.unsubscribe.pipe(tap(() => this.unsubscribe.complete())).subscribe();
   }
 
   ngOnDestroy() {

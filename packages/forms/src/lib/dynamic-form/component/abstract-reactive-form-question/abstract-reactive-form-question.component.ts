@@ -1,7 +1,7 @@
 import { Directive, Input, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
-import { initialiseReactiveFormElement } from '../abstract-reactive-form-element/initialise-reactive-form-element';
+import { initialiseReactiveRefresh } from '../abstract-reactive-form-element/initialise-reactive-refresh';
 import { AbstractObservableDataSource } from '../../model/abstract-observable-data-source';
 import { DynamicFormElementValueType } from '../../model/dynamic-form-values.interface';
 import { IReactiveFormQuestionComponent } from '../../model/component/reactive-form-question.component.interface';
@@ -30,7 +30,7 @@ export abstract class AbstractReactiveFormQuestionComponent<
 
   override ngOnInit() {
     super.ngOnInit();
-    initialiseReactiveFormElement(
+    initialiseReactiveRefresh(
       this.accumulateArguments,
       this.clear,
       this.unsubscribe,

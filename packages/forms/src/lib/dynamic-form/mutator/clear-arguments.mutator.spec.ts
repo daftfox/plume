@@ -4,9 +4,10 @@ import { clearArguments } from './clear-arguments.mutator';
 import { MockReactiveFormQuestionComponent } from '../../../../mock/component/reactive-form-question.component.mock';
 import { MockFormQuestionComponent } from '../../../../mock/component/form-question.component.mock';
 import { MockObservableDataSource } from '../../../../mock/component/observable-data-source.mock';
-import { DynamicFormService } from '../service/dynamic-form.service';
 import { IDynamicFormService } from '../model/service/dynamic-form.service.interface';
 import { FormComponent } from '../model/form-component.type';
+import { DynamicFormService } from '@plume-org/forms';
+jest.mock('../service/dynamic-form.service');
 
 const formComponents = new Map<string, FormComponent>();
 const mockDynamicFormService = {
@@ -27,6 +28,7 @@ describe('clearArguments', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MockReactiveFormQuestionComponent, MockFormQuestionComponent],
+      providers: [DynamicFormService],
     }).compileComponents();
 
     reactiveFormQuestionComponentFixture = TestBed.createComponent(

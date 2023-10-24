@@ -14,4 +14,6 @@ export interface IDynamicFormElement<C = FormComponent> {
    * The component class to use when dynamically instantiating the form component.
    */
   component: Type<C>;
+
+  inputKeys: string[];
 }

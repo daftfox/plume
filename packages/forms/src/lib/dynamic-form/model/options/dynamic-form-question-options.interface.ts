@@ -20,6 +20,5 @@ export interface DynamicFormQuestionOptions<T = DynamicFormElementValueType> {
    */
   index?: number;
   disabled?: boolean;
-  spacer?: SPACER;
   additionalValidationMessages?: Map<string, string>;
 }
