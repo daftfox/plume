@@ -6,7 +6,6 @@ import {
   IFormQuestion,
   IFormQuestionComponent,
   LinkedElement,
-  SPACER,
 } from '../';
 import { isAngularValidator, PlumeValidatorFn } from '../../validator';
 

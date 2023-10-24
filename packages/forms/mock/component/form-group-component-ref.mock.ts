@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 
 export const mockFormGroupInstance = {
   key: 'mockParent',
-  form: new FormGroup<any>({}),
+  form: new FormGroup({}),
   appendFormControlToForm: jest.fn(),
   removeFormControlFromForm: jest.fn(),
   createFormComponent: jest.fn(),
@@ -12,7 +12,7 @@ export const mockFormGroupInstance = {
 
 export const mockOtherFormGroupInstance = {
   key: 'mockOtherParent',
-  form: new FormGroup<any>({}),
+  form: new FormGroup({}),
   appendFormControlToForm: jest.fn(),
   removeFormControlFromForm: jest.fn(),
   createFormComponent: jest.fn(),

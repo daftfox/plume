@@ -2,7 +2,6 @@ import { IDynamicFormService } from '../model/service/dynamic-form.service.inter
 import { DynamicFormElementValueType } from '../model/dynamic-form-values.interface';
 import { IReactiveFormElementComponent } from '../model/component/reactive-form-element.component.interface';
 import { MutatorFn } from '../model/declaration/mutator-function.interface';
-import { AbstractReactiveFormOutput } from '../model';
 
 export const refreshDataSource: MutatorFn = (
   originKey: string,

@@ -8,7 +8,6 @@ import {
   IFormGroupComponent,
 } from '../model';
 import { Observable } from 'rxjs';
-import { AbstractFormGroupComponent } from '../component/abstract-form-group/abstract-form-group.component';
 import { isFormGroup } from '../util';
 
 @Injectable()
@@ -103,7 +102,7 @@ export class DynamicFormService implements IDynamicFormService {
   /**
    * Parses formGroupComponent element declarations and either adds them to the formGroupComponent or updates their respective components when they
    * have already been added.
-   * @param {AbstractFormGroupComponent} formGroupComponent
+   * @param {IFormGroupComponent} formGroupComponent
    * @param {IDynamicFormElement[]} formElements
    * @private
    */
