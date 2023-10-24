@@ -1,6 +1,6 @@
 {
   "name": "@plume-org/forms",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "peerDependencies": {
     "@angular/animations": "^14.0.0",
     "@angular/cdk": "^14.0.0",
