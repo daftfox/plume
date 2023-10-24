@@ -1,5 +1,5 @@
 import { IDynamicFormElement } from '../declaration/dynamic-form-element.interface';
-import { DIRECTION } from '@plume-org/forms';
+import { DIRECTION } from '../declaration';
 
 export interface DynamicFormGroupOptions {
   key: string;
