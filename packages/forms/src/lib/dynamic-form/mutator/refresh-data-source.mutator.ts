@@ -1,26 +1,23 @@
-import { DynamicFormService } from '../service/dynamic-form.service';
-import { DynamicFormElementValueType, MutatorFn } from '../model';
-import { AbstractReactiveFormQuestionComponent } from '../component/abstract-reactive-form-question/abstract-reactive-form-question.component';
-import { AbstractReactiveFormElementComponent } from '../component/abstract-reactive-form-element/abstract-reactive-form-element.component';
+import { IDynamicFormService } from '../model/service/dynamic-form.service.interface';
+import { DynamicFormElementValueType } from '../model/dynamic-form-values.interface';
+import { IReactiveFormElementComponent } from '../model/component/reactive-form-element.component.interface';
+import { MutatorFn } from '../model/declaration/mutator-function.interface';
+import { AbstractReactiveFormOutput } from '../model';
 
-export const refreshDataSource: MutatorFn = <T = DynamicFormElementValueType>(
+export const refreshDataSource: MutatorFn = (
   originKey: string,
   targetKey: string,
-  service: DynamicFormService,
-  value?: T,
+  service: IDynamicFormService,
+  value?: DynamicFormElementValueType,
 ) => {
   const linkedElement = service.getFormComponent(targetKey);
-
-  if (
-    !(linkedElement instanceof AbstractReactiveFormElementComponent) &&
-    !(linkedElement instanceof AbstractReactiveFormQuestionComponent)
-  ) {
+  if (!Object.prototype.hasOwnProperty.call(linkedElement, 'dataSource')) {
     throw new Error(
-      `Linked element ${targetKey} does not extend AbstractReactiveFormQuestionComponent or AbstractReactiveFormElementComponent.`,
+      `Unable to refresh. Linked element ${targetKey} does not extend AbstractReactiveFormQuestionComponent or AbstractReactiveFormElementComponent.`,
     );
   }
 
-  (linkedElement as AbstractReactiveFormElementComponent<unknown>).refresh(
+  (linkedElement as IReactiveFormElementComponent).refresh(
     new Map([[originKey, value]]),
   );
 };

@@ -22,9 +22,20 @@ export class LinkedElementComponent extends AbstractDemoComponent {
     {
       name: 'linked-element.interface.ts',
       code: `interface LinkedElement {
-  label: string;
   key: string;
-  refreshOnValueChange?: boolean;
+  mutators: MutatorFn[];
+  label?: string;
+}`,
+    },
+    {
+      name: 'mutator-function.interface.ts',
+      code: `interface MutatorFn {
+  (
+    originKey: string,
+    targetKey: string,
+    service: DynamicFormService,
+    value?: unknown,
+  ): void;
 }`,
     },
   ];

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DynamicFormModule, IDynamicFormElement } from '@plume-org/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,7 +33,7 @@ export interface Example {
     GistComponent,
   ],
 })
-export abstract class AbstractDemoComponent implements OnInit {
+export abstract class AbstractDemoComponent implements OnInit, OnDestroy {
   public title = '';
   public description = '';
   public examples: Example[] = [];
@@ -49,6 +49,10 @@ export abstract class AbstractDemoComponent implements OnInit {
         subtitle,
       })),
     });
+  }
+
+  ngOnDestroy() {
+    this.asideService.resetContent();
   }
 
   setActiveFragment(fragment: string) {

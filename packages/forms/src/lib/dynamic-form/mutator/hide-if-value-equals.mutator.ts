@@ -1,13 +1,13 @@
-import { DynamicFormElementValueType } from '../model';
-import { DynamicFormService } from '../service/dynamic-form.service';
+import { DynamicFormElementValueType, MutatorFn } from '../model';
+import { IDynamicFormService } from '../model/service/dynamic-form.service.interface';
 
 export const hideIfValueEquals =
-  <AT = DynamicFormElementValueType>(assertValue: AT) =>
-  <T extends AT>(
+  (assertValue: DynamicFormElementValueType): MutatorFn =>
+  (
     originKey: string,
     targetKey: string,
-    service: DynamicFormService,
-    value: T,
+    service: IDynamicFormService,
+    value: DynamicFormElementValueType,
   ) => {
     if (value === assertValue) {
       service.setElementVisibility(targetKey, false);

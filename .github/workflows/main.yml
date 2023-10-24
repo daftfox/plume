@@ -64,35 +64,6 @@ jobs:
           yarn --cwd packages/utils version --patch
           git push
 
-  #  publish-utils:
-  #    needs: ['main']
-  #    name: Publish utils package to NPM
-  #    runs-on: ubuntu-latest
-  #    permissions:
-  #      contents: write
-  #    steps:
-  #      - uses: actions/checkout@v4
-  #      - uses: actions/setup-node@v3
-  #        name: Setup Node.js
-  #        with:
-  #          node-version: '20'
-  #      - uses: actions/download-artifact@v3
-  #        name: Download artifacts
-  #        with:
-  #          name: dist
-  #          path: dist
-  #      - uses: JS-DevTools/npm-publish@v2
-  #        with:
-  #          package: dist/packages/utils
-  #          token: ${{ secrets.NPM_TOKEN }}
-  #      - name: Bump version
-  #        run: |
-  #          git config --global user.name "${{env.AUTHOR_NAME}}"
-  #          git config --global user.email "${{env.AUTHOR_EMAIL}}"
-  #          cd packages/utils
-  #          yarn version --patch
-  #          git push
-
   deploy-demo:
     needs: ['main']
     runs-on: ubuntu-latest

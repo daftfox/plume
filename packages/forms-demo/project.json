@@ -96,6 +96,20 @@
           "codeCoverage": true
         }
       }
+    },
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "packages/forms-demo/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "forms-demo:serve",
+        "port": 4201
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "forms-demo:serve:production"
+        }
+      }
     }
   }
 }

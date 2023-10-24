@@ -24,6 +24,10 @@ export class AsideService {
     return this._content.asObservable();
   }
 
+  resetContent() {
+    this._content.next(null);
+  }
+
   setContent(content: AsideContent) {
     this._content.next(content);
   }

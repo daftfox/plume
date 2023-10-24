@@ -1,13 +1,13 @@
-import { DynamicFormElementValueType } from '../model';
-import { DynamicFormService } from '../service/dynamic-form.service';
+import { DynamicFormElementValueType, MutatorFn } from '../model';
+import { IDynamicFormService } from '../model/service/dynamic-form.service.interface';
 
 export const resetIfValueOneOf =
-  <AT = DynamicFormElementValueType>(assertValues: AT[]) =>
-  <T extends AT>(
+  (assertValues: DynamicFormElementValueType[]): MutatorFn =>
+  (
     originKey: string,
     targetKey: string,
-    service: DynamicFormService,
-    value: T,
+    service: IDynamicFormService,
+    value: DynamicFormElementValueType,
   ) => {
     const linkedElementControl = service.getFormComponentControl(targetKey);
 

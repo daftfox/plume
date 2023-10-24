@@ -6,11 +6,20 @@ import { SelectDemoComponent } from './component/select-demo/select-demo.compone
 import { LinkedElementComponent } from './component/linked-element/linked-element.component';
 import { AsideComponent } from './component/aside/aside.component';
 import { ValidationComponent } from './component/validation/validation.component';
+import { LandingComponent } from './component/landing/landing.component';
 
 export const appRoutes: Route[] = [
   {
+    path: '',
+    component: LandingComponent,
+  },
+  {
     path: 'validation',
     component: ValidationComponent,
+  },
+  {
+    path: 'linked-element',
+    component: LinkedElementComponent,
   },
   {
     path: 'form-components',
@@ -30,10 +39,6 @@ export const appRoutes: Route[] = [
       {
         path: 'select-demo',
         component: SelectDemoComponent,
-      },
-      {
-        path: 'linked-element',
-        component: LinkedElementComponent,
       },
     ],
   },

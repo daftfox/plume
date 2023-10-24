@@ -6,18 +6,20 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { Subject, merge, Observable } from 'rxjs';
+import { Subject, merge } from 'rxjs';
 import { AsyncValidatorFn, FormControl, ValidatorFn } from '@angular/forms';
 import { filter, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { DynamicFormElementValueType, LinkedElement } from '../../model';
-import { DynamicFormService } from '../../service/dynamic-form.service';
 import { isAngularValidator, PlumeValidatorFn } from '../../validator';
+import { LinkedElement } from '../../model/declaration/linked-element.interface';
+import { DynamicFormElementValueType } from '../../model/dynamic-form-values.interface';
+import { IDynamicFormService } from '../../model/service/dynamic-form.service.interface';
+import { IFormQuestionComponent } from '../../model/component/form-question.component.interface';
 
 @Directive()
 export abstract class AbstractFormQuestionComponent<
-    T = DynamicFormElementValueType,
+    T extends DynamicFormElementValueType = DynamicFormElementValueType,
   >
-  implements OnInit, OnDestroy, OnChanges
+  implements OnInit, OnDestroy, OnChanges, IFormQuestionComponent
 {
   @Input() key: string;
   @Input() label: string;
@@ -27,11 +29,9 @@ export abstract class AbstractFormQuestionComponent<
     | PlumeValidatorFn
     | (ValidatorFn | PlumeValidatorFn)[] = [];
   @Input() asyncValidators: AsyncValidatorFn | AsyncValidatorFn[] = [];
-  @Input() value: T;
+  @Input() value: T | T[];
   @Input() disabled = false;
   @Input() linkedElements: LinkedElement[] = [];
-
-  @Input() formInitialised: Observable<null>;
   @Input() additionalValidationMessages: Map<string, string>;
 
   defaultValidationMessages = new Map<string, string>([
@@ -40,7 +40,7 @@ export abstract class AbstractFormQuestionComponent<
 
   protected unsubscribe = new Subject<null>();
 
-  constructor(protected service: DynamicFormService) {}
+  constructor(protected service: IDynamicFormService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (
@@ -73,7 +73,7 @@ export abstract class AbstractFormQuestionComponent<
       ]);
     }
 
-    this.formInitialised
+    this.service.formInitialised
       .pipe(
         switchMap(() =>
           merge(
@@ -93,8 +93,6 @@ export abstract class AbstractFormQuestionComponent<
         ),
       )
       .subscribe();
-
-    this.unsubscribe.pipe(tap(() => this.unsubscribe.complete())).subscribe();
   }
 
   ngOnDestroy() {

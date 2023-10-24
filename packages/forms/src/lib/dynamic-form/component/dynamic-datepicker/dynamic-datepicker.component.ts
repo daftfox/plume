@@ -1,7 +1,8 @@
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
 import { Component, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatCalendarView, MatDatepicker } from '@angular/material/datepicker';
-import { DatepickerMode } from '../../model/options';
+import { DatepickerMode } from '../../model';
+import { DynamicFormService } from '../../service/dynamic-form.service';
 
 @Component({
   selector: 'plume-datepicker-form-question',
@@ -16,6 +17,10 @@ export class DynamicDatepickerComponent extends AbstractFormQuestionComponent<Da
 
   @Input() startView: MatCalendarView;
   @Input() mode: DatepickerMode;
+
+  constructor(protected override service: DynamicFormService) {
+    super(service);
+  }
 
   setMonthAndYear(date: Date) {
     if (this.mode === 'month-year') {

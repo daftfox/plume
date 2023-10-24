@@ -1,4 +1,4 @@
-export * from './model/abstract-form-question';
+export * from './model/declaration/abstract-form-question';
 
 // Form components
 export * from './component/abstract-form-question/abstract-form-question.component';

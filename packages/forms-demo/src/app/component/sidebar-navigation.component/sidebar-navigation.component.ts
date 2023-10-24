@@ -42,12 +42,10 @@ import { MatIconModule } from '@angular/material/icon';
       <!--        Mutation-->
       <!--      </mat-list-item>-->
 
-      <!--      <mat-list-item-->
-      <!--        routerLink="linked-element"-->
-      <!--        routerLinkActive="active">-->
-      <!--&lt;!&ndash;        <mat-icon matListItemIcon>link</mat-icon>&ndash;&gt;-->
-      <!--        Linked elements-->
-      <!--      </mat-list-item>-->
+      <mat-list-item routerLink="linked-element" routerLinkActive="active">
+        <!--        <mat-icon matListItemIcon>link</mat-icon>-->
+        Linked elements
+      </mat-list-item>
 
       <mat-list-item>
         <!--        <mat-icon matListItemIcon>inventory</mat-icon>-->

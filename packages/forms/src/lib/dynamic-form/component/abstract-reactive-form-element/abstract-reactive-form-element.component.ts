@@ -1,39 +1,15 @@
 import { Directive, Input } from '@angular/core';
-import { BehaviorSubject, iif, scan, Subject, switchMap } from 'rxjs';
-import { AbstractObservableDataSource } from '../../model';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { OnInit } from '@angular/core';
-import { takeUntil, tap } from 'rxjs/operators';
-
-export const initialiseReactiveFormElement = (
-  accumulateArguments: boolean,
-  clear: BehaviorSubject<null>,
-  unsubscribe: Subject<null>,
-  dataSourceArguments: Subject<Map<string, unknown>>,
-  dataSource: AbstractObservableDataSource<unknown>,
-) => {
-  iif(
-    () => accumulateArguments,
-    // Accumulate arguments provided until cleared
-    clear.pipe(
-      takeUntil(unsubscribe),
-      switchMap(() =>
-        dataSourceArguments.pipe(
-          scan((accumulator, args: Map<string, unknown>) => {
-            args.forEach((value, key) => accumulator.set(key, value));
-            return accumulator;
-          }, new Map<string, unknown>()),
-          tap((args) => dataSource.refresh(args)),
-        ),
-      ),
-    ),
-    // Refresh with new arguments
-    dataSourceArguments.pipe(tap((args) => dataSource.refresh(args))),
-  ).subscribe();
-};
+import {
+  AbstractObservableDataSource,
+  IReactiveFormElementComponent,
+} from '../../model';
+import { initialiseReactiveRefresh } from './initialise-reactive-refresh';
 
 @Directive()
 export abstract class AbstractReactiveFormElementComponent<DT>
-  implements OnInit
+  implements OnInit, IReactiveFormElementComponent
 {
   @Input() key: string;
 
@@ -53,7 +29,7 @@ export abstract class AbstractReactiveFormElementComponent<DT>
   protected unsubscribe = new Subject<null>();
 
   ngOnInit() {
-    initialiseReactiveFormElement(
+    initialiseReactiveRefresh(
       this.accumulateArguments,
       this.clear,
       this.unsubscribe,
