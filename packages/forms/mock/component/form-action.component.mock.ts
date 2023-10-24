@@ -8,5 +8,5 @@ import { IFormActionComponent } from '../../src/lib/dynamic-form/model/component
 })
 export class MockFormActionComponent implements IFormActionComponent {
   key: string;
-  action(args?: unknown): void {}
+  action(_args?: unknown): void {}
 }

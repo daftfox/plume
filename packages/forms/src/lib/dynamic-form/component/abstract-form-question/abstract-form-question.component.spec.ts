@@ -8,10 +8,9 @@ import {
   FormControl,
   FormControlStatus,
   ValidatorFn,
-  Validators,
 } from '@angular/forms';
 import { SimpleChanges } from '@angular/core';
-import { IDynamicFormService } from '@plume-org/forms';
+import { IDynamicFormService } from '../../model/service/dynamic-form.service.interface';
 
 const disabledControl = new FormControl();
 disabledControl.disable();

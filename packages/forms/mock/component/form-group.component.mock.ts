@@ -8,13 +8,11 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { AbstractFormGroupComponent } from '../../src/lib/dynamic-form/component/abstract-form-group/abstract-form-group.component';
-import {
-  DIRECTION,
-  DynamicFormGroupOptions,
-  DynamicFormService,
-  IDynamicFormElement,
-  IFormGroup,
-} from '@plume-org/forms';
+import { IFormGroup } from '../../src/lib/dynamic-form/model/declaration/form-group.interface';
+import { DIRECTION } from '../../src/lib/dynamic-form/model/declaration/direction.enum';
+import { IDynamicFormElement } from '../../src/lib/dynamic-form/model/declaration/dynamic-form-element.interface';
+import { DynamicFormGroupOptions } from '../../src/lib/dynamic-form/model/options/dynamic-form-group-options.interface';
+import { DynamicFormService } from '../../src/lib/dynamic-form/service/dynamic-form.service';
 
 export class MockFormGroup implements IFormGroup {
   component = MockFormGroupComponent;

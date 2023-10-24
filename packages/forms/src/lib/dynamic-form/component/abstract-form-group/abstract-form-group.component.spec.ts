@@ -1,13 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockFormGroupComponent } from '../../../../../mock/component/form-group.component.mock';
 import { ComponentRef, ViewContainerRef } from '@angular/core';
-import {
-  AbstractFormGroupComponent,
-  DynamicFormGroup,
-  DynamicFormService,
-  DynamicTextInput,
-  DynamicTextInputComponent,
-} from '@plume-org/forms';
 jest.mock('../../service/dynamic-form.service');
 import { Observable, of, switchMap } from 'rxjs';
 import {
@@ -18,6 +11,11 @@ import {
 } from '@angular/forms';
 import resetAllMocks = jest.resetAllMocks;
 import { tap } from 'rxjs/operators';
+import { DynamicTextInput } from '../../model/declaration/dynamic-text-input';
+import { AbstractFormGroupComponent } from '../../component/abstract-form-group/abstract-form-group.component';
+import { DynamicFormService } from '../../service/dynamic-form.service';
+import { DynamicTextInputComponent } from '../dynamic-text-input/dynamic-text-input.component';
+import { DynamicFormGroup } from '../../model/declaration/dynamic-form-group';
 
 describe('AbstractFormGroupComponent', () => {
   let componentRef: ComponentRef<MockFormGroupComponent>;

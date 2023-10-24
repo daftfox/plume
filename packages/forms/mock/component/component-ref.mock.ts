@@ -1,11 +1,4 @@
-import {
-  ChangeDetectorRef,
-  ComponentRef,
-  ElementRef,
-  Injector,
-  Type,
-  ViewRef,
-} from '@angular/core';
+import { ChangeDetectorRef, ComponentRef, ElementRef } from '@angular/core';
 import { MockFormOutputComponent } from './form-output.component.mock';
 
 export const mockChangeDetectorRef = {
@@ -25,7 +18,7 @@ export const mockComponentRef = {
   get location(): ElementRef {
     return mockElementRef;
   },
-  get instance(): any {
+  get instance(): object {
     return {};
   },
 } as unknown as ComponentRef<MockFormOutputComponent>;

@@ -3,7 +3,7 @@ import { IFormGroupComponent } from '../../src';
 
 export const mockFormControlParent = {
   key: 'mockParent',
-  form: new FormGroup<any>({}),
+  form: new FormGroup({}),
   formElements: [],
   appendFormControlToForm: jest.fn(),
   removeFormControlFromForm: jest.fn(),
@@ -12,7 +12,7 @@ export const mockFormControlParent = {
 
 export const mockOtherFormControlParent = {
   key: 'mockOtherParent',
-  form: new FormGroup<any>({}),
+  form: new FormGroup({}),
   formElements: [],
   appendFormControlToForm: jest.fn(),
   removeFormControlFromForm: jest.fn(),

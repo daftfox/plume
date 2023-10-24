@@ -1,6 +1,5 @@
 import { AsyncValidatorFn, ValidatorFn } from '@angular/forms';
 import { DynamicFormElementValueType } from '../dynamic-form-values.interface';
-import { SPACER } from '../declaration/spacer.enum';
 import { LinkedElement } from '../declaration/linked-element.interface';
 import { PlumeValidatorFn } from '../../validator';
 
