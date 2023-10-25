@@ -1,6 +1,6 @@
 {
   "name": "@plume-org/forms",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "license": "MIT",
   "peerDependencies": {
     "@angular/animations": "^14.0.0",
