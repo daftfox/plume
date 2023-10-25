@@ -1,12 +1,31 @@
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
 import { Component, Input, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatCalendarView, MatDatepicker } from '@angular/material/datepicker';
+import {
+  MatCalendarView,
+  MatDatepicker,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
 import { DatepickerMode } from '../../model';
 import { DynamicFormService } from '../../service/dynamic-form.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormErrorsComponent } from '../form-errors/form-errors.component';
+import { MatInputModule } from '@angular/material/input';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'plume-datepicker-form-question',
   templateUrl: './dynamic-datepicker.component.html',
+  standalone: true,
+  imports: [
+    FormErrorsComponent,
+    FormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    NgIf,
+    ReactiveFormsModule,
+  ],
   styleUrls: [
     '../abstract-form-question/abstract-form-question.component.scss',
   ],

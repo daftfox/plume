@@ -2,6 +2,9 @@ import { AbstractFormQuestionComponent } from '../abstract-form-question/abstrac
 import { Component, Input } from '@angular/core';
 import { SelectOption } from '../../model';
 import { DynamicFormService } from '../../service/dynamic-form.service';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'plume-radio-button-form-question',
@@ -10,6 +13,8 @@ import { DynamicFormService } from '../../service/dynamic-form.service';
     '../abstract-form-question/abstract-form-question.component.scss',
     './dynamic-radio-button.component.scss',
   ],
+  standalone: true,
+  imports: [FormsModule, MatRadioModule, NgForOf, ReactiveFormsModule],
 })
 export class DynamicRadioButtonComponent extends AbstractFormQuestionComponent<string> {
   @Input() options: SelectOption<string>[] = [];
