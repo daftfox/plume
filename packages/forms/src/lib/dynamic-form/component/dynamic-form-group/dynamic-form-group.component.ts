@@ -1,12 +1,14 @@
 import {
   ChangeDetectorRef,
   Component,
+  ComponentRef,
   EnvironmentInjector,
   Input,
   OnInit,
   Optional,
   Output,
   SkipSelf,
+  Type,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -19,6 +21,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { DynamicFormService } from '../../service/dynamic-form.service';
 import { MatButtonModule } from '@angular/material/button';
+import { DIRECTION, FormComponent } from '../../model';
 
 @Component({
   selector: 'plume-dynamic-form-group',
@@ -69,6 +72,21 @@ export class DynamicFormGroupComponent
 
   override ngOnInit() {
     super.ngOnInit();
+  }
+
+  override createFormComponent(
+    component: Type<FormComponent>,
+  ): ComponentRef<FormComponent> {
+    const ref = super.createFormComponent(component);
+
+    if (this.direction === DIRECTION.ROW) {
+      ref.location.nativeElement.setAttribute(
+        'style',
+        'display: flex; flex: 1 1 0;',
+      );
+    }
+
+    return ref;
   }
 
   /**

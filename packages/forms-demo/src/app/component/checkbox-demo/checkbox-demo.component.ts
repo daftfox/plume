@@ -3,7 +3,7 @@ import {
   DIRECTION,
   DynamicCheckbox,
   DynamicFormGroup,
-  DynamicFormModule,
+  DynamicFormGroupComponent,
 } from '@plume-org/forms';
 import {
   AbstractDemoComponent,
@@ -22,7 +22,7 @@ import { GistComponent } from '../../../shared/component/gist/gist.component';
   selector: 'demo-checkbox',
   imports: [
     CommonModule,
-    DynamicFormModule,
+    DynamicFormGroupComponent,
     MatButtonModule,
     MatExpansionModule,
     HighlightModule,

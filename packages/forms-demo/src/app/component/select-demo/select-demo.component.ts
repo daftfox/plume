@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {
   DIRECTION,
   DynamicFormGroup,
-  DynamicFormModule,
+  DynamicFormGroupComponent,
   DynamicSelect,
   IDynamicFormElement,
   refreshDataSource,
@@ -32,7 +32,7 @@ import { MockBirdObservationDetailsDataSource } from './data-source/mock-bird-ob
   selector: 'demo-select',
   imports: [
     CommonModule,
-    DynamicFormModule,
+    DynamicFormGroupComponent,
     HttpClientModule,
     MatButtonModule,
     MatExpansionModule,
