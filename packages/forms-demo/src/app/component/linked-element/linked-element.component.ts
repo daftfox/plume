@@ -3,7 +3,7 @@ import { AbstractDemoComponent } from '../abstract-demo/abstract-demo.component'
 import { RouterLink } from '@angular/router';
 import {
   disableIfTrue,
-  DynamicFormModule,
+  DynamicFormGroupComponent,
   DynamicSelect,
   DynamicToggle,
 } from '@plume-org/forms';
@@ -13,7 +13,12 @@ import { GistComponent } from '../../../shared/component/gist/gist.component';
 @Component({
   standalone: true,
   selector: 'demo-linked-element',
-  imports: [RouterLink, GistComponent, MatTableModule, DynamicFormModule],
+  imports: [
+    RouterLink,
+    GistComponent,
+    MatTableModule,
+    DynamicFormGroupComponent,
+  ],
   templateUrl: './linked-element.component.html',
 })
 export class LinkedElementComponent extends AbstractDemoComponent {

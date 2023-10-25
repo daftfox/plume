@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {
-  DynamicFormModule,
+  DIRECTION,
+  DynamicFormGroup,
+  DynamicFormGroupComponent,
   DynamicTextInput,
   IDynamicFormElement,
 } from '@plume-org/forms';
@@ -21,7 +23,7 @@ import { GistComponent } from '../../../shared/component/gist/gist.component';
   selector: 'demo-textbox',
   imports: [
     CommonModule,
-    DynamicFormModule,
+    DynamicFormGroupComponent,
     MatExpansionModule,
     HighlightModule,
     ObserveVisibilityDirective,
@@ -39,11 +41,33 @@ export class TextInputDemoComponent extends AbstractDemoComponent {
   Only two configuration properties are required; <code>key</code> and <code>label</code>, although I recommend you also enter a <code>placeholder</code> for increased usability.
 `;
   basicTextInput: IDynamicFormElement[] = [
-    new DynamicTextInput({
-      key: 'keaLikes',
-      label: 'What do you like most about the kea?',
-      placeholder: 'What I like about the kea is...',
+    new DynamicFormGroup({
+      key: 'name',
+      direction: DIRECTION.ROW,
+      formElements: [
+        new DynamicTextInput({
+          key: 'firstName',
+          label: 'First name',
+          placeholder: 'Please enter your first name',
+        }),
+        new DynamicTextInput({
+          key: 'lastName',
+          label: 'Last name',
+          placeholder: 'Please enter your last name',
+        }),
+      ],
     }),
+    new DynamicTextInput({
+      key: 'email',
+      label: 'Email address',
+      placeholder: 'Please enter your email address',
+      validators: Validators.required,
+    }),
+    // new DynamicTextInput({
+    //   key: 'keaLikes',
+    //   label: 'What do you like most about the kea?',
+    //   placeholder: 'What I like about the kea is...',
+    // }),
   ];
   disabledTextInput: IDynamicFormElement[] = [
     new DynamicTextInput({

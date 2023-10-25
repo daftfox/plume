@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DynamicFormModule } from '@plume-org/forms';
+import { DynamicFormGroupComponent } from '@plume-org/forms';
 import {
   AbstractDemoComponent,
   Example,
@@ -17,7 +17,7 @@ import { GistComponent } from '../../../shared/component/gist/gist.component';
   selector: 'demo-datepicker',
   imports: [
     CommonModule,
-    DynamicFormModule,
+    DynamicFormGroupComponent,
     MatButtonModule,
     MatExpansionModule,
     HighlightModule,
