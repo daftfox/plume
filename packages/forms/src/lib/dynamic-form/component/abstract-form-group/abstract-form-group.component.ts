@@ -85,6 +85,7 @@ export abstract class AbstractFormGroupComponent
   }
 
   get isValid(): boolean {
+    if (!this.form) return false;
     return this.form.valid || this.form.disabled;
   }
 
@@ -98,6 +99,10 @@ export abstract class AbstractFormGroupComponent
 
   get isPristine(): boolean {
     return this.form.pristine;
+  }
+
+  get isUntouched(): boolean {
+    return this.form.untouched;
   }
 
   get isDirty(): boolean {
