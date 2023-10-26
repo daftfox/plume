@@ -90,6 +90,7 @@ export abstract class AbstractFormGroupComponent
   }
 
   get isDisabled(): boolean {
+    if (!this.form) return false;
     return this.form.disabled;
   }
 
@@ -98,14 +99,17 @@ export abstract class AbstractFormGroupComponent
   }
 
   get isPristine(): boolean {
+    if (!this.form) return true;
     return this.form.pristine;
   }
 
   get isUntouched(): boolean {
+    if (!this.form) return true;
     return this.form.untouched;
   }
 
   get isDirty(): boolean {
+    if (!this.form) return false;
     return this.form.dirty;
   }
 
