@@ -29,7 +29,6 @@ import { DIRECTION, FormComponent } from '../../model';
   styleUrls: ['./dynamic-form-group.component.scss'],
   standalone: true,
   imports: [
-    CommonModule,
     FlexLayoutModule,
     FormsModule,
     MatBadgeModule,

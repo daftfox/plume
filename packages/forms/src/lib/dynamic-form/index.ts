@@ -1,5 +1,3 @@
-export * from './model/declaration/abstract-form-question';
-
 // Form components
 export * from './component/abstract-form-question/abstract-form-question.component';
 export * from './component/abstract-reactive-form-question/abstract-reactive-form-question.component';
@@ -12,7 +10,6 @@ export * from './component/dynamic-button/dynamic-button.component';
 export * from './component/dynamic-form-group/dynamic-form-group.component';
 export * from './component/form-errors/form-errors.component';
 export * from './component/dynamic-form-hint/dynamic-form-hint.component';
-// export * from './component/gist/gist.component';
 export * from './component/dynamic-radio-button/dynamic-radio-button.component';
 export * from './component/dynamic-text-area/dynamic-text-area.component';
 export * from './component/dynamic-text-input/dynamic-text-input.component';

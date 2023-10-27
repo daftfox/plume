@@ -9,7 +9,7 @@ import { IFormActionComponent } from '../../model';
 @Component({
   standalone: true,
   selector: 'plume-button',
-  imports: [MatButtonModule, NgIf, MatIconModule, NgTemplateOutlet, FlexModule],
+  imports: [NgIf, MatButtonModule, MatIconModule, NgTemplateOutlet, FlexModule],
   templateUrl: './dynamic-button.component.html',
 })
 export class DynamicButtonComponent implements IFormActionComponent {
