@@ -1,5 +1,3 @@
-export * from './model/declaration/abstract-form-question';
-
 // Form components
 export * from './component/abstract-form-question/abstract-form-question.component';
 export * from './component/abstract-reactive-form-question/abstract-reactive-form-question.component';
