@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@plume-org/forms": ["packages/forms/src/index.ts"],
+      "@plume-org/forms": ["packages/forms/src/public-api.ts"],
       "@plume-org/utils": ["packages/utils/src/index.ts"]
     }
   },
