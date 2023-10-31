@@ -9,11 +9,12 @@ import {
 import { Subject, merge } from 'rxjs';
 import { AsyncValidatorFn, FormControl, ValidatorFn } from '@angular/forms';
 import { filter, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { isAngularValidator, PlumeValidatorFn } from '../../validator';
 import { LinkedElement } from '../../model/declaration/linked-element.interface';
 import { DynamicFormElementValueType } from '../../model/dynamic-form-values.interface';
 import { IDynamicFormService } from '../../model/service/dynamic-form.service.interface';
 import { IFormQuestionComponent } from '../../model/component/form-question.component.interface';
+import { isAngularValidator } from '../../validator/is-angular-validator';
+import { PlumeValidatorFn } from '../../validator/plume-validator-function.interface';
 
 @Directive()
 export abstract class AbstractFormQuestionComponent<

@@ -16,14 +16,13 @@ import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, iif, Observable, of, Subject } from 'rxjs';
 import { DynamicFormService } from '../../service/dynamic-form.service';
 import { startWith, tap } from 'rxjs/operators';
-import { isFormGroup, isFormQuestion } from '../../util';
-import {
-  AbstractFormQuestion,
-  DynamicFormValues,
-  FormComponent,
-  IDynamicFormElement,
-  IFormGroupComponent,
-} from '../../model';
+import { isFormQuestion } from '../../util/is-form-question';
+import { FormComponent } from '../../model/form-component.type';
+import { AbstractFormQuestion } from '../../model/declaration/abstract-form-question';
+import { IDynamicFormElement } from '../../model/declaration/dynamic-form-element.interface';
+import { IFormGroupComponent } from '../../model/component/form-group.component.interface';
+import { DynamicFormValues } from '../../model/dynamic-form-values.interface';
+import { isFormGroup } from '../../util/is-form-group';
 
 @Directive()
 export abstract class AbstractFormGroupComponent

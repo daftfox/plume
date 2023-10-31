@@ -1,13 +1,11 @@
 import { AsyncValidatorFn, ValidatorFn } from '@angular/forms';
-import {
-  DynamicFormElementValueType,
-  LinkedElement,
-  IDynamicFormElement,
-  IFormQuestionComponent,
-  IReactiveFormQuestionComponent,
-  SPACER,
-} from '../';
-import { PlumeValidatorFn } from '../../validator';
+import { IReactiveFormQuestionComponent } from '../component/reactive-form-question.component.interface';
+import { IDynamicFormElement } from './dynamic-form-element.interface';
+import { SPACER } from './spacer.enum';
+import { IFormQuestionComponent } from '../component/form-question.component.interface';
+import { PlumeValidatorFn } from '../../validator/plume-validator-function.interface';
+import { LinkedElement } from './linked-element.interface';
+import { DynamicFormElementValueType } from '../dynamic-form-values.interface';
 
 export interface IFormQuestion<T = DynamicFormElementValueType>
   extends IDynamicFormElement<

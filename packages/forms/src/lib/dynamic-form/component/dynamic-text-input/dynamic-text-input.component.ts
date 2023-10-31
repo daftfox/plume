@@ -1,6 +1,5 @@
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { TextBoxType } from '../../model';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DynamicFormService } from '../../service/dynamic-form.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,6 +8,7 @@ import { FormErrorsComponent } from '../form-errors/form-errors.component';
 import { NgIf } from '@angular/common';
 import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 import { MatInputModule } from '@angular/material/input';
+import { TextBoxType } from '../../model/options/dynamic-text-input-options.interface';
 
 @Component({
   selector: 'plume-text-input-form-question',

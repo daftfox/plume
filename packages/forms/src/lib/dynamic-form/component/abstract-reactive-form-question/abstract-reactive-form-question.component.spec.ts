@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { tap } from 'rxjs/operators';
 import { MockReactiveFormQuestionComponent } from '../../../../../mock/component/reactive-form-question.component.mock';
-import { DynamicFormService } from '@plume-org/forms';
 import { Subject } from 'rxjs';
+import { DynamicFormService } from '../../service/dynamic-form.service';
 
 const mockFormInitialised = new Subject<null>();
 const mockDynamicFormService = {

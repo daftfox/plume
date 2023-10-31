@@ -1,7 +1,7 @@
 import { AsyncValidatorFn, ValidatorFn } from '@angular/forms';
 import { DynamicFormElementValueType } from '../dynamic-form-values.interface';
 import { LinkedElement } from '../declaration/linked-element.interface';
-import { PlumeValidatorFn } from '../../validator';
+import { PlumeValidatorFn } from '../../validator/plume-validator-function.interface';
 
 export interface DynamicFormQuestionOptions<T = DynamicFormElementValueType> {
   value?: T;

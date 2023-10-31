@@ -12,12 +12,12 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormErrorsComponent } from '../form-errors/form-errors.component';
 import { FlexModule } from '@angular/flex-layout';
+import { AbstractReactiveFormQuestionComponent } from '../abstract-reactive-form-question/abstract-reactive-form-question.component';
 import {
   SelectOption,
-  SelectOptionGroup,
   SelectOptionValueType,
-} from '../../model';
-import { AbstractReactiveFormQuestionComponent } from '../abstract-reactive-form-question/abstract-reactive-form-question.component';
+} from '../../model/select-option.interface';
+import { SelectOptionGroup } from '../../model/select-option-group.interface';
 
 @Component({
   selector: 'plume-select-form-question',

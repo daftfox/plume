@@ -1,7 +1,7 @@
 import { AbstractFormQuestion } from './abstract-form-question';
-import { DynamicRadioButtonOptions } from '../options';
 import { SelectOption } from '../select-option.interface';
 import { DynamicRadioButtonComponent } from '../../component/dynamic-radio-button/dynamic-radio-button.component';
+import { DynamicRadioButtonOptions } from '../options/dynamic-radio-button-options.interface';
 
 export class DynamicRadioButton extends AbstractFormQuestion<string> {
   component = DynamicRadioButtonComponent;

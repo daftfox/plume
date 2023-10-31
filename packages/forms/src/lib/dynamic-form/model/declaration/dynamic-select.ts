@@ -2,10 +2,10 @@ import {
   SelectOption,
   SelectOptionValueType,
 } from '../select-option.interface';
-import { DynamicSelectOptions } from '../options';
 import { SelectOptionGroup } from '../select-option-group.interface';
 import { AbstractReactiveFormQuestion } from './abstract-reactive-form-question';
 import { DynamicSelectComponent } from '../../component/dynamic-select/dynamic-select.component';
+import { DynamicSelectOptions } from '../options/dynamic-select-options.interface';
 
 export class DynamicSelect<
   T = SelectOptionValueType,

@@ -21,7 +21,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { DynamicFormService } from '../../service/dynamic-form.service';
 import { MatButtonModule } from '@angular/material/button';
-import { DIRECTION, FormComponent } from '../../model';
+import { FormComponent } from '../../model/form-component.type';
+import { DIRECTION } from '../../model/declaration/direction.enum';
 
 @Component({
   selector: 'plume-dynamic-form-group',

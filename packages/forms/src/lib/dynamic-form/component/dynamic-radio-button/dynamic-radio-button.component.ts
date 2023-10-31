@@ -1,10 +1,10 @@
 import { AbstractFormQuestionComponent } from '../abstract-form-question/abstract-form-question.component';
 import { Component, Input } from '@angular/core';
-import { SelectOption } from '../../model';
 import { DynamicFormService } from '../../service/dynamic-form.service';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgForOf } from '@angular/common';
+import { SelectOption } from '../../model/select-option.interface';
 
 @Component({
   selector: 'plume-radio-button-form-question',

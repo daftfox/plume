@@ -1,13 +1,12 @@
 import { Type } from '@angular/core';
 import { AsyncValidatorFn, FormControl, ValidatorFn } from '@angular/forms';
-import {
-  DynamicFormElementValueType,
-  DynamicFormQuestionOptions,
-  IFormQuestion,
-  IFormQuestionComponent,
-  LinkedElement,
-} from '../';
-import { isAngularValidator, PlumeValidatorFn } from '../../validator';
+import { DynamicFormQuestionOptions } from '../options/dynamic-form-question-options.interface';
+import { IFormQuestionComponent } from '../component/form-question.component.interface';
+import { isAngularValidator } from '../../validator/is-angular-validator';
+import { PlumeValidatorFn } from '../../validator/plume-validator-function.interface';
+import { LinkedElement } from './linked-element.interface';
+import { DynamicFormElementValueType } from '../dynamic-form-values.interface';
+import { IFormQuestion } from './form-question.interface';
 
 /**
  * Abstract class that forms the basis for all dynamic form questions.

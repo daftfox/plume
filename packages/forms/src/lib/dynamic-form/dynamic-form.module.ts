@@ -12,10 +12,10 @@ import { DynamicDatepickerComponent } from './component/dynamic-datepicker/dynam
 
 @NgModule({
   imports: [
+    DynamicFormGroupComponent,
     DynamicButtonComponent,
     DynamicCheckboxComponent,
     DynamicDatepickerComponent,
-    DynamicFormGroupComponent,
     DynamicFormHintComponent,
     DynamicRadioButtonComponent,
     DynamicSelectComponent,

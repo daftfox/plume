@@ -1,6 +1,6 @@
 import { AbstractFormQuestion } from './abstract-form-question';
-import { DynamicFormQuestionOptions } from '../options';
 import { DynamicCheckboxComponent } from '../../component/dynamic-checkbox/dynamic-checkbox.component';
+import { DynamicFormQuestionOptions } from '../options/dynamic-form-question-options.interface';
 
 export class DynamicCheckbox extends AbstractFormQuestion<boolean> {
   component = DynamicCheckboxComponent;

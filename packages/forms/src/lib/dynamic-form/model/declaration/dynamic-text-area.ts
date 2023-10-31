@@ -1,6 +1,6 @@
 import { DynamicText } from './dynamic-text';
-import { DynamicTextAreaOptions } from '../options';
 import { DynamicTextAreaComponent } from '../../component/dynamic-text-area/dynamic-text-area.component';
+import { DynamicTextAreaOptions } from '../options/dynamic-text-area-options.interface';
 
 export class DynamicTextArea extends DynamicText<string> {
   component = DynamicTextAreaComponent;

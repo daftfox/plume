@@ -1,7 +1,10 @@
 import { MatCalendarView } from '@angular/material/datepicker';
 import { AbstractFormQuestion } from './abstract-form-question';
-import { DatepickerMode, DatepickerFormQuestionOptions } from '../options';
 import { DynamicDatepickerComponent } from '../../component/dynamic-datepicker/dynamic-datepicker.component';
+import {
+  DatepickerFormQuestionOptions,
+  DatepickerMode,
+} from '../options/dynamic-datepicker-options.interface';
 
 export class DynamicDatepicker extends AbstractFormQuestion<Date> {
   component = DynamicDatepickerComponent;

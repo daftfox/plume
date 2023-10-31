@@ -1,8 +1,3 @@
-import {
-  DynamicFormService,
-  DynamicTextInput,
-  FormComponentModel,
-} from '@plume-org/forms';
 import { Subject } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 import clearAllMocks = jest.clearAllMocks;
@@ -25,6 +20,9 @@ import {
   mockOtherFormGroupInstance,
 } from '../../../../mock/component/form-group-component-ref.mock';
 import { MockFormGroup } from '../../../../mock/component/form-group.component.mock';
+import { FormComponentModel } from '../model/service/form-component-model.interface';
+import { DynamicTextInput } from '../model/declaration/dynamic-text-input';
+import { DynamicFormService } from './dynamic-form.service';
 
 const mockFormControlKey = 'mockControl';
 const mockFormGroupKey = mockFormGroupInstance.key;

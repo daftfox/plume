@@ -1,5 +1,6 @@
-import { DynamicFormElementValueType, MutatorFn } from '../model';
 import { IDynamicFormService } from '../model/service/dynamic-form.service.interface';
+import { MutatorFn } from '../model/declaration/mutator-function.interface';
+import { DynamicFormElementValueType } from '../model/dynamic-form-values.interface';
 
 export const resetIfValueOneOf =
   (assertValues: DynamicFormElementValueType[]): MutatorFn =>

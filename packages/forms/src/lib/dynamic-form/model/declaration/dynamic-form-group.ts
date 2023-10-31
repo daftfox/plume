@@ -1,10 +1,8 @@
-import {
-  DynamicFormGroupOptions,
-  DIRECTION,
-  IDynamicFormElement,
-  IFormGroup,
-} from '../';
 import { DynamicFormGroupComponent } from '../../component/dynamic-form-group/dynamic-form-group.component';
+import { DynamicFormGroupOptions } from '../options/dynamic-form-group-options.interface';
+import { IDynamicFormElement } from './dynamic-form-element.interface';
+import { DIRECTION } from './direction.enum';
+import { IFormGroup } from './form-group.interface';
 
 export class DynamicFormGroup implements IFormGroup {
   component = DynamicFormGroupComponent;

@@ -6,7 +6,8 @@ import {
 } from '@angular/forms';
 import { take, tap } from 'rxjs/operators';
 import { IDynamicFormService } from '../model/service/dynamic-form.service.interface';
-import { isAngularValidator, PlumeValidatorFn } from './';
+import { PlumeValidatorFn } from './plume-validator-function.interface';
+import { isAngularValidator } from './is-angular-validator';
 
 const mockValidator =
   (targetKey: string): PlumeValidatorFn =>

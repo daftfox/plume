@@ -1,11 +1,9 @@
 import { Directive, Input } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { OnInit } from '@angular/core';
-import {
-  AbstractObservableDataSource,
-  IReactiveFormElementComponent,
-} from '../../model';
 import { initialiseReactiveRefresh } from './initialise-reactive-refresh';
+import { AbstractObservableDataSource } from '../../model/abstract-observable-data-source';
+import { IReactiveFormElementComponent } from '../../model/component/reactive-form-element.component.interface';
 
 @Directive()
 export abstract class AbstractReactiveFormElementComponent<DT>

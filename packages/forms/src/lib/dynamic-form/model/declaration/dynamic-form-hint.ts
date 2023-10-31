@@ -1,5 +1,7 @@
-import { DynamicFormHintOptions, IFormOutput, SPACER } from '../';
 import { DynamicFormHintComponent } from '../../component/dynamic-form-hint/dynamic-form-hint.component';
+import { SPACER } from './spacer.enum';
+import { IFormOutput } from './form-output.interface';
+import { DynamicFormHintOptions } from '../options/dynamic-form-hint-options.interface';
 
 export class DynamicFormHint implements IFormOutput {
   key: string;

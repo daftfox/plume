@@ -1,6 +1,6 @@
 import { Validators } from '@angular/forms';
 import { AbstractFormQuestion } from './abstract-form-question';
-import { DynamicTextOptions } from '../options';
+import { DynamicTextOptions } from '../options/dynamic-text-options.interface';
 
 export abstract class DynamicText<
   T = string | number,

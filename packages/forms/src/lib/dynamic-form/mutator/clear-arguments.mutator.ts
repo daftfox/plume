@@ -1,9 +1,7 @@
-import {
-  DynamicFormElementValueType,
-  IDynamicFormService,
-  IReactiveFormElementComponent,
-  MutatorFn,
-} from '../model';
+import { MutatorFn } from '../model/declaration/mutator-function.interface';
+import { IReactiveFormElementComponent } from '../model/component/reactive-form-element.component.interface';
+import { IDynamicFormService } from '../model/service/dynamic-form.service.interface';
+import { DynamicFormElementValueType } from '../model/dynamic-form-values.interface';
 
 export const clearArguments: MutatorFn = (
   originKey: string,

@@ -1,14 +1,12 @@
 import { ComponentRef, Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import {
-  FormComponent,
-  FormComponentModel,
-  IDynamicFormElement,
-  IDynamicFormService,
-  IFormGroupComponent,
-} from '../model';
 import { Observable } from 'rxjs';
-import { isFormGroup } from '../util';
+import { FormComponentModel } from '../model/service/form-component-model.interface';
+import { FormComponent } from '../model/form-component.type';
+import { IDynamicFormElement } from '../model/declaration/dynamic-form-element.interface';
+import { IFormGroupComponent } from '../model/component/form-group.component.interface';
+import { IDynamicFormService } from '../model/service/dynamic-form.service.interface';
+import { isFormGroup } from '../util/is-form-group';
 
 @Injectable()
 export class DynamicFormService implements IDynamicFormService {

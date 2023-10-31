@@ -1,5 +1,4 @@
 import { isFormAction } from './is-form-action';
-import { DynamicFormElement } from '@plume-org/forms';
 import {
   mockFormAction,
   mockFormGroup,
@@ -7,6 +6,7 @@ import {
   mockFormQuestion,
   mockReactiveFormQuestion,
 } from '../../../../mock/component/form-element-declarations.mock';
+import { DynamicFormElement } from '../model/declaration/dynamic-form-element.type';
 
 describe('isFormAction', () => {
   it('should return true when passing in a form action element', () => {

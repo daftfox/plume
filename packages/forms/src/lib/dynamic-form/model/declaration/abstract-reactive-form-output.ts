@@ -1,10 +1,8 @@
 import { Type } from '@angular/core';
-import {
-  AbstractObservableDataSource,
-  IReactiveFormElement,
-  DynamicReactiveFormElementOptions,
-  IReactiveFormElementComponent,
-} from '../';
+import { AbstractObservableDataSource } from '../abstract-observable-data-source';
+import { IReactiveFormElement } from './reactive-form-element.interface';
+import { IReactiveFormElementComponent } from '../component/reactive-form-element.component.interface';
+import { DynamicReactiveFormElementOptions } from '../options/dynamic-reactive-form-element-options.interface';
 
 export abstract class AbstractReactiveFormOutput<DT>
   implements IReactiveFormElement<DT>

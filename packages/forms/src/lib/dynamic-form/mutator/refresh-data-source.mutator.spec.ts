@@ -6,7 +6,7 @@ import { MockFormQuestionComponent } from '../../../../mock/component/form-quest
 import { MockObservableDataSource } from '../../../../mock/component/observable-data-source.mock';
 import { IDynamicFormService } from '../model/service/dynamic-form.service.interface';
 import { FormComponent } from '../model/form-component.type';
-import { DynamicFormService } from '@plume-org/forms';
+import { DynamicFormService } from '../service/dynamic-form.service';
 jest.mock('../service/dynamic-form.service');
 
 const formComponents = new Map<string, FormComponent>();
