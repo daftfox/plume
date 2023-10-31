@@ -58,6 +58,10 @@ export * from './lib/dynamic-form/model/declaration/reactive-form-element.interf
 export * from './lib/dynamic-form/model/declaration/reactive-form-question.type';
 export * from './lib/dynamic-form/model/declaration/spacer.enum';
 
+// model/service
+export * from './lib/dynamic-form/model/service/dynamic-form.service.interface';
+export * from './lib/dynamic-form/model/service/form-component-model.interface';
+
 // model/options
 export * from './lib/dynamic-form/model/options/dynamic-datepicker-options.interface';
 export * from './lib/dynamic-form/model/options/dynamic-form-button-options.interface';
