@@ -1,6 +1,9 @@
 import { DynamicText } from './dynamic-text';
-import { DynamicTextInputOptions, TextBoxType } from '../options';
 import { DynamicTextInputComponent } from '../../component/dynamic-text-input/dynamic-text-input.component';
+import {
+  DynamicTextInputOptions,
+  TextBoxType,
+} from '../options/dynamic-text-input-options.interface';
 
 export class DynamicTextInput extends DynamicText<string> {
   component = DynamicTextInputComponent;

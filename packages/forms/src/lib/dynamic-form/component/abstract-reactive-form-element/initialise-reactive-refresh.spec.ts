@@ -1,7 +1,7 @@
 import { BehaviorSubject, Subject } from 'rxjs';
-import { AbstractObservableDataSource } from '@plume-org/forms';
 import { initialiseReactiveRefresh } from './initialise-reactive-refresh';
 import clearAllMocks = jest.clearAllMocks;
+import { AbstractObservableDataSource } from '../../model/abstract-observable-data-source';
 
 const mockConnect = jest.fn();
 const mockRefresh = jest.fn();

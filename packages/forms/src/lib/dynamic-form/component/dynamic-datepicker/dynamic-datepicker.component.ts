@@ -5,13 +5,13 @@ import {
   MatDatepicker,
   MatDatepickerModule,
 } from '@angular/material/datepicker';
-import { DatepickerMode } from '../../model';
 import { DynamicFormService } from '../../service/dynamic-form.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormErrorsComponent } from '../form-errors/form-errors.component';
 import { MatInputModule } from '@angular/material/input';
 import { NgIf } from '@angular/common';
+import { DatepickerMode } from '../../model/options/dynamic-datepicker-options.interface';
 
 @Component({
   selector: 'plume-datepicker-form-question',

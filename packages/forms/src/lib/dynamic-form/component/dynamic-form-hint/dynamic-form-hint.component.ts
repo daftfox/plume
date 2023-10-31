@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { IFormOutputComponent } from '../../model';
 import { NgIf } from '@angular/common';
+import { IFormOutputComponent } from '../../model/component/form-output.component.interface';
 
 @Component({
   selector: 'plume-form-hint',

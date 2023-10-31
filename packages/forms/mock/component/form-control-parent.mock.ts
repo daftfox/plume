@@ -1,5 +1,5 @@
 import { FormGroup } from '@angular/forms';
-import { IFormGroupComponent } from '../../src';
+import { IFormGroupComponent } from '../../src/lib/dynamic-form/model/component/form-group.component.interface';
 
 export const mockFormControlParent = {
   key: 'mockParent',

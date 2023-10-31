@@ -1,4 +1,4 @@
-import { MutatorFn } from '../';
+import { MutatorFn } from './mutator-function.interface';
 
 export interface LinkedElement {
   key: string;

@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { FormComponent } from '../';
+import { FormComponent } from '../form-component.type';
 
 /**
  * Base interface for any dynamic component to be rendered within the form.

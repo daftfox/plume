@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DynamicButtonComponent, DynamicFormService } from '@plume-org/forms';
 import { BehaviorSubject } from 'rxjs';
+import { DynamicFormService } from '../../service/dynamic-form.service';
+import { DynamicButtonComponent } from './dynamic-button.component';
 
 const mockDynamicFormService = {
   formInitialised: new BehaviorSubject(null),

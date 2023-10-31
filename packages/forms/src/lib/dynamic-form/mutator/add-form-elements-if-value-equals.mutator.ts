@@ -1,9 +1,7 @@
-import {
-  DynamicFormElementValueType,
-  IDynamicFormElement,
-  MutatorFn,
-  IDynamicFormService,
-} from '../model';
+import { IDynamicFormElement } from '../model/declaration/dynamic-form-element.interface';
+import { MutatorFn } from '../model/declaration/mutator-function.interface';
+import { DynamicFormElementValueType } from '../model/dynamic-form-values.interface';
+import { IDynamicFormService } from '../model/service/dynamic-form.service.interface';
 
 export const addFormElementsIfValueEquals =
   (

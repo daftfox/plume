@@ -1,4 +1,4 @@
-import { AbstractObservableDataSource } from '../';
+import { AbstractObservableDataSource } from '../abstract-observable-data-source';
 
 export interface IReactiveFormElementComponent {
   key: string;

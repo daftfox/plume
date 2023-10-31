@@ -1,10 +1,8 @@
-import {
-  AbstractFormQuestion,
-  DynamicFormQuestionOptions,
-  validateIsBeforeOrOn,
-} from '@plume-org/forms';
 import { MockFormQuestionComponent } from '../../../../../mock/component/form-question.component.mock';
 import { FormControl, Validators } from '@angular/forms';
+import { DynamicFormQuestionOptions } from '../options/dynamic-form-question-options.interface';
+import { AbstractFormQuestion } from './abstract-form-question';
+import { validateIsBeforeOrOn } from '../../validator/is-before-or-on.validator';
 
 class MockFormQuestion extends AbstractFormQuestion {
   component = MockFormQuestionComponent;

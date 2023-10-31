@@ -6,7 +6,7 @@ import {
   mockFormQuestion,
   mockReactiveFormQuestion,
 } from '../../../../mock/component/form-element-declarations.mock';
-import { DynamicFormElement } from '@plume-org/forms';
+import { DynamicFormElement } from '../model/declaration/dynamic-form-element.type';
 
 describe('isFormGroup', () => {
   it('should return true when passing in a form group element', () => {

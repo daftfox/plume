@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DynamicCheckboxComponent, DynamicFormService } from '@plume-org/forms';
 import { FormControl, Validators } from '@angular/forms';
 import resetAllMocks = jest.resetAllMocks;
 import { BehaviorSubject } from 'rxjs';
+import { DynamicFormService } from '../../service/dynamic-form.service';
+import { DynamicCheckboxComponent } from './dynamic-checkbox.component';
 
 const mockDynamicFormService = {
   getFormComponentControl: jest.fn(),

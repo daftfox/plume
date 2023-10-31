@@ -1,9 +1,9 @@
-import { IReactiveFormQuestionComponent } from '../component';
 import { AbstractFormQuestion } from './abstract-form-question';
 import { AbstractObservableDataSource } from '../abstract-observable-data-source';
-import { DynamicReactiveFormQuestionOptions } from '../options';
 import { DynamicFormElementValueType } from '../dynamic-form-values.interface';
 import { Type } from '@angular/core';
+import { IReactiveFormQuestionComponent } from '../component/reactive-form-question.component.interface';
+import { DynamicReactiveFormQuestionOptions } from '../options/dynamic-reactive-form-question-options.interface';
 
 export abstract class AbstractReactiveFormQuestion<
   DT,
